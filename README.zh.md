@@ -7,10 +7,10 @@
 [//]: # ([![PRs Welcome]&#40;https://img.shields.io/badge/PRs-welcome-brightgreen.svg&#41;]&#40;https://github.com/dafengzhen/TODO/pulls&#41;)
 
 [//]: # ()
-[//]: # ([简体中文]&#40;./README.zh.md&#41;)
+[//]: # ([English]&#40;./README.md&#41;)
 
 [//]: # ()
-[//]: # (## License)
+[//]: # (## 许可证)
 
 [//]: # ()
 [//]: # ([MIT]&#40;./LICENSE&#41;)

@@ -2,6 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 
 import { type ApiProp, ApiTemplate, type ApiTypeDefinition, DemoSection } from '../doc-template';
 import { Button } from './button';
+import basicVariantsCode from './demos/basic-variants.md?raw';
+import blockCode from './demos/block.md?raw';
+import combinedCode from './demos/combined.md?raw';
+import customClassesCode from './demos/custom-classes.md?raw';
+import disabledCode from './demos/disabled.md?raw';
+import interactiveCode from './demos/interactive.md?raw';
+import loadingCode from './demos/loading.md?raw';
+import outlineVariantsCode from './demos/outline-variants.md?raw';
+import sizesCode from './demos/sizes.md?raw';
 
 const buttonProps: ApiProp[] = [
   {
@@ -123,21 +132,7 @@ export const ButtonDoc = () => {
 
   const demoContent = (
     <>
-      <DemoSection
-        code={`<!--suppress HtmlUnknownAttribute -->
-<div className="d-flex flex-wrap gap-2">
-  <Button variant="primary">主要</Button>
-  <Button variant="secondary">次要</Button>
-  <Button variant="success">成功</Button>
-  <Button variant="danger">危险</Button>
-  <Button variant="warning">警告</Button>
-  <Button variant="info">信息</Button>
-  <Button variant="light">亮色</Button>
-  <Button variant="dark">暗色</Button>
-  <Button variant="link">链接</Button>
-</div>`}
-        title="基础变体"
-      >
+      <DemoSection code={basicVariantsCode} title="基础变体">
         <div className="d-flex flex-wrap gap-2">
           <Button variant="primary">主要</Button>
           <Button variant="secondary">次要</Button>
@@ -151,20 +146,7 @@ export const ButtonDoc = () => {
         </div>
       </DemoSection>
 
-      <DemoSection
-        code={`<!--suppress HtmlUnknownAttribute -->
-<div className="d-flex flex-wrap gap-2">
-  <Button variant="outline-primary">主要</Button>
-  <Button variant="outline-secondary">次要</Button>
-  <Button variant="outline-success">成功</Button>
-  <Button variant="outline-danger">危险</Button>
-  <Button variant="outline-warning">警告</Button>
-  <Button variant="outline-info">信息</Button>
-  <Button variant="outline-light">亮色</Button>
-  <Button variant="outline-dark">暗色</Button>
-</div>`}
-        title="轮廓变体"
-      >
+      <DemoSection code={outlineVariantsCode} title="轮廓变体">
         <div className="d-flex flex-wrap gap-2">
           <Button variant="outline-primary">主要</Button>
           <Button variant="outline-secondary">次要</Button>
@@ -177,15 +159,7 @@ export const ButtonDoc = () => {
         </div>
       </DemoSection>
 
-      <DemoSection
-        code={`<!--suppress HtmlUnknownAttribute -->
-<div className="d-flex flex-wrap gap-2 align-items-center">
-  <Button size="sm">小按钮 (sm)</Button>
-  <Button>默认尺寸 (md)</Button>
-  <Button size="lg">大按钮 (lg)</Button>
-</div>`}
-        title="尺寸变体"
-      >
+      <DemoSection code={sizesCode} title="尺寸变体">
         <div className="d-flex flex-wrap gap-2 align-items-center">
           <Button size="sm">小按钮 (sm)</Button>
           <Button>默认尺寸 (md)</Button>
@@ -193,16 +167,7 @@ export const ButtonDoc = () => {
         </div>
       </DemoSection>
 
-      <DemoSection
-        code={`<!--suppress HtmlUnknownAttribute -->
-<div className="d-flex flex-column gap-2" style={{ maxWidth: '400px' }}>
-  <Button block>块级按钮</Button>
-  <Button block variant="success">
-    块级成功按钮
-  </Button>
-</div>`}
-        title="块级按钮"
-      >
+      <DemoSection code={blockCode} title="块级按钮">
         <div className="d-flex flex-column gap-2" style={{ maxWidth: '400px' }}>
           <Button block>块级按钮</Button>
           <Button block variant="success">
@@ -211,19 +176,7 @@ export const ButtonDoc = () => {
         </div>
       </DemoSection>
 
-      <DemoSection
-        code={`<!--suppress HtmlUnknownAttribute -->
-<div className="d-flex flex-wrap gap-2">
-  <Button disabled>禁用按钮</Button>
-  <Button disabled variant="success">
-    禁用成功
-  </Button>
-  <Button disabled variant="outline-danger">
-    禁用轮廓
-  </Button>
-</div>`}
-        title="禁用状态"
-      >
+      <DemoSection code={disabledCode} title="禁用状态">
         <div className="d-flex flex-wrap gap-2">
           <Button disabled>禁用按钮</Button>
           <Button disabled variant="success">
@@ -235,22 +188,7 @@ export const ButtonDoc = () => {
         </div>
       </DemoSection>
 
-      <DemoSection
-        code={`<!--suppress HtmlUnknownAttribute -->
-<div className="d-flex flex-wrap gap-2">
-  <Button loading>加载中</Button>
-  <Button loading loadingText="提交中...">
-    提交
-  </Button>
-  <Button loading loadingText="保存中..." variant="success">
-    保存
-  </Button>
-  <Button loading loadingText="删除中..." variant="danger">
-    删除
-  </Button>
-</div>`}
-        title="加载状态"
-      >
+      <DemoSection code={loadingCode} title="加载状态">
         <div className="d-flex flex-wrap gap-2">
           <Button loading>加载中</Button>
           <Button loading loadingText="提交中...">
@@ -265,46 +203,7 @@ export const ButtonDoc = () => {
         </div>
       </DemoSection>
 
-      <DemoSection
-        code={`// @ts-ignore
-import { useState } from 'react';
-
-const [clickCount, setClickCount] = useState(0);
-const [loading, setLoading] = useState(false);
-
-const handleLoadingClick = () => {
-  setLoading(true);
-  setTimeout(() => setLoading(false), 3000);
-};
-
-const handleCountClick = () => {
-  setClickCount((prev) => prev + 1);
-};
-
-<div className="d-flex flex-wrap gap-3">
-  <div className="d-flex flex-wrap gap-2 align-items-center">
-    <Button
-      loading={loading}
-      loadingText="处理中..."
-      onClick={handleLoadingClick}
-      variant="primary"
-    >
-      点击触发加载
-    </Button>
-    <span className="text-muted small">
-      {loading ? '模拟异步操作...' : '点击触发 3 秒加载状态'}
-    </span>
-  </div>
-
-  <div className="d-flex flex-wrap gap-2 align-items-center">
-    <Button onClick={handleCountClick} variant="success">
-      点击计数: {clickCount}
-    </Button>
-    <span className="text-muted small">每次点击增加计数</span>
-  </div>
-</div>`}
-        title="交互演示"
-      >
+      <DemoSection code={interactiveCode} title="交互演示">
         <div className="d-flex flex-wrap gap-3">
           <div className="d-flex flex-wrap gap-2 align-items-center">
             <Button
@@ -329,19 +228,7 @@ const handleCountClick = () => {
         </div>
       </DemoSection>
 
-      <DemoSection
-        code={`<!--suppress HtmlUnknownAttribute -->
-<div className="d-flex flex-wrap gap-2">
-  <Button className="shadow-sm">带阴影</Button>
-  <Button className="rounded-pill" variant="primary">
-    圆角按钮
-  </Button>
-  <Button className="fw-bold" variant="success">
-    粗体文字
-  </Button>
-</div>`}
-        title="自定义样式"
-      >
+      <DemoSection code={customClassesCode} title="自定义样式">
         <div className="d-flex flex-wrap gap-2">
           <Button className="shadow-sm">带阴影</Button>
           <Button className="rounded-pill" variant="primary">
@@ -353,18 +240,7 @@ const handleCountClick = () => {
         </div>
       </DemoSection>
 
-      <DemoSection
-        code={`<!--suppress HtmlUnknownAttribute -->
-<div className="d-flex flex-column gap-2" style={{ maxWidth: '500px' }}>
-  <Button block size="lg" variant="primary">
-    大型块级主要按钮
-  </Button>
-  <Button loading loadingText="加载中..." size="sm" variant="outline-success">
-    小型加载轮廓按钮
-  </Button>
-</div>`}
-        title="组合使用"
-      >
+      <DemoSection code={combinedCode} title="组合使用">
         <div className="d-flex flex-column gap-2" style={{ maxWidth: '500px' }}>
           <Button block size="lg" variant="primary">
             大型块级主要按钮

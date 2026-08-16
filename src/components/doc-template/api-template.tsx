@@ -25,6 +25,8 @@ import type {
   TocLevel,
 } from './types';
 
+import { extractFencedCode } from './snippet';
+
 const COPY_FEEDBACK_DURATION = 2000;
 
 const TOC_SCROLL_OFFSET = 80;
@@ -247,6 +249,8 @@ export const DemoSection: FC<DemoSectionProps> = ({
     return id ?? `demo-${slugify(title) || 'section'}-${sanitizeUseId(instanceKey)}`;
   });
 
+  const resolvedCode = useMemo(() => (code ? extractFencedCode(code) : ''), [code]);
+
   useLayoutEffect(() => {
     if (!context) {
       return;
@@ -286,7 +290,7 @@ export const DemoSection: FC<DemoSectionProps> = ({
       </div>
       {code && codeVisible ? (
         <div className="demo-code" id={codeRegionId}>
-          <CodeBlock code={code} language={codeLanguage} />
+          <CodeBlock code={resolvedCode} language={codeLanguage} />
         </div>
       ) : null}
     </section>

@@ -8,6 +8,7 @@ export {
   updateHash,
   useIdPrefix,
 } from './api-template';
+export { extractFencedCode } from './snippet';
 export type {
   ApiProp,
   ApiTemplateProps,

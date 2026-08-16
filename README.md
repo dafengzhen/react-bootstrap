@@ -1,16 +1,11 @@
 # TODO
 
-[//]: # ([![GitHub License]&#40;https://img.shields.io/github/license/dafengzhen/TODO?color=blue&#41;]&#40;https://github.com/dafengzhen/TODO&#41;)
-
-[//]: # ([![npm version]&#40;https://img.shields.io/npm/v/@dafengzhen/TODO&#41;]&#40;https://www.npmjs.com/package/@dafengzhen/TODO&#41;)
-
-[//]: # ([![PRs Welcome]&#40;https://img.shields.io/badge/PRs-welcome-brightgreen.svg&#41;]&#40;https://github.com/dafengzhen/TODO/pulls&#41;)
-
-[//]: # ()
-[//]: # ([简体中文]&#40;./README.zh.md&#41;)
-
-[//]: # ()
-[//]: # (## License)
-
-[//]: # ()
-[//]: # ([MIT]&#40;./LICENSE&#41;)
+[//]: # '[![GitHub License](https://img.shields.io/github/license/dafengzhen/TODO?color=blue)](https://github.com/dafengzhen/TODO)'
+[//]: # '[![npm version](https://img.shields.io/npm/v/@dafengzhen/TODO)](https://www.npmjs.com/package/@dafengzhen/TODO)'
+[//]: # '[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/dafengzhen/TODO/pulls)'
+[//]: #
+[//]: # '[简体中文](./README.zh.md)'
+[//]: #
+[//]: # '## License'
+[//]: #
+[//]: # '[MIT](./LICENSE)'

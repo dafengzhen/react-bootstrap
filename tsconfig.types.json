@@ -16,7 +16,9 @@
     "src/**/*.stories.tsx",
     "src/**/demos/**",
     "src/**/__tests__/**",
-    "src/App.tsx",
-    "src/main.tsx"
+    "src/app.tsx",
+    "src/main.tsx",
+    "src/components/doc-template/**",
+    "src/components/docs/**"
   ]
 }

@@ -1,43 +1,58 @@
 import clsx from 'clsx';
+import { forwardRef } from 'react';
 
-import type { ButtonProps } from './button.types';
+import type { ButtonProps } from './types';
 
 import styles from './button.module.css';
 
-export function Button({
-  children,
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      block = false,
+      children,
+      className,
+      disabled = false,
+      loading = false,
+      loadingText,
+      size,
+      type = 'button',
+      variant = 'primary',
+      ...rest
+    },
+    ref,
+  ) => {
+    const isDisabled = disabled || loading;
 
-  className,
+    return (
+      <button
+        aria-busy={loading || undefined}
+        aria-disabled={isDisabled || undefined}
+        className={clsx(
+          'btn',
+          `btn-${variant}`,
+          size && `btn-${size}`,
+          block && 'w-100',
+          loading && styles.loading,
+          className,
+        )}
+        disabled={isDisabled}
+        ref={ref}
+        type={type}
+        {...rest}
+      >
+        {loading ? (
+          <>
+            <span aria-hidden="true" className="spinner-border spinner-border-sm" />
+            <span>{loadingText ?? children}</span>
+          </>
+        ) : (
+          children
+        )}
+      </button>
+    );
+  },
+);
 
-  disabled,
+Button.displayName = 'Button';
 
-  loading = false,
-
-  outline = false,
-
-  variant = 'primary',
-
-  ...props
-}: ButtonProps) {
-  return (
-    <button
-      className={clsx(
-        'btn',
-
-        outline ? `btn-outline-${variant}` : `btn-${variant}`,
-
-        loading && styles.loading,
-
-        className,
-      )}
-
-      disabled={disabled || loading}
-
-      {...props}
-    >
-      {loading && <span className="spinner-border spinner-border-sm me-2" />}
-
-      {children}
-    </button>
-  );
-}
+export default Button;

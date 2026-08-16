@@ -1,6 +1,6 @@
 import babel from '@rolldown/plugin-babel';
 import react, { reactCompilerPreset } from '@vitejs/plugin-react';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 
 // https://vite.dev/config/
@@ -11,27 +11,16 @@ export default defineConfig({
     emptyOutDir: false,
     lib: {
       entry: resolve(import.meta.dirname, 'src/index.ts'),
-      fileName: (format) => {
-        if (format === 'es') {
-          return 'index.js';
-        }
-
-        if (format === 'umd') {
-          return 'index.umd.js';
-        }
-
-        return 'index.js';
-      },
+      fileName: (format) => (format === 'es' ? 'index.js' : 'index.umd.js'),
       formats: ['es', 'umd'],
       name: 'ReactBootstrap',
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime', 'clsx'],
+      external: ['react', 'react/jsx-runtime', 'clsx'],
       output: {
         globals: {
           clsx: 'clsx',
           react: 'React',
-          'react-dom': 'ReactDOM',
           'react/jsx-runtime': 'jsxRuntime',
         },
       },

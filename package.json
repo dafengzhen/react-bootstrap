@@ -2,8 +2,15 @@
   "name": "@dafengzhen/react-bootstrap",
   "version": "0.1.0",
   "private": false,
-  "description": "TODO",
-  "keywords": [],
+  "description": "React component library based on Bootstrap 5",
+  "keywords": [
+    "bootstrap",
+    "bootstrap5",
+    "components",
+    "react",
+    "typescript",
+    "ui"
+  ],
   "homepage": "https://github.com/dafengzhen/react-bootstrap#readme",
   "bugs": {
     "url": "https://github.com/dafengzhen/react-bootstrap/issues"
@@ -30,19 +37,23 @@
       "import": "./dist/components/button/index.js",
       "types": "./dist/components/button/index.d.ts"
     },
+    "./button-group": {
+      "import": "./dist/components/button-group/index.js",
+      "types": "./dist/components/button-group/index.d.ts"
+    },
     "./button/style": "./dist/components/button/button.css",
     "./button/cssmodule": {
-      "import": "./dist/components/button/button.module.css.js",
-      "types": "./dist/components/button/button.module.css.d.ts"
+      "import": "./dist/components/button/button.module.css.js"
     }
   },
   "scripts": {
     "dev": "vite",
-    "build": "run-s build:full build:components:no-empty build:types",
-    "build:components": "tsc -b && vite build --config vite.config.ts --emptyOutDir",
-    "build:full": "tsc -b && vite build --config vite.config.full.ts --emptyOutDir",
-    "build:components:no-empty": "tsc -b && vite build --config vite.config.ts",
-    "build:full:no-empty": "tsc -b && vite build --config vite.config.full.ts",
+    "build": "run-s typecheck build:full build:components:no-empty build:types",
+    "typecheck": "tsc -b",
+    "build:components": "vite build --config vite.config.ts --emptyOutDir",
+    "build:full": "vite build --config vite.config.full.ts --emptyOutDir",
+    "build:components:no-empty": "vite build --config vite.config.ts",
+    "build:full:no-empty": "vite build --config vite.config.full.ts",
     "build:types": "tsc --project tsconfig.types.json",
     "preview": "vite preview",
     "lint": "oxlint --fix",
@@ -53,7 +64,7 @@
     "@babel/core": "^8.0.1",
     "@rolldown/plugin-babel": "^0.2.3",
     "@types/babel__core": "^7.20.5",
-    "@types/node": "^26.1.2",
+    "@types/node": "^26.2.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.0.5",
@@ -61,9 +72,10 @@
     "bootstrap": "^5.3.8",
     "clsx": "^2.1.1",
     "eslint-plugin-perfectionist": "^5.10.1",
+    "highlight.js": "^11.12.0",
     "npm-run-all2": "^9.0.3",
-    "oxfmt": "^0.62.0",
-    "oxlint": "^1.77.0",
+    "oxfmt": "^0.63.0",
+    "oxlint": "^1.78.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "typescript": "^6.0.3",
@@ -74,5 +86,8 @@
     "clsx": "^2.1.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
+  },
+  "engines": {
+    "node": "^26.2.0 || >=26.2.0"
   }
 }

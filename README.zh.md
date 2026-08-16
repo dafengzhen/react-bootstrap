@@ -1,16 +1,68 @@
-# TODO
+# React Bootstrap
 
-[//]: # ([![GitHub License]&#40;https://img.shields.io/github/license/dafengzhen/TODO?color=blue&#41;]&#40;https://github.com/dafengzhen/TODO&#41;)
+基于 Bootstrap 5 的 React 组件库
 
-[//]: # ([![npm version]&#40;https://img.shields.io/npm/v/@dafengzhen/TODO&#41;]&#40;https://www.npmjs.com/package/@dafengzhen/TODO&#41;)
+[![GitHub License](https://img.shields.io/github/license/dafengzhen/react-bootstrap?color=blue)](https://github.com/dafengzhen/react-bootstrap)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/dafengzhen/react-bootstrap/pulls)
 
-[//]: # ([![PRs Welcome]&#40;https://img.shields.io/badge/PRs-welcome-brightgreen.svg&#41;]&#40;https://github.com/dafengzhen/TODO/pulls&#41;)
+[English](./README.md)
 
-[//]: # ()
-[//]: # ([English]&#40;./README.md&#41;)
+## 特性
 
-[//]: # ()
-[//]: # (## 许可证)
+- 基于 Bootstrap 5，支持全部内置变体与尺寸
+- ES Module 输出，支持 Tree Shaking
+- 完整的 TypeScript 类型支持
+- React 19 + React Compiler
 
-[//]: # ()
-[//]: # ([MIT]&#40;./LICENSE&#41;)
+## 安装
+
+```bash
+npm install @dafengzhen/react-bootstrap bootstrap react react-dom clsx
+```
+
+## 快速开始
+
+```tsx
+import { Button } from '@dafengzhen/react-bootstrap';
+import '@dafengzhen/react-bootstrap/button/style';
+
+function App() {
+  return (
+    <>
+      <Button variant="primary">主要按钮</Button>
+      <Button variant="outline-success" size="lg">
+        大型轮廓按钮
+      </Button>
+      <Button loading loadingText="提交中...">
+        提交
+      </Button>
+    </>
+  );
+}
+```
+
+## 组件
+
+| 组件                              | 说明                                   |
+| --------------------------------- | -------------------------------------- |
+| [Button](./src/components/button) | 通用按钮组件，支持多种变体、尺寸和状态 |
+
+## 本地开发
+
+```bash
+# 安装依赖
+npm install
+
+# 启动文档站点
+npm run dev
+
+# 构建组件库
+npm run build
+
+# 代码检查与格式化
+npm run lint:fmt
+```
+
+## 许可证
+
+[MIT](./LICENSE)

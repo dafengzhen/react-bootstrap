@@ -1,23 +1,28 @@
 import babel from '@rolldown/plugin-babel';
 import react, { reactCompilerPreset } from '@vitejs/plugin-react';
-import fs from 'fs';
-import { resolve } from 'path';
+import { existsSync, readdirSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 
-function getComponentEntries() {
+const DEFAULT_EXCLUDED_COMPONENTS = ['doc-template', 'docs'];
+
+function getComponentEntries(exclude = DEFAULT_EXCLUDED_COMPONENTS) {
   const componentsDir = resolve(import.meta.dirname, 'src/components');
   const entries: Record<string, string> = {};
 
-  if (fs.existsSync(componentsDir)) {
-    const dirs = fs.readdirSync(componentsDir, { withFileTypes: true });
-    dirs.forEach((dirent) => {
-      if (dirent.isDirectory()) {
-        const componentPath = resolve(componentsDir, dirent.name, 'index.ts');
-        if (fs.existsSync(componentPath)) {
-          entries[`components/${dirent.name}/index`] = componentPath;
-        }
-      }
-    });
+  if (!existsSync(componentsDir)) {
+    return entries;
+  }
+
+  for (const dirent of readdirSync(componentsDir, { withFileTypes: true })) {
+    if (!dirent.isDirectory() || exclude.includes(dirent.name)) {
+      continue;
+    }
+
+    const componentPath = resolve(componentsDir, dirent.name, 'index.ts');
+    if (existsSync(componentPath)) {
+      entries[`components/${dirent.name}/index`] = componentPath;
+    }
   }
 
   return entries;
@@ -34,22 +39,18 @@ export default defineConfig({
       name: 'ReactBootstrap',
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime', 'clsx'],
+      external: ['react', 'react/jsx-runtime', 'clsx'],
       output: {
         assetFileNames: (assetInfo) => {
-          const originalFilePaths = assetInfo.originalFileNames || [];
-          const fileNames = assetInfo.names || [];
+          const originalFileNames = assetInfo.originalFileNames ?? [];
+          if (!originalFileNames.some((name) => name.endsWith('.css'))) {
+            return '[name].[ext]';
+          }
 
-          const originalFilePath = originalFilePaths[0] || '';
-          const fileName = fileNames[0] || '';
-
-          if (fileName.endsWith('.css') || originalFilePath.endsWith('.css')) {
-            for (const path of originalFilePaths) {
-              const match = path.match(/src\/components\/([^/]+)\//);
-              if (match) {
-                const componentName = match[1];
-                return `components/${componentName}/${componentName}.css`;
-              }
+          for (const path of originalFileNames) {
+            const match = path.match(/src\/components\/([^/]+)\//);
+            if (match?.[1]) {
+              return `components/${match[1]}/${match[1]}.css`;
             }
           }
 

@@ -2,6 +2,7 @@ import type { RouteObject } from 'react-router';
 
 import ButtonGroupDoc from './components/button-group/button-group.doc';
 import ButtonDoc from './components/button/button.doc';
+import CloseButtonDoc from './components/close-button/close-button.doc';
 import { type DocConfig, DocsHome, DocsLayout } from './components/docs';
 
 const GITHUB_URL = 'https://github.com/dafengzhen/react-bootstrap';
@@ -23,6 +24,15 @@ const docsConfig: DocConfig[] = [
     order: 2,
     path: '/components/button-group',
     tags: ['Basic', 'Layout'],
+  },
+  {
+    description:
+      'Close button component for dismissing content such as modals, alerts and toasts, with white variant and disabled state support.',
+    element: <CloseButtonDoc />,
+    name: 'CloseButton',
+    order: 3,
+    path: '/components/close-button',
+    tags: ['Basic', 'Overlay'],
   },
 ];
 

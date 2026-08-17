@@ -41,6 +41,10 @@
       "import": "./dist/components/button-group/index.js",
       "types": "./dist/components/button-group/index.d.ts"
     },
+    "./close-button": {
+      "import": "./dist/components/close-button/index.js",
+      "types": "./dist/components/close-button/index.d.ts"
+    },
     "./button/style": "./dist/components/button/button.css",
     "./button/cssmodule": {
       "import": "./dist/components/button/button.module.css.js"

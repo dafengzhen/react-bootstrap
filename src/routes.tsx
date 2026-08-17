@@ -25,7 +25,7 @@ const docsConfig: DocConfig[] = [
   },
 ];
 
-const HOME_DESCRIPTION = '基于 Bootstrap 5 的 React 组件库，以下是所有组件的文档和使用指南';
+const HOME_DESCRIPTION = 'React component library based on Bootstrap 5, with documentation and usage guides for all components below';
 const HOME_TITLE = 'React Bootstrap';
 
 const appRoutes: RouteObject[] = [

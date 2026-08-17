@@ -2,6 +2,7 @@ import type { RouteObject } from 'react-router';
 
 import ButtonGroupDoc from './components/button-group/button-group.doc';
 import ButtonDoc from './components/button/button.doc';
+import CardDoc from './components/card/card.doc';
 import CloseButtonDoc from './components/close-button/close-button.doc';
 import { type DocConfig, DocsHome, DocsLayout } from './components/docs';
 
@@ -27,10 +28,19 @@ const docsConfig: DocConfig[] = [
   },
   {
     description:
+      'Card component that provides a flexible and extensible content container, supporting header/footer, images, overlays, navigation and various color styles.',
+    element: <CardDoc />,
+    name: 'Card',
+    order: 4,
+    path: '/components/card',
+    tags: ['Basic', 'Layout'],
+  },
+  {
+    description:
       'Close button component for dismissing content such as modals, alerts and toasts, with white variant and disabled state support.',
     element: <CloseButtonDoc />,
     name: 'CloseButton',
-    order: 3,
+    order: 5,
     path: '/components/close-button',
     tags: ['Basic', 'Overlay'],
   },

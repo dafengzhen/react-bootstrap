@@ -22,7 +22,7 @@ export const TypeDefinitions: FC<TypeDefinitionsProps> = ({
   typeDefinitions,
 }) => (
   <section className="api-section" id={sectionId}>
-    <h3 className="h5 mb-3">类型定义</h3>
+    <h3 className="h5 mb-3">Type Definitions</h3>
     {typeDefinitions.map((typeDef) => (
       <div
         className={clsx('type-def', highlightedType === typeDef.name && 'type-def-highlight')}

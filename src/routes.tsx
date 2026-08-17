@@ -8,24 +8,26 @@ const GITHUB_URL = 'https://github.com/dafengzhen/react-bootstrap';
 
 const docsConfig: DocConfig[] = [
   {
-    description: '通用按钮组件，支持多种变体、尺寸和状态',
+    description: 'General-purpose button component, supports multiple variants, sizes, and states.',
     element: <ButtonDoc />,
     name: 'Button',
     order: 1,
     path: '/components/button',
-    tags: ['基础', '表单'],
+    tags: ['Basic', 'Forms'],
   },
   {
-    description: '按钮组组件，将多个按钮组合为一个整体，支持水平/垂直排列与统一尺寸',
+    description:
+      'Button group component that combines multiple buttons into a single unit, supporting horizontal/vertical arrangement and uniform sizing.',
     element: <ButtonGroupDoc />,
     name: 'ButtonGroup',
     order: 2,
     path: '/components/button-group',
-    tags: ['基础', '布局'],
+    tags: ['Basic', 'Layout'],
   },
 ];
 
-const HOME_DESCRIPTION = 'React component library based on Bootstrap 5, with documentation and usage guides for all components below';
+const HOME_DESCRIPTION =
+  'React component library based on Bootstrap 5, with documentation and usage guides for all components below.';
 const HOME_TITLE = 'React Bootstrap';
 
 const appRoutes: RouteObject[] = [

@@ -14,7 +14,7 @@ const HOME_TOC_ID = 'docs-home';
 export const DocsLayout: FC<DocsLayoutProps> = ({
   docs,
   githubUrl = 'https://github.com/dafengzhen/react-bootstrap',
-  sidebarTitle = '组件文档',
+  sidebarTitle = 'Component Documentation',
 }) => {
   const location = useLocation();
   const [pageSections, setPageSections] = useState<TocItem[]>([]);
@@ -43,7 +43,7 @@ export const DocsLayout: FC<DocsLayoutProps> = ({
   );
 
   const tocItems = useMemo<TocItem[]>(() => {
-    const items: TocItem[] = [{ id: HOME_TOC_ID, level: 1, title: '文档首页', to: '/' }];
+    const items: TocItem[] = [{ id: HOME_TOC_ID, level: 1, title: 'Documentation Home', to: '/' }];
     for (const doc of sortedDocs) {
       items.push({
         id: `doc-${slugify(doc.name) || doc.path}`,

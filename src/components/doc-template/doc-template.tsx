@@ -118,13 +118,13 @@ export const DocTemplate: FC<DocTemplateProps> = ({
 
   const tocItems = useMemo<TocItem[]>(() => {
     const items: TocItem[] = [
-      { id: `${idPrefix}-demo-overview`, level: 1, title: '组件演示' },
+      { id: `${idPrefix}-demo-overview`, level: 1, title: 'Component Demo' },
       ...demoSections,
-      { id: `${idPrefix}-api-overview`, level: 1, title: 'API 文档' },
-      { id: `${idPrefix}-props`, level: 2, title: '属性 (Props)' },
+      { id: `${idPrefix}-api-overview`, level: 1, title: 'API Documentation' },
+      { id: `${idPrefix}-props`, level: 2, title: 'Props' },
     ];
     if (typeDefinitions.length > 0) {
-      items.push({ id: `${idPrefix}-types`, level: 2, title: '类型定义' });
+      items.push({ id: `${idPrefix}-types`, level: 2, title: 'Type Definitions' });
     }
     return items;
   }, [demoSections, idPrefix, typeDefinitions.length]);
@@ -152,8 +152,8 @@ export const DocTemplate: FC<DocTemplateProps> = ({
       </section>
 
       <section className="api-section" id={`${idPrefix}-demo-overview`}>
-        <h3 className="h5 mb-3">组件演示</h3>
-        <p className="text-muted mb-4">{componentName} 组件的基本用法与示例</p>
+        <h3 className="h5 mb-3">Component Demo</h3>
+        <p className="text-muted mb-4">Basic usage and examples of the {componentName} component</p>
       </section>
 
       <DemoSectionsContext.Provider value={demoSectionsContext}>
@@ -161,12 +161,12 @@ export const DocTemplate: FC<DocTemplateProps> = ({
       </DemoSectionsContext.Provider>
 
       <section className="api-section" id={`${idPrefix}-api-overview`}>
-        <h2 className="h4 mb-3">API 文档</h2>
-        <p className="text-muted mb-4">{componentName} 组件的完整 API 参考</p>
+        <h2 className="h4 mb-3">API Documentation</h2>
+        <p className="text-muted mb-4">Complete API reference for the {componentName} component</p>
       </section>
 
       <section className="api-section" id={`${idPrefix}-props`}>
-        <h3 className="h5 mb-3">属性 (Props)</h3>
+        <h3 className="h5 mb-3">Props</h3>
         <PropsTable onTypeClick={handleTypeClick} props={props} typeDefIds={typeDefIds} />
       </section>
 

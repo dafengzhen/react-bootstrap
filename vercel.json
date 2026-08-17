@@ -3,7 +3,7 @@
   "buildCommand": "npm run build:docs",
   "cleanUrls": true,
   "outputDirectory": "docs-dist",
-  "devCommand": "npm run dev",
+  "devCommand": "npm run dev:docs",
   "installCommand": "npm install",
   "framework": "vite",
   "rewrites": [

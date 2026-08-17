@@ -6,7 +6,6 @@ import type { DocsLayoutProps } from './types';
 
 import { DocSidebarContext, slugify, TableOfContents, type TocItem } from '../doc-template';
 import { DocsFooter } from './docs-footer';
-import './docs.css';
 
 const UNORDERED_INDEX = Number.MAX_SAFE_INTEGER;
 

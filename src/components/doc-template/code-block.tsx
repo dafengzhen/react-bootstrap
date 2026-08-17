@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import hljs from 'highlight.js/lib/core';
-import typescript from 'highlight.js/lib/languages/typescript.js';
+import typescript from 'highlight.js/lib/languages/typescript';
 import xml from 'highlight.js/lib/languages/xml';
 import 'highlight.js/styles/github-dark.css';
 import { type FC, useCallback, useEffect, useRef, useState } from 'react';

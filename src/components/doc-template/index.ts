@@ -1,5 +1,3 @@
-import './doc-template.css';
-
 export { CodeBlock } from './code-block';
 export { DemoSection } from './demo-section';
 export { DocSidebarContext, useDocSidebar } from './doc-sidebar-context';

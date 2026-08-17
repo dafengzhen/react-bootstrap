@@ -48,8 +48,10 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:docs": "vite --config vite.config.docs.ts",
     "build": "run-s typecheck build:full build:components:no-empty build:types",
     "build:docs": "vite build --config vite.config.docs.ts",
+    "build:all": "run-s typecheck build:full build:components:no-empty build:types build:docs",
     "typecheck": "tsc -b",
     "build:components": "vite build --config vite.config.ts --emptyOutDir",
     "build:full": "vite build --config vite.config.full.ts --emptyOutDir",
@@ -57,6 +59,7 @@
     "build:full:no-empty": "vite build --config vite.config.full.ts",
     "build:types": "tsc --project tsconfig.types.json",
     "preview": "vite preview",
+    "preview:docs": "vite preview --config vite.config.docs.ts",
     "lint": "oxlint --fix",
     "fmt": "oxfmt",
     "lint:fmt": "run-s lint fmt"

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { type ApiProp, ApiTemplate, type ApiTypeDefinition, DemoSection } from '../doc-template';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import { Button } from './button';
 import basicVariantsCode from './demos/basic-variants.md?raw';
 import blockCode from './demos/block.md?raw';
@@ -11,6 +11,9 @@ import interactiveCode from './demos/interactive.md?raw';
 import loadingCode from './demos/loading.md?raw';
 import outlineVariantsCode from './demos/outline-variants.md?raw';
 import sizesCode from './demos/sizes.md?raw';
+import buttonPropsTypeCode from './types/button-props.md?raw';
+import buttonSizeTypeCode from './types/button-size.md?raw';
+import buttonVariantTypeCode from './types/button-variant.md?raw';
 
 const buttonProps: ApiProp[] = [
   {
@@ -71,31 +74,17 @@ const buttonProps: ApiProp[] = [
 
 const buttonTypeDefinitions: ApiTypeDefinition[] = [
   {
-    code: `type ButtonVariant = 
-  | 'primary' | 'secondary' | 'success' | 'danger' 
-  | 'warning' | 'info' | 'light' | 'dark' | 'link'
-  | 'outline-primary' | 'outline-secondary' | 'outline-success' 
-  | 'outline-danger' | 'outline-warning' | 'outline-info' 
-  | 'outline-light' | 'outline-dark';`,
+    code: buttonVariantTypeCode,
     description: '按钮变体类型',
     name: 'ButtonVariant',
   },
   {
-    code: `type ButtonSize = 'sm' | 'lg';`,
+    code: buttonSizeTypeCode,
     description: '按钮尺寸类型',
     name: 'ButtonSize',
   },
   {
-    code: `export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  block?: boolean;
-  disabled?: boolean;
-  loading?: boolean;
-  loadingText?: string;
-  children?: ReactNode;
-  className?: string;
-}`,
+    code: buttonPropsTypeCode,
     description: '按钮组件属性接口',
     name: 'ButtonProps',
   },
@@ -254,9 +243,10 @@ export const ButtonDoc = () => {
   );
 
   return (
-    <ApiTemplate
+    <DocTemplate
       componentDescription="基于 Bootstrap 5 的通用按钮组件，支持多种变体、尺寸和状态"
       componentName="Button"
+      componentTags={['基础', '表单']}
       demoContent={demoContent}
       props={buttonProps}
       typeDefinitions={buttonTypeDefinitions}

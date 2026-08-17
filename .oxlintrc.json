@@ -29,6 +29,7 @@
   "rules": {
     "@typescript-eslint/consistent-type-imports": "error",
     "curly": "error",
+    "nextjs/no-img-element": "off",
     "perf/sort-array-includes": "error",
     "perf/sort-arrays": "error",
     "perf/sort-classes": "error",

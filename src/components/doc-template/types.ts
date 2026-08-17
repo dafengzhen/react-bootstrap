@@ -7,15 +7,6 @@ export interface ApiProp {
   type: string;
 }
 
-export interface ApiTemplateProps {
-  componentDescription?: string;
-  componentName: string;
-  demoContent?: ReactNode;
-  props: ApiProp[];
-  showCopyButton?: boolean;
-  typeDefinitions?: ApiTypeDefinition[];
-}
-
 export interface ApiTypeDefinition {
   code: string;
   description?: string;
@@ -37,14 +28,27 @@ export interface DemoSectionProps extends Omit<HTMLAttributes<HTMLElement>, 'id'
   title: string;
 }
 
+export interface DocTemplateProps {
+  componentDescription?: string;
+  componentName: string;
+  componentTags?: string[];
+  demoContent?: ReactNode;
+  props: ApiProp[];
+  showCopyButton?: boolean;
+  typeDefinitions?: ApiTypeDefinition[];
+}
+
 export interface TableOfContentsProps {
   items: TocItem[];
+  onNavigate?: () => void;
+  title?: string;
 }
 
 export interface TocItem {
   id: string;
   level: TocLevel;
   title: string;
+  to?: string;
 }
 
 export type TocLevel = 1 | 2 | 3;

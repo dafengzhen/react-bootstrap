@@ -1,21 +1,20 @@
-export {
-  ApiTemplate,
-  CodeBlock,
-  DemoSection,
-  scrollToSection,
-  slugify,
-  TableOfContents,
-  updateHash,
-  useIdPrefix,
-} from './api-template';
-export { extractFencedCode } from './snippet';
+import './doc-template.css';
+
+export { CodeBlock } from './code-block';
+export { DemoSection } from './demo-section';
+export { DocSidebarContext, useDocSidebar } from './doc-sidebar-context';
+export { DocTemplate } from './doc-template';
+export { extractFencedCode } from './markdown';
+export { NameColorBadge, nameToColor } from './name-badge';
+export { TableOfContents } from './table-of-contents';
 export type {
   ApiProp,
-  ApiTemplateProps,
   ApiTypeDefinition,
   CodeBlockProps,
   DemoSectionProps,
+  DocTemplateProps,
   TableOfContentsProps,
   TocItem,
   TocLevel,
 } from './types';
+export { scrollToSection, slugify, updateHash, useIdPrefix } from './utils';

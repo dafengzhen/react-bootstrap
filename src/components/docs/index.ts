@@ -1,2 +1,3 @@
 export { DocsHome } from './docs-home';
-export type { DocConfig, DocsHomeProps } from './types';
+export { DocsLayout } from './docs-layout';
+export type { DocConfig, DocsHomeProps, DocsLayoutProps } from './types';

@@ -1,7 +1,8 @@
 import { type ChangeEvent, useState } from 'react';
 
 import { Button } from '../button';
-import { type ApiProp, ApiTemplate, type ApiTypeDefinition, DemoSection } from '../doc-template';
+import buttonSizeTypeCode from '../button/types/button-size.md?raw';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import { ButtonGroup } from './button-group';
 import { ButtonToolbar } from './button-toolbar';
 import basicCode from './demos/basic.md?raw';
@@ -13,6 +14,8 @@ import radioCode from './demos/radio.md?raw';
 import sizesCode from './demos/sizes.md?raw';
 import toolbarCode from './demos/toolbar.md?raw';
 import verticalCode from './demos/vertical.md?raw';
+import buttonGroupPropsTypeCode from './types/button-group-props.md?raw';
+import buttonToolbarPropsTypeCode from './types/button-toolbar-props.md?raw';
 
 const buttonGroupProps: ApiProp[] = [
   {
@@ -61,20 +64,17 @@ const buttonGroupProps: ApiProp[] = [
 
 const buttonGroupTypeDefinitions: ApiTypeDefinition[] = [
   {
-    code: `export interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
-  children?: ReactNode;
-  className?: string;
-  size?: ButtonSize;
-  vertical?: boolean;
-}`,
-    description: '按钮组组件属性接口，`ButtonSize` 复用自 Button 组件',
+    code: buttonGroupPropsTypeCode,
+    description: '按钮组组件属性接口',
     name: 'ButtonGroupProps',
   },
   {
-    code: `export interface ButtonToolbarProps extends HTMLAttributes<HTMLDivElement> {
-  children?: ReactNode;
-  className?: string;
-}`,
+    code: buttonSizeTypeCode,
+    description: '按钮尺寸类型，复用自 Button 组件',
+    name: 'ButtonSize',
+  },
+  {
+    code: buttonToolbarPropsTypeCode,
     description: '按钮工具栏组件属性接口',
     name: 'ButtonToolbarProps',
   },
@@ -331,9 +331,10 @@ export const ButtonGroupDoc = () => {
   );
 
   return (
-    <ApiTemplate
+    <DocTemplate
       componentDescription="基于 Bootstrap 5 的按钮组组件，将一系列按钮组合为水平或垂直的视觉分组，并提供按钮工具栏以组合多个分组"
       componentName="ButtonGroup"
+      componentTags={['基础', '布局']}
       demoContent={demoContent}
       props={buttonGroupProps}
       typeDefinitions={buttonGroupTypeDefinitions}

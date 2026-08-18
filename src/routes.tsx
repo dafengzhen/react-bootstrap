@@ -1,6 +1,8 @@
 import type { RouteObject } from 'react-router';
 
 import AlertDoc from './components/alert/alert.doc';
+import BadgeDoc from './components/badge/badge.doc';
+import BreadcrumbDoc from './components/breadcrumb/breadcrumb.doc';
 import ButtonGroupDoc from './components/button-group/button-group.doc';
 import ButtonDoc from './components/button/button.doc';
 import CardDoc from './components/card/card.doc';
@@ -83,6 +85,24 @@ const docsConfig: DocConfig[] = [
     order: 8,
     path: '/components/alert',
     tags: ['Basic', 'Feedback'],
+  },
+  {
+    description:
+      'Badge component that displays status, counts or labels in small inline content, supporting multiple background colors, pill shape, buttons and links, scaling with the parent font size.',
+    element: <BadgeDoc />,
+    name: 'Badge',
+    order: 9,
+    path: '/components/badge',
+    tags: ['Basic', 'Feedback'],
+  },
+  {
+    description:
+      'Breadcrumb component that indicates the current page location within a navigational hierarchy, supporting links, active state, custom dividers and accessible labels.',
+    element: <BreadcrumbDoc />,
+    name: 'Breadcrumb',
+    order: 10,
+    path: '/components/breadcrumb',
+    tags: ['Basic', 'Navigation'],
   },
 ];
 

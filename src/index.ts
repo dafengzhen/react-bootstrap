@@ -6,6 +6,12 @@ export type {
   AlertVariant,
 } from './components/alert';
 
+export { Badge } from './components/badge';
+export type { BadgeBg, BadgeProps, BadgeText } from './components/badge';
+
+export { Breadcrumb, BreadcrumbItem } from './components/breadcrumb';
+export type { BreadcrumbItemProps, BreadcrumbProps } from './components/breadcrumb';
+
 export { Button } from './components/button';
 export type { ButtonProps, ButtonSize, ButtonVariant } from './components/button';
 

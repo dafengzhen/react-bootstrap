@@ -21,8 +21,8 @@ export const PropsTable: FC<PropsTableProps> = ({ onTypeClick, props, typeDefIds
         </tr>
       </thead>
       <tbody>
-        {props.map((prop) => (
-          <tr key={prop.name}>
+        {props.map((prop, index) => (
+          <tr key={`${prop.name}-${index}`}>
             <td>
               <code className="text-primary">{prop.name}</code>
             </td>

@@ -1,5 +1,6 @@
 import { Button } from '../button';
 import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
+import { ListGroup, ListGroupItem } from '../list-group';
 import basicCode from './demos/basic.md?raw';
 import bodyCode from './demos/body.md?raw';
 import gridCode from './demos/grid.md?raw';
@@ -319,20 +320,18 @@ export const CardDoc = () => {
         <div className="d-flex flex-wrap gap-3 align-items-start">
           <Card style={{ width: '18rem' }}>
             <CardHeader>列表组</CardHeader>
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item">列表项 1</li>
-              <li className="list-group-item">列表项 2</li>
-              <li className="list-group-item">列表项 3</li>
-            </ul>
+            <ListGroup flush>
+              <ListGroupItem>列表项 1</ListGroupItem>
+              <ListGroupItem>列表项 2</ListGroupItem>
+              <ListGroupItem>列表项 3</ListGroupItem>
+            </ListGroup>
           </Card>
           <Card style={{ width: '18rem' }}>
-            <ul className="list-group list-group-flush">
-              <li aria-current="true" className="list-group-item active">
-                激活的列表项
-              </li>
-              <li className="list-group-item">普通列表项</li>
-              <li className="list-group-item disabled">禁用的列表项</li>
-            </ul>
+            <ListGroup flush>
+              <ListGroupItem active>激活的列表项</ListGroupItem>
+              <ListGroupItem>普通列表项</ListGroupItem>
+              <ListGroupItem disabled>禁用的列表项</ListGroupItem>
+            </ListGroup>
           </Card>
         </div>
       </DemoSection>
@@ -344,11 +343,11 @@ export const CardDoc = () => {
             <CardTitle>组合示例</CardTitle>
             <CardText>将图片、正文、列表组、链接与页脚组合为一张完整卡片。</CardText>
           </CardBody>
-          <ul className="list-group list-group-flush">
-            <li className="list-group-item">列表项 1</li>
-            <li className="list-group-item">列表项 2</li>
-            <li className="list-group-item">列表项 3</li>
-          </ul>
+          <ListGroup flush>
+            <ListGroupItem>列表项 1</ListGroupItem>
+            <ListGroupItem>列表项 2</ListGroupItem>
+            <ListGroupItem>列表项 3</ListGroupItem>
+          </ListGroup>
           <CardBody>
             <CardLink href="#">卡片链接</CardLink>
             <CardLink href="#">另一个链接</CardLink>

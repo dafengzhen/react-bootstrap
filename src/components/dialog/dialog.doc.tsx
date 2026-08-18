@@ -193,7 +193,8 @@ export const DialogDoc = () => {
             <DialogClose />
           </DialogHeader>
           <DialogBody>
-            对话框打开后会自动锁定背景滚动、将焦点移入对话框，并可通过 Esc 键、遮罩点击或关闭按钮退出。
+            对话框打开后会自动锁定背景滚动、将焦点移入对话框，并可通过 Esc
+            键、遮罩点击或关闭按钮退出。
           </DialogBody>
           <DialogFooter>
             <Button onClick={() => setOpen(false)} variant="secondary">

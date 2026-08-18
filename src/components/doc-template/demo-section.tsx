@@ -62,11 +62,7 @@ export const DemoSection: FC<DemoSectionProps> = ({
     [context, fallbackSectionId, instanceKey],
   );
 
-  const sectionId = useSyncExternalStore(
-    subscribe,
-    getSectionSnapshot,
-    () => fallbackSectionId,
-  );
+  const sectionId = useSyncExternalStore(subscribe, getSectionSnapshot, () => fallbackSectionId);
 
   const resolvedCode = useMemo(() => (code ? extractFencedCode(code) : ''), [code]);
 

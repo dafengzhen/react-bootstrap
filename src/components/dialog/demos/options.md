@@ -14,9 +14,7 @@
       <DialogTitle>透明遮罩</DialogTitle>
       <DialogClose />
     </DialogHeader>
-    <DialogBody>
-      showBackdrop 为 false 时遮罩背景完全透明，仍可通过 Esc 或关闭按钮退出。
-    </DialogBody>
+    <DialogBody>showBackdrop 为 false 时遮罩背景完全透明，仍可通过 Esc 或关闭按钮退出。</DialogBody>
   </Dialog>
 
   <Dialog closeOnBackdropClick={false} isOpen={noMaskCloseOpen} onOpenChange={setNoMaskCloseOpen}>

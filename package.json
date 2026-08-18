@@ -53,6 +53,10 @@
       "import": "./dist/components/dialog/index.js",
       "types": "./dist/components/dialog/index.d.ts"
     },
+    "./list-group": {
+      "import": "./dist/components/list-group/index.js",
+      "types": "./dist/components/list-group/index.d.ts"
+    },
     "./modal": {
       "import": "./dist/components/modal/index.js",
       "types": "./dist/components/modal/index.d.ts"
@@ -86,7 +90,8 @@
     "preview:docs": "vite preview --config vite.config.docs.ts",
     "lint": "oxlint --fix",
     "fmt": "oxfmt",
-    "lint:fmt": "run-s lint fmt"
+    "lint:fmt": "run-s lint fmt",
+    "check": "run-s lint fmt"
   },
   "devDependencies": {
     "@babel/core": "^8.0.1",

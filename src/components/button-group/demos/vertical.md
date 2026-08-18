@@ -1,5 +1,4 @@
 ```tsx
-// radioValue 与 handleRadioChange 定义见「单选按钮组」示例
 <ButtonGroup aria-label="垂直按钮组" vertical>
   <Button variant="primary">按钮 1</Button>
   <Button variant="primary">按钮 2</Button>

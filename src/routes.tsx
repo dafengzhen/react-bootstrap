@@ -6,6 +6,7 @@ import CardDoc from './components/card/card.doc';
 import CloseButtonDoc from './components/close-button/close-button.doc';
 import DialogDoc from './components/dialog/dialog.doc';
 import { type DocConfig, DocsHome, DocsLayout } from './components/docs';
+import ListGroupDoc from './components/list-group/list-group.doc';
 import ModalDoc from './components/modal/modal.doc';
 
 const GITHUB_URL = 'https://github.com/dafengzhen/react-bootstrap';
@@ -27,6 +28,15 @@ const docsConfig: DocConfig[] = [
     order: 2,
     path: '/components/button-group',
     tags: ['Basic', 'Layout'],
+  },
+  {
+    description:
+      'List group component that displays a series of content in a flexible list container, supporting active/disabled states, links and buttons, flush and numbered styles, horizontal layout, contextual colors, badges and custom content.',
+    element: <ListGroupDoc />,
+    name: 'ListGroup',
+    order: 3,
+    path: '/components/list-group',
+    tags: ['Basic', 'Navigation'],
   },
   {
     description:

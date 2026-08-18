@@ -60,6 +60,14 @@ export type {
   DialogTitleProps,
 } from './components/dialog';
 
+export { ListGroup, ListGroupItem } from './components/list-group';
+export type {
+  ListGroupHorizontal,
+  ListGroupItemProps,
+  ListGroupItemVariant,
+  ListGroupProps,
+} from './components/list-group';
+
 export {
   Modal,
   ModalBody,

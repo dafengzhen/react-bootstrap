@@ -6,6 +6,7 @@ import CardDoc from './components/card/card.doc';
 import CloseButtonDoc from './components/close-button/close-button.doc';
 import DialogDoc from './components/dialog/dialog.doc';
 import { type DocConfig, DocsHome, DocsLayout } from './components/docs';
+import ModalDoc from './components/modal/modal.doc';
 
 const GITHUB_URL = 'https://github.com/dafengzhen/react-bootstrap';
 
@@ -52,6 +53,15 @@ const docsConfig: DocConfig[] = [
     name: 'Dialog',
     order: 6,
     path: '/components/dialog',
+    tags: ['Basic', 'Dialog'],
+  },
+  {
+    description:
+      'Modal component that renders content in a dialog layer above the page, supporting sizes, fullscreen and centered/scrollable layouts, static backdrops, focus trapping and transition animations.',
+    element: <ModalDoc />,
+    name: 'Modal',
+    order: 7,
+    path: '/components/modal',
     tags: ['Basic', 'Dialog'],
   },
 ];

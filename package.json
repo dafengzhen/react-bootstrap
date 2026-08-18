@@ -53,13 +53,21 @@
       "import": "./dist/components/dialog/index.js",
       "types": "./dist/components/dialog/index.d.ts"
     },
+    "./modal": {
+      "import": "./dist/components/modal/index.js",
+      "types": "./dist/components/modal/index.d.ts"
+    },
     "./button/style": "./dist/components/button/button.css",
     "./dialog/style": "./dist/components/dialog/dialog.css",
+    "./modal/style": "./dist/components/modal/modal.css",
     "./button/cssmodule": {
       "import": "./dist/components/button/button.module.css.js"
     },
     "./dialog/cssmodule": {
       "import": "./dist/components/dialog/dialog.module.css.js"
+    },
+    "./modal/cssmodule": {
+      "import": "./dist/components/modal/modal.module.css.js"
     }
   },
   "scripts": {

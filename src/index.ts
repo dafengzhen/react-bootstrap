@@ -59,3 +59,30 @@ export type {
   DialogProps,
   DialogTitleProps,
 } from './components/dialog';
+
+export {
+  Modal,
+  ModalBody,
+  ModalClose,
+  ModalContent,
+  ModalDialog,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+  useModal,
+} from './components/modal';
+export type {
+  ModalAnimationStatus,
+  ModalBackdrop,
+  ModalBodyProps,
+  ModalCloseProps,
+  ModalContentProps,
+  ModalContextValue,
+  ModalDialogProps,
+  ModalFooterProps,
+  ModalFullscreen,
+  ModalHeaderProps,
+  ModalProps,
+  ModalSize,
+  ModalTitleProps,
+} from './components/modal';

@@ -395,6 +395,55 @@ pre code.hljs {
   outline-offset: 2px;
 }
 
+.toc-item .toc-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.25rem 0.75rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0.25rem;
+  color: var(--doc-text-secondary);
+  font: inherit;
+  font-size: clamp(0.8125rem, 0.78rem + 0.15vw, 0.875rem);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.toc-item .toc-toggle:hover {
+  background-color: var(--doc-hover-bg);
+  color: var(--doc-primary);
+}
+
+.toc-item .toc-toggle:focus-visible {
+  outline: 2px solid var(--doc-primary);
+  outline-offset: 2px;
+}
+
+.toc-toggle-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toc-chevron {
+  flex: none;
+  width: 0.8em;
+  height: 0.8em;
+  opacity: 0.75;
+  transition: transform 0.2s ease;
+}
+
+.toc-item.is-collapsed .toc-chevron {
+  transform: rotate(-90deg);
+}
+
 .toc-item.active a,
 .toc-item a.active {
   background-color: var(--doc-primary-bg);
@@ -402,7 +451,8 @@ pre code.hljs {
   font-weight: 500;
 }
 
-.toc-level-1 a {
+.toc-level-1 a,
+.toc-level-1 .toc-toggle {
   font-weight: 600;
   color: var(--doc-text);
   padding-top: 0.4rem;
@@ -415,13 +465,15 @@ pre code.hljs {
   padding-top: 0.25rem;
 }
 
-.toc-level-2 a {
+.toc-level-2 a,
+.toc-level-2 .toc-toggle {
   padding-left: 1.25rem;
   font-size: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
   color: var(--doc-text-secondary);
 }
 
-.toc-level-3 a {
+.toc-level-3 a,
+.toc-level-3 .toc-toggle {
   padding-left: 2rem;
   font-size: clamp(0.6875rem, 0.66rem + 0.15vw, 0.75rem);
   color: var(--doc-text-muted);
@@ -732,7 +784,9 @@ pre code.hljs {
   .api-doc-sidebar,
   .copy-button,
   .demo-code-toggle,
+  .toc-chevron,
   .toc-item a,
+  .toc-item .toc-toggle,
   .type-def,
   .type-def > .h6 {
     transition: none;

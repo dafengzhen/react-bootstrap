@@ -36,3 +36,26 @@ export type {
 
 export { CloseButton } from './components/close-button';
 export type { CloseButtonProps, CloseButtonVariant } from './components/close-button';
+
+export {
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  useDialog,
+} from './components/dialog';
+export type {
+  DialogAnimationStatus,
+  DialogBodyProps,
+  DialogCloseProps,
+  DialogContextValue,
+  DialogDescriptionProps,
+  DialogFooterProps,
+  DialogHeaderProps,
+  DialogPlacement,
+  DialogProps,
+  DialogTitleProps,
+} from './components/dialog';

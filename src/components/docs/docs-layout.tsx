@@ -18,7 +18,9 @@ export const DocsLayout: FC<DocsLayoutProps> = ({
 }) => {
   const location = useLocation();
   const [pageSections, setPageSections] = useState<TocItem[]>([]);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpenAt, setSidebarOpenAt] = useState<null | string>(null);
+
+  const sidebarOpen = sidebarOpenAt === location.key;
 
   const sortedDocs = useMemo(
     () => [...docs].sort((a, b) => (a.order ?? UNORDERED_INDEX) - (b.order ?? UNORDERED_INDEX)),
@@ -59,8 +61,12 @@ export const DocsLayout: FC<DocsLayoutProps> = ({
   }, [activeDoc, pageSections, sortedDocs]);
 
   const handleClose = useCallback(() => {
-    setSidebarOpen(false);
+    setSidebarOpenAt(null);
   }, []);
+
+  const handleToggleSidebar = useCallback(() => {
+    setSidebarOpenAt((prev) => (prev === location.key ? null : location.key));
+  }, [location.key]);
 
   useEffect(() => {
     const hash = window.location.hash.slice(1);
@@ -70,7 +76,6 @@ export const DocsLayout: FC<DocsLayoutProps> = ({
     } else {
       window.scrollTo({ top: 0 });
     }
-    setSidebarOpen(false);
   }, [location]);
 
   return (
@@ -81,7 +86,7 @@ export const DocsLayout: FC<DocsLayoutProps> = ({
           aria-expanded={sidebarOpen}
           aria-label={sidebarOpen ? '关闭组件目录' : '打开组件目录'}
           className={clsx('docs-sidebar-fab', sidebarOpen && 'docs-sidebar-fab-open')}
-          onClick={() => setSidebarOpen((prev) => !prev)}
+          onClick={handleToggleSidebar}
           type="button"
         >
           <span aria-hidden="true" className="docs-sidebar-fab-icon">

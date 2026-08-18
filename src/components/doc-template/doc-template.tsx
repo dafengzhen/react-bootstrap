@@ -36,6 +36,7 @@ export const DocTemplate: FC<DocTemplateProps> = ({
   const demoCounterRef = useRef(0);
   const demoEntriesRef = useRef<Map<string, TocItem>>(new Map());
   const highlightTimerRef = useRef<null | number>(null);
+  const listenersRef = useRef<Set<() => void>>(new Set());
   const idPrefix = useIdPrefix(componentName);
   const [demoSections, setDemoSections] = useState<TocItem[]>([]);
   const [highlightedType, setHighlightedType] = useState<string>();
@@ -84,12 +85,23 @@ export const DocTemplate: FC<DocTemplateProps> = ({
   );
 
   const demoSectionsContext = useMemo<DemoSectionsContextValue>(() => {
+    const getSectionId = (key: string): string | undefined => {
+      return demoEntriesRef.current.get(key)?.id;
+    };
+
+    const notifySections = (): void => {
+      for (const listener of listenersRef.current) {
+        listener();
+      }
+    };
+
     const register = (key: string, meta: DemoSectionMeta): string => {
       const existing = demoEntriesRef.current.get(key);
       if (existing) {
         const updated: TocItem = { id: existing.id, level: meta.level, title: meta.title };
         demoEntriesRef.current.set(key, updated);
         setDemoSections([...demoEntriesRef.current.values()]);
+        notifySections();
         return existing.id;
       }
 
@@ -104,16 +116,25 @@ export const DocTemplate: FC<DocTemplateProps> = ({
       const item: TocItem = { id: candidate, level: meta.level, title: meta.title };
       demoEntriesRef.current.set(key, item);
       setDemoSections([...demoEntriesRef.current.values()]);
+      notifySections();
       return candidate;
+    };
+
+    const subscribe = (listener: () => void): (() => void) => {
+      listenersRef.current.add(listener);
+      return () => {
+        listenersRef.current.delete(listener);
+      };
     };
 
     const unregister = (key: string): void => {
       if (demoEntriesRef.current.delete(key)) {
         setDemoSections([...demoEntriesRef.current.values()]);
+        notifySections();
       }
     };
 
-    return { register, unregister };
+    return { getSectionId, register, subscribe, unregister };
   }, [idPrefix]);
 
   const tocItems = useMemo<TocItem[]>(() => {

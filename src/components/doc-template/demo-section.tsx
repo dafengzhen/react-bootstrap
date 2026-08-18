@@ -8,6 +8,7 @@ import {
   useLayoutEffect,
   useMemo,
   useState,
+  useSyncExternalStore,
 } from 'react';
 
 import type { DemoSectionProps, TocLevel } from './types';
@@ -23,7 +24,9 @@ export interface DemoSectionMeta {
 }
 
 export interface DemoSectionsContextValue {
+  getSectionId: (key: string) => string | undefined;
   register: (key: string, meta: DemoSectionMeta) => string;
+  subscribe: (listener: () => void) => () => void;
   unregister: (key: string) => void;
 }
 
@@ -43,12 +46,27 @@ export const DemoSection: FC<DemoSectionProps> = ({
   const codeRegionId = useId();
   const instanceKey = useId();
   const [codeVisible, setCodeVisible] = useState(false);
-  const [sectionId, setSectionId] = useState<string>(() => {
-    if (context) {
-      return '';
-    }
-    return id ?? `demo-${slugify(title) || 'section'}-${sanitizeUseId(instanceKey)}`;
-  });
+
+  const fallbackSectionId = useMemo(
+    () => id ?? `demo-${slugify(title) || 'section'}-${sanitizeUseId(instanceKey)}`,
+    [id, instanceKey, title],
+  );
+
+  const subscribe = useCallback(
+    (listener: () => void) => context?.subscribe(listener) ?? (() => {}),
+    [context],
+  );
+
+  const getSectionSnapshot = useCallback(
+    () => context?.getSectionId(instanceKey) ?? fallbackSectionId,
+    [context, fallbackSectionId, instanceKey],
+  );
+
+  const sectionId = useSyncExternalStore(
+    subscribe,
+    getSectionSnapshot,
+    () => fallbackSectionId,
+  );
 
   const resolvedCode = useMemo(() => (code ? extractFencedCode(code) : ''), [code]);
 
@@ -56,8 +74,7 @@ export const DemoSection: FC<DemoSectionProps> = ({
     if (!context) {
       return;
     }
-    const registeredId = context.register(instanceKey, { id, level, title });
-    setSectionId(registeredId);
+    context.register(instanceKey, { id, level, title });
     return () => {
       context.unregister(instanceKey);
     };

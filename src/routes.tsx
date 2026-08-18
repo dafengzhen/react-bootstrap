@@ -4,6 +4,7 @@ import ButtonGroupDoc from './components/button-group/button-group.doc';
 import ButtonDoc from './components/button/button.doc';
 import CardDoc from './components/card/card.doc';
 import CloseButtonDoc from './components/close-button/close-button.doc';
+import DialogDoc from './components/dialog/dialog.doc';
 import { type DocConfig, DocsHome, DocsLayout } from './components/docs';
 
 const GITHUB_URL = 'https://github.com/dafengzhen/react-bootstrap';
@@ -42,7 +43,16 @@ const docsConfig: DocConfig[] = [
     name: 'CloseButton',
     order: 5,
     path: '/components/close-button',
-    tags: ['Basic', 'Overlay'],
+    tags: ['Basic', 'Dialog'],
+  },
+  {
+    description:
+      'Dialog component that renders content in a modal layer above the page, supporting multiple placements, focus trapping, scroll locking and transition animations.',
+    element: <DialogDoc />,
+    name: 'Dialog',
+    order: 6,
+    path: '/components/dialog',
+    tags: ['Basic', 'Dialog'],
   },
 ];
 

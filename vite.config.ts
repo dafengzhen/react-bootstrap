@@ -39,7 +39,7 @@ export default defineConfig({
       name: 'ReactBootstrap',
     },
     rollupOptions: {
-      external: ['react', 'react/jsx-runtime', 'clsx'],
+      external: (id) => id === 'clsx' || /^react(-dom)?($|\/)/.test(id),
       output: {
         assetFileNames: (assetInfo) => {
           const originalFileNames = assetInfo.originalFileNames ?? [];

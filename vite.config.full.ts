@@ -16,11 +16,16 @@ export default defineConfig({
       name: 'ReactBootstrap',
     },
     rollupOptions: {
-      external: ['react', 'react/jsx-runtime', 'clsx'],
+      external: (id) =>
+        id === 'clsx' ||
+        id === 'react' ||
+        id === 'react/jsx-runtime' ||
+        /^react-dom($|\/)/.test(id),
       output: {
         globals: {
           clsx: 'clsx',
           react: 'React',
+          'react-dom': 'ReactDOM',
           'react/jsx-runtime': 'jsxRuntime',
         },
       },

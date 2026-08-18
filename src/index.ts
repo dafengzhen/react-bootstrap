@@ -1,3 +1,11 @@
+export { Alert, AlertHeading, AlertLink } from './components/alert';
+export type {
+  AlertHeadingProps,
+  AlertLinkProps,
+  AlertProps,
+  AlertVariant,
+} from './components/alert';
+
 export { Button } from './components/button';
 export type { ButtonProps, ButtonSize, ButtonVariant } from './components/button';
 

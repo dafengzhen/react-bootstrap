@@ -1,5 +1,6 @@
 import type { RouteObject } from 'react-router';
 
+import AlertDoc from './components/alert/alert.doc';
 import ButtonGroupDoc from './components/button-group/button-group.doc';
 import ButtonDoc from './components/button/button.doc';
 import CardDoc from './components/card/card.doc';
@@ -73,6 +74,15 @@ const docsConfig: DocConfig[] = [
     order: 7,
     path: '/components/modal',
     tags: ['Basic', 'Dialog'],
+  },
+  {
+    description:
+      'Alert component that provides contextual feedback messages for typical user actions, supporting eight variants, dismissible mode with fade animation, links, headings and icons.',
+    element: <AlertDoc />,
+    name: 'Alert',
+    order: 8,
+    path: '/components/alert',
+    tags: ['Basic', 'Feedback'],
   },
 ];
 

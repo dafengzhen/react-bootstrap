@@ -32,13 +32,13 @@ export const DialogClose = forwardRef<HTMLButtonElement, DialogCloseProps>(
     return (
       <button
         aria-label={ariaLabel}
-        className={clsx(styles.dialogCloseBtn, className)}
+        className={clsx('btn-close', styles.dialogClose, className)}
         onClick={handleClick}
         ref={ref}
         type={type}
         {...rest}
       >
-        {children || '✕'}
+        {children}
       </button>
     );
   },

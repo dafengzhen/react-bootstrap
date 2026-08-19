@@ -241,12 +241,8 @@ export const Dialog = forwardRef<HTMLDialogElement, DialogProps>(
         return;
       }
 
-      const focusableElements = getFocusableElements(container);
-      if (focusableElements.length > 0) {
-        focusableElements[0].focus();
-      } else {
-        container.focus();
-      }
+      // 聚焦对话框容器本身（tabIndex=-1），避免打开时自动聚焦页眉中的关闭按钮
+      container.focus();
 
       const handleTabKey = (event: KeyboardEvent) => {
         if (event.key !== 'Tab') {
@@ -318,12 +314,14 @@ export const Dialog = forwardRef<HTMLDialogElement, DialogProps>(
     );
 
     const contentClasses = clsx(
+      'modal-content',
       styles.dialogContent,
       CONTENT_PLACEMENT_CLASSES[placement],
       {
         [styles.dialogContentReducedMotion]: effectiveDuration === 0,
         [styles.dialogContentVisible]: isVisible,
       },
+      showBackdrop === false && 'shadow-lg',
       contentClassName,
     );
 

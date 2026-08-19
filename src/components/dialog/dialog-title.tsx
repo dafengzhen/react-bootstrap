@@ -11,7 +11,7 @@ export const DialogTitle = forwardRef<HTMLElement, DialogTitleProps>(
     const { titleId } = useDialog();
     return (
       <Component
-        className={clsx(styles.dialogTitle, className)}
+        className={clsx('modal-title', styles.dialogTitle, className)}
         id={id || titleId}
         ref={ref}
         {...rest}

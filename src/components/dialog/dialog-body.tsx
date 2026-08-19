@@ -7,7 +7,11 @@ import styles from './dialog.module.css';
 
 export const DialogBody = forwardRef<HTMLDivElement, DialogBodyProps>(
   ({ children, className, ...rest }, ref) => (
-    <div className={clsx(styles.dialogBody, className)} ref={ref} {...rest}>
+    <div
+      className={clsx('modal-body overflow-y-auto', styles.dialogBody, className)}
+      ref={ref}
+      {...rest}
+    >
       {children}
     </div>
   ),

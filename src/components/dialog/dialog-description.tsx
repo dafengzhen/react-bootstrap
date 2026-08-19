@@ -11,7 +11,7 @@ export const DialogDescription = forwardRef<HTMLElement, DialogDescriptionProps>
     const { descriptionId } = useDialog();
     return (
       <Component
-        className={clsx(styles.dialogDescription, className)}
+        className={clsx('mb-0 mt-1', styles.dialogDescription, className)}
         id={id || descriptionId}
         ref={ref}
         {...rest}

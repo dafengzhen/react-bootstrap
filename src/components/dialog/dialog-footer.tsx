@@ -7,7 +7,7 @@ import styles from './dialog.module.css';
 
 export const DialogFooter = forwardRef<HTMLDivElement, DialogFooterProps>(
   ({ children, className, ...rest }, ref) => (
-    <div className={clsx(styles.dialogFooter, className)} ref={ref} {...rest}>
+    <div className={clsx('modal-footer', styles.dialogFooter, className)} ref={ref} {...rest}>
       {children}
     </div>
   ),

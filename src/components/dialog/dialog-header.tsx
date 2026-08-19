@@ -7,7 +7,11 @@ import styles from './dialog.module.css';
 
 export const DialogHeader = forwardRef<HTMLDivElement, DialogHeaderProps>(
   ({ children, className, ...rest }, ref) => (
-    <div className={clsx(styles.dialogHeader, className)} ref={ref} {...rest}>
+    <div
+      className={clsx('modal-header align-items-start', styles.dialogHeader, className)}
+      ref={ref}
+      {...rest}
+    >
       {children}
     </div>
   ),

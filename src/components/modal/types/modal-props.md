@@ -11,13 +11,18 @@ export interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>
   contentStyle?: CSSProperties;
   dialogClassName?: string;
   dialogStyle?: CSSProperties;
+  direction?: ModalDirection;
   duration?: number;
   fullscreen?: ModalFullscreen;
+  height?: number | string;
   isOpen?: boolean;
   keyboard?: boolean;
+  maxWidth?: number | string;
   onOpenChange?: (isOpen: boolean) => void;
+  placement?: ModalPlacement;
   scrollable?: boolean;
   size?: ModalSize;
   style?: CSSProperties;
+  width?: number | string;
 }
 ```

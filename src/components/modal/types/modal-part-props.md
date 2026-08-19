@@ -26,6 +26,12 @@ export interface ModalTitleProps extends HTMLAttributes<HTMLElement> {
   className?: string;
 }
 
+export interface ModalDescriptionProps extends HTMLAttributes<HTMLElement> {
+  as?: ElementType;
+  children?: ReactNode;
+  className?: string;
+}
+
 export interface ModalBodyProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
   className?: string;

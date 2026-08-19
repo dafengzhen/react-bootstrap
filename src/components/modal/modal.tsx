@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import {
   Children,
+  type CSSProperties,
   forwardRef,
   isValidElement,
   type MouseEvent,
@@ -14,7 +15,7 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 
-import type { ModalContextValue, ModalCssProperties, ModalProps } from './types';
+import type { ModalContextValue, ModalCssProperties, ModalPlacement, ModalProps } from './types';
 
 import { DEFAULT_DURATION, TRANSITION_END_BUFFER } from './constants';
 import { ModalContext } from './context';
@@ -23,7 +24,15 @@ import { ModalContent } from './modal-content';
 import { ModalDialog } from './modal-dialog';
 import styles from './modal.module.css';
 import { modalReducer } from './reducer';
-import { getFocusableElements, lockBodyScroll, unlockBodyScroll } from './utils';
+import { getFocusableElements, lockBodyScroll, toCssSize, unlockBodyScroll } from './utils';
+
+const PLACEMENT_ROOT_CLASSES: Partial<Record<ModalPlacement, string>> = {
+  bottom: styles.modalPlacementBottom,
+  center: styles.modalPlacementCenter,
+  left: styles.modalPlacementLeft,
+  right: styles.modalPlacementRight,
+  top: styles.modalPlacementTop,
+};
 
 export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
   (
@@ -39,19 +48,25 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
       contentStyle,
       dialogClassName,
       dialogStyle,
+      direction,
       duration = DEFAULT_DURATION,
       fullscreen = false,
+      height,
       isOpen = false,
       keyboard = true,
+      maxWidth,
       onOpenChange,
+      placement,
       scrollable = false,
       size,
       style,
+      width,
       ...restProps
     },
     ref,
   ) => {
     const titleId = useId();
+    const descriptionId = useId();
 
     const [state, dispatch] = useReducer(modalReducer, {
       mounted: isOpen,
@@ -66,6 +81,8 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
     const reducedMotion = useReducedMotion();
     const effectiveDuration = reducedMotion ? 0 : duration;
     const isVisible = state.status === 'opening' || state.status === 'opened';
+    const isPlacementMode = placement !== undefined;
+    const isDirectionMode = direction !== undefined;
 
     const handleClose = useCallback(() => {
       if (state.status === 'closed' || state.status === 'closing') {
@@ -82,24 +99,47 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
       dispatch({ type: 'ANIMATION_END' });
     }, []);
 
+    const sizingStyle = useMemo<CSSProperties>(
+      () => ({
+        ...(width == null ? {} : { width: toCssSize(width) }),
+        ...(height == null ? {} : { height: toCssSize(height) }),
+        ...(maxWidth == null ? {} : { maxWidth: toCssSize(maxWidth) }),
+      }),
+      [height, maxWidth, width],
+    );
+
     const contextValue = useMemo<ModalContextValue>(
       () => ({
         backdrop,
         close: handleClose,
         contentRef,
+        descriptionId,
+        direction,
         handleContentTransitionEnd,
+        placement,
+        sizingStyle,
         status: state.status,
         titleId,
       }),
-      [backdrop, handleClose, handleContentTransitionEnd, state.status, titleId],
+      [
+        backdrop,
+        descriptionId,
+        direction,
+        handleClose,
+        handleContentTransitionEnd,
+        placement,
+        sizingStyle,
+        state.status,
+        titleId,
+      ],
     );
 
     const baseStyle = useMemo<ModalCssProperties>(
       () => ({
         '--modal-duration': `${effectiveDuration}ms`,
-        display: 'block',
+        display: isPlacementMode ? 'flex' : 'block',
       }),
-      [effectiveDuration],
+      [effectiveDuration, isPlacementMode],
     );
 
     const mergedStyle = useMemo(() => ({ ...style, ...baseStyle }), [style, baseStyle]);
@@ -223,7 +263,6 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
         return;
       }
 
-      // 聚焦内容容器本身（tabIndex=-1），避免打开时自动聚焦页眉中的关闭按钮
       container.focus();
 
       const handleTabKey = (event: KeyboardEvent) => {
@@ -281,15 +320,23 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
       return null;
     }
 
-    const modalClasses = clsx('modal', styles.modal, className, {
-      [styles.modalReducedMotion]: effectiveDuration === 0,
-    });
+    const modalClasses = clsx(
+      'modal',
+      styles.modal,
+      isPlacementMode && styles.modalPlacement,
+      isPlacementMode && PLACEMENT_ROOT_CLASSES[placement ?? 'center'],
+      className,
+      {
+        [styles.modalReducedMotion]: effectiveDuration === 0,
+      },
+    );
 
     const ariaProps = ariaLabel ? { 'aria-label': ariaLabel } : { 'aria-labelledby': titleId };
 
     return createPortal(
       <ModalContext.Provider value={contextValue}>
         <dialog
+          aria-describedby={descriptionId}
           aria-modal="true"
           className={modalClasses}
           data-status={state.status}
@@ -317,9 +364,13 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
           )}
           {hasCustomFrame ? (
             children
+          ) : isPlacementMode ? (
+            <ModalContent className={contentClassName} style={contentStyle}>
+              {children}
+            </ModalContent>
           ) : (
             <ModalDialog
-              centered={centered}
+              centered={centered || isDirectionMode}
               className={dialogClassName}
               fullscreen={fullscreen}
               scrollable={scrollable}

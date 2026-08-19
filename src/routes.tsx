@@ -7,7 +7,6 @@ import ButtonGroupDoc from './components/button-group/button-group.doc';
 import ButtonDoc from './components/button/button.doc';
 import CardDoc from './components/card/card.doc';
 import CloseButtonDoc from './components/close-button/close-button.doc';
-import DialogDoc from './components/dialog/dialog.doc';
 import ListGroupDoc from './components/list-group/list-group.doc';
 import ModalDoc from './components/modal/modal.doc';
 import PaginationDoc from './components/pagination/pagination.doc';
@@ -65,19 +64,10 @@ const docsConfig: DocConfig[] = [
   },
   {
     description:
-      'Dialog component that renders content in a modal layer above the page, supporting multiple placements, focus trapping, scroll locking and transition animations.',
-    element: <DialogDoc />,
-    name: 'Dialog',
-    order: 6,
-    path: '/components/dialog',
-    tags: ['Basic', 'Dialog'],
-  },
-  {
-    description:
-      'Modal component that renders content in a dialog layer above the page, supporting sizes, fullscreen and centered/scrollable layouts, static backdrops, focus trapping and transition animations.',
+      'Modal component that renders content in a dialog layer above the page, supporting sizes, fullscreen, centered/scrollable layouts, placements, custom sizing, static backdrops, focus trapping and transition animations.',
     element: <ModalDoc />,
     name: 'Modal',
-    order: 7,
+    order: 6,
     path: '/components/modal',
     tags: ['Basic', 'Dialog'],
   },

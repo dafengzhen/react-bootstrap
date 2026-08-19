@@ -1,7 +1,9 @@
 :root {
   --modal-backdrop-bg: rgba(0, 0, 0, 0.5);
+  --modal-description-color: #64748b;
   --modal-duration: 300ms;
   --modal-easing: cubic-bezier(0.22, 1, 0.36, 1);
+  --modal-slide-offset: 40px;
 }
 
 .modal {
@@ -52,6 +54,46 @@
   background: transparent;
 }
 
+.modalPlacement {
+  opacity: 0;
+  transition: opacity var(--modal-duration, 300ms)
+    var(--modal-easing, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+.modalPlacement[data-status='opening'],
+.modalPlacement[data-status='opened'] {
+  opacity: 1;
+}
+
+.modalPlacement[data-status='closing'] {
+  opacity: 0;
+}
+
+.modalPlacementCenter {
+  align-items: center;
+  justify-content: center;
+}
+
+.modalPlacementTop {
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.modalPlacementBottom {
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modalPlacementLeft {
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.modalPlacementRight {
+  align-items: center;
+  justify-content: flex-end;
+}
+
 .modalContent {
   --modal-closed-transform: translate3d(0, -32px, 0) scale(0.98);
   --modal-open-transform: translate3d(0, 0, 0) scale(1);
@@ -75,30 +117,104 @@
   transform: var(--modal-closed-transform);
 }
 
-.modalBody::-webkit-scrollbar {
+.modalContentPlacement {
+  width: 90%;
+  max-width: 420px;
+  height: auto;
+  max-height: 90vh;
+  margin: 1rem;
+  overflow-y: auto;
+}
+
+.modalContentPlacementCenter {
+  --modal-closed-transform: scale(0.92);
+  --modal-open-transform: scale(1);
+}
+
+.modalContentPlacementTop {
+  --modal-closed-transform: translateY(calc(-1 * var(--modal-slide-offset, 40px)));
+  --modal-open-transform: translateY(0);
+}
+
+.modalContentPlacementBottom {
+  --modal-closed-transform: translateY(var(--modal-slide-offset, 40px));
+  --modal-open-transform: translateY(0);
+}
+
+.modalContentPlacementLeft {
+  --modal-closed-transform: translateX(calc(-1 * var(--modal-slide-offset, 40px)));
+  --modal-open-transform: translateX(0);
+}
+
+.modalContentPlacementRight {
+  --modal-closed-transform: translateX(var(--modal-slide-offset, 40px));
+  --modal-open-transform: translateX(0);
+}
+
+.modalContentDirectionCenter {
+  --modal-closed-transform: scale(0.92);
+  --modal-open-transform: scale(1);
+}
+
+.modalContentDirectionTop {
+  --modal-closed-transform: translateY(calc(-1 * var(--modal-slide-offset, 40px)));
+  --modal-open-transform: translateY(0);
+}
+
+.modalContentDirectionBottom {
+  --modal-closed-transform: translateY(var(--modal-slide-offset, 40px));
+  --modal-open-transform: translateY(0);
+}
+
+.modalContentDirectionLeft {
+  --modal-closed-transform: translateX(calc(-1 * var(--modal-slide-offset, 40px)));
+  --modal-open-transform: translateX(0);
+}
+
+.modalContentDirectionRight {
+  --modal-closed-transform: translateX(var(--modal-slide-offset, 40px));
+  --modal-open-transform: translateX(0);
+}
+
+.modalDescription {
+  color: var(--modal-description-color, #64748b);
+  font-size: 0.95rem;
+}
+
+.modalBody {
+  min-height: 0;
+}
+
+.modalBody::-webkit-scrollbar,
+.modalContentPlacement::-webkit-scrollbar {
   width: 4px;
 }
 
-.modalBody::-webkit-scrollbar-track {
+.modalBody::-webkit-scrollbar-track,
+.modalContentPlacement::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.modalBody::-webkit-scrollbar-thumb {
+.modalBody::-webkit-scrollbar-thumb,
+.modalContentPlacement::-webkit-scrollbar-thumb {
   background: #d1d5db;
   border-radius: 2px;
 }
 
-.modalBody::-webkit-scrollbar-thumb:hover {
+.modalBody::-webkit-scrollbar-thumb:hover,
+.modalContentPlacement::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .modalPlacement,
   .modalBackdrop,
   .modalContent {
     transition: none !important;
   }
 }
 
+.modalReducedMotion,
 .modalReducedMotion .modalBackdrop,
 .modalReducedMotion .modalContent {
   transition: none !important;
@@ -107,6 +223,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --modal-backdrop-bg: rgba(0, 0, 0, 0.7);
+    --modal-description-color: #94a3b8;
   }
 
   .modal {
@@ -121,11 +238,13 @@
     filter: var(--bs-btn-close-white-filter);
   }
 
-  .modalBody::-webkit-scrollbar-thumb {
+  .modalBody::-webkit-scrollbar-thumb,
+  .modalContentPlacement::-webkit-scrollbar-thumb {
     background: #475569;
   }
 
-  .modalBody::-webkit-scrollbar-thumb:hover {
+  .modalBody::-webkit-scrollbar-thumb:hover,
+  .modalContentPlacement::-webkit-scrollbar-thumb:hover {
     background: #64748b;
   }
 }

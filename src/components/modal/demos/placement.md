@@ -18,12 +18,11 @@
     </Button>
   </div>
 
-  <Dialog isOpen={placementOpen} onOpenChange={setPlacementOpen} placement={placement}>
-    <DialogHeader>
-      <DialogTitle>位置演示</DialogTitle>
-      <DialogClose />
-    </DialogHeader>
-    <DialogBody>当前弹出位置：{placement}</DialogBody>
-  </Dialog>
+  <Modal isOpen={placementOpen} onOpenChange={setPlacementOpen} placement={placement}>
+    <ModalHeader closeButton>
+      <ModalTitle>位置演示</ModalTitle>
+    </ModalHeader>
+    <ModalBody>当前弹出位置：{placement}</ModalBody>
+  </Modal>
 </>
 ```

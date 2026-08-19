@@ -1,5 +1,12 @@
 import { FOCUSABLE_SELECTOR } from './constants';
 
+export const toCssSize = (value?: number | string) => {
+  if (value == null) {
+    return undefined;
+  }
+  return typeof value === 'number' ? `${value}px` : value;
+};
+
 export const getFocusableElements = (container: HTMLElement) =>
   container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
 

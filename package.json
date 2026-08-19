@@ -61,10 +61,6 @@
       "import": "./dist/components/close-button/index.js",
       "types": "./dist/components/close-button/index.d.ts"
     },
-    "./dialog": {
-      "import": "./dist/components/dialog/index.js",
-      "types": "./dist/components/dialog/index.d.ts"
-    },
     "./list-group": {
       "import": "./dist/components/list-group/index.js",
       "types": "./dist/components/list-group/index.d.ts"
@@ -90,13 +86,9 @@
       "types": "./dist/components/tabs/index.d.ts"
     },
     "./button/style": "./dist/components/button/button.css",
-    "./dialog/style": "./dist/components/dialog/dialog.css",
     "./modal/style": "./dist/components/modal/modal.css",
     "./button/cssmodule": {
       "import": "./dist/components/button/button.module.css.js"
-    },
-    "./dialog/cssmodule": {
-      "import": "./dist/components/dialog/dialog.module.css.js"
     },
     "./modal/cssmodule": {
       "import": "./dist/components/modal/modal.module.css.js"

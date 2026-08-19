@@ -51,29 +51,6 @@ export type {
 export { CloseButton } from './components/close-button';
 export type { CloseButtonProps, CloseButtonVariant } from './components/close-button';
 
-export {
-  Dialog,
-  DialogBody,
-  DialogClose,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  useDialog,
-} from './components/dialog';
-export type {
-  DialogAnimationStatus,
-  DialogBodyProps,
-  DialogCloseProps,
-  DialogContextValue,
-  DialogDescriptionProps,
-  DialogFooterProps,
-  DialogHeaderProps,
-  DialogPlacement,
-  DialogProps,
-  DialogTitleProps,
-} from './components/dialog';
-
 export { ListGroup, ListGroupItem } from './components/list-group';
 export type {
   ListGroupHorizontal,
@@ -87,6 +64,7 @@ export {
   ModalBody,
   ModalClose,
   ModalContent,
+  ModalDescription,
   ModalDialog,
   ModalFooter,
   ModalHeader,
@@ -100,10 +78,13 @@ export type {
   ModalCloseProps,
   ModalContentProps,
   ModalContextValue,
+  ModalDescriptionProps,
   ModalDialogProps,
+  ModalDirection,
   ModalFooterProps,
   ModalFullscreen,
   ModalHeaderProps,
+  ModalPlacement,
   ModalProps,
   ModalSize,
   ModalTitleProps,

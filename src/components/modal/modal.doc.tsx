@@ -9,28 +9,38 @@ import {
 import { Button } from '../button';
 import basicCode from './demos/basic.md?raw';
 import centeredCode from './demos/centered.md?raw';
+import customSizeCode from './demos/custom-size.md?raw';
 import customStructureCode from './demos/custom-structure.md?raw';
+import descriptionCode from './demos/description.md?raw';
+import directionCode from './demos/direction.md?raw';
 import fullscreenCode from './demos/fullscreen.md?raw';
 import interactiveCode from './demos/interactive.md?raw';
 import optionsCode from './demos/options.md?raw';
+import placementCode from './demos/placement.md?raw';
 import scrollableCode from './demos/scrollable.md?raw';
 import sizesCode from './demos/sizes.md?raw';
 import {
   Modal,
   ModalBody,
+  ModalClose,
   ModalContent,
+  ModalDescription,
   ModalDialog,
+  type ModalDirection,
   ModalFooter,
   type ModalFullscreen,
   ModalHeader,
+  type ModalPlacement,
   type ModalSize,
   ModalTitle,
 } from './index';
 import modalAnimationStatusTypeCode from './types/modal-animation-status.md?raw';
 import modalBackdropTypeCode from './types/modal-backdrop.md?raw';
 import modalContextValueTypeCode from './types/modal-context-value.md?raw';
+import modalDirectionTypeCode from './types/modal-direction.md?raw';
 import modalFullscreenTypeCode from './types/modal-fullscreen.md?raw';
 import modalPartPropsTypeCode from './types/modal-part-props.md?raw';
+import modalPlacementTypeCode from './types/modal-placement.md?raw';
 import modalPropsTypeCode from './types/modal-props.md?raw';
 import modalSizeTypeCode from './types/modal-size.md?raw';
 
@@ -51,7 +61,7 @@ const modalProps: ApiProp[] = [
   {
     defaultValue: 'true',
     description:
-      '背景遮罩行为，为 `false` 时不渲染遮罩且内容区自动添加 `shadow-lg` 阴影，为 `"static"` 时点击遮罩不会关闭',
+      '背景遮罩行为，为 `false` 时不渲染遮罩且内容区自动添加 `shadow-lg` 阴影（点击内容以外区域仍可关闭），为 `"static"` 时点击遮罩不会关闭',
     name: 'backdrop',
     type: 'ModalBackdrop',
   },
@@ -60,6 +70,38 @@ const modalProps: ApiProp[] = [
     description: '是否允许通过 Esc 键关闭模态框',
     name: 'keyboard',
     type: 'boolean',
+  },
+  {
+    defaultValue: '-',
+    description:
+      '弹出位置，指定后使用弹出式布局（居中、顶部、底部、左侧、右侧），不指定时使用标准 Bootstrap 布局，`size`、`fullscreen`、`centered`、`scrollable` 等布局属性仅在标准布局下生效',
+    name: 'placement',
+    type: 'ModalPlacement',
+  },
+  {
+    defaultValue: '-',
+    description:
+      '入场动画方向，指定后内容始终在视口中部展示，`left`/`right`/`top`/`bottom` 分别从对应方向滑入一段距离，`center` 为居中缩放动画；未指定时使用默认入场动画与默认布局（是否垂直居中由 `centered` 控制）；指定 `placement` 时由 `placement` 控制布局与动画',
+    name: 'direction',
+    type: 'ModalDirection',
+  },
+  {
+    defaultValue: '-',
+    description: '内容区宽度，数字按像素处理',
+    name: 'width',
+    type: 'number | string',
+  },
+  {
+    defaultValue: '-',
+    description: '内容区高度，数字按像素处理，内容超出高度时正文区域出现滚动条',
+    name: 'height',
+    type: 'number | string',
+  },
+  {
+    defaultValue: '-',
+    description: '内容区最大宽度，数字按像素处理',
+    name: 'maxWidth',
+    type: 'number | string',
   },
   {
     defaultValue: '-',
@@ -111,7 +153,7 @@ const modalProps: ApiProp[] = [
   },
   {
     defaultValue: '-',
-    description: '对话框容器（modal-dialog）自定义类名',
+    description: '对话框容器（modal-dialog）自定义类名，仅标准布局下生效',
     name: 'dialogClassName',
     type: 'string',
   },
@@ -129,7 +171,7 @@ const modalProps: ApiProp[] = [
   },
   {
     defaultValue: '-',
-    description: '对话框容器自定义内联样式',
+    description: '对话框容器自定义内联样式，仅标准布局下生效',
     name: 'dialogStyle',
     type: 'CSSProperties',
   },
@@ -171,6 +213,16 @@ const modalTypeDefinitions: ApiTypeDefinition[] = [
     name: 'ModalBackdrop',
   },
   {
+    code: modalPlacementTypeCode,
+    description: '模态框弹出位置类型',
+    name: 'ModalPlacement',
+  },
+  {
+    code: modalDirectionTypeCode,
+    description: '模态框入场动画方向类型',
+    name: 'ModalDirection',
+  },
+  {
     code: modalAnimationStatusTypeCode,
     description: '模态框动画状态类型',
     name: 'ModalAnimationStatus',
@@ -182,13 +234,14 @@ const modalTypeDefinitions: ApiTypeDefinition[] = [
   },
   {
     code: modalContextValueTypeCode,
-    description: '模态框上下文，供 ModalContent、ModalTitle、ModalClose 等子组件消费',
+    description:
+      '模态框上下文，供 ModalContent、ModalTitle、ModalDescription、ModalClose 等子组件消费',
     name: 'ModalContextValue',
   },
   {
     code: modalPartPropsTypeCode,
     description:
-      '模态框子组件属性接口（ModalDialog、ModalContent、ModalHeader、ModalTitle、ModalBody、ModalFooter、ModalClose）',
+      '模态框子组件属性接口（ModalDialog、ModalContent、ModalHeader、ModalTitle、ModalDescription、ModalBody、ModalFooter、ModalClose）',
     name: 'ModalPartProps',
   },
 ];
@@ -197,12 +250,18 @@ export const ModalDoc = () => {
   const [centeredOpen, setCenteredOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [customOpen, setCustomOpen] = useState(false);
+  const [customSizeOpen, setCustomSizeOpen] = useState(false);
   const [deleted, setDeleted] = useState(false);
+  const [descriptionOpen, setDescriptionOpen] = useState(false);
+  const [direction, setDirection] = useState<ModalDirection>('center');
+  const [directionOpen, setDirectionOpen] = useState(false);
   const [fullscreen, setFullscreen] = useState<ModalFullscreen>(true);
   const [fullscreenOpen, setFullscreenOpen] = useState(false);
   const [noBackdropOpen, setNoBackdropOpen] = useState(false);
   const [noKeyboardOpen, setNoKeyboardOpen] = useState(false);
   const [open, setOpen] = useState(false);
+  const [placement, setPlacement] = useState<ModalPlacement>('center');
+  const [placementOpen, setPlacementOpen] = useState(false);
   const [scrollableOpen, setScrollableOpen] = useState(false);
   const [size, setSize] = useState<ModalSize>('lg');
   const [sizeOpen, setSizeOpen] = useState(false);
@@ -216,6 +275,16 @@ export const ModalDoc = () => {
   const handleOpenFullscreen = (value: ModalFullscreen) => {
     setFullscreen(value);
     setFullscreenOpen(true);
+  };
+
+  const handleOpenDirection = (value: ModalDirection) => {
+    setDirection(value);
+    setDirectionOpen(true);
+  };
+
+  const handleOpenPlacement = (value: ModalPlacement) => {
+    setPlacement(value);
+    setPlacementOpen(true);
   };
 
   const handleOpenSize = (value: ModalSize) => {
@@ -243,6 +312,32 @@ export const ModalDoc = () => {
             </Button>
             <Button onClick={() => setOpen(false)} variant="primary">
               保存更改
+            </Button>
+          </ModalFooter>
+        </Modal>
+      </DemoSection>
+
+      <DemoSection code={descriptionCode} title="标题与描述">
+        <Button onClick={() => setDescriptionOpen(true)} variant="primary">
+          打开带描述的模态框
+        </Button>
+        <Modal isOpen={descriptionOpen} onOpenChange={setDescriptionOpen}>
+          <ModalHeader>
+            <div>
+              <ModalTitle>模态框标题</ModalTitle>
+              <ModalDescription>支持标题、描述、正文与页脚的自由组合</ModalDescription>
+            </div>
+            <ModalClose />
+          </ModalHeader>
+          <ModalBody>
+            通过 ModalDescription 为模态框补充说明文字，自动与根元素建立无障碍关联。
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={() => setDescriptionOpen(false)} variant="secondary">
+              取消
+            </Button>
+            <Button onClick={() => setDescriptionOpen(false)} variant="primary">
+              确定
             </Button>
           </ModalFooter>
         </Modal>
@@ -345,6 +440,87 @@ export const ModalDoc = () => {
         </Modal>
       </DemoSection>
 
+      <DemoSection code={directionCode} title="入场方向">
+        <div className="d-flex flex-wrap gap-2">
+          <Button onClick={() => handleOpenDirection('center')} variant="outline-primary">
+            居中缩放
+          </Button>
+          <Button onClick={() => handleOpenDirection('top')} variant="outline-primary">
+            顶部滑入
+          </Button>
+          <Button onClick={() => handleOpenDirection('bottom')} variant="outline-primary">
+            底部滑入
+          </Button>
+          <Button onClick={() => handleOpenDirection('left')} variant="outline-primary">
+            左侧滑入
+          </Button>
+          <Button onClick={() => handleOpenDirection('right')} variant="outline-primary">
+            右侧滑入
+          </Button>
+        </div>
+        <Modal direction={direction} isOpen={directionOpen} onOpenChange={setDirectionOpen}>
+          <ModalHeader closeButton>
+            <ModalTitle>入场方向</ModalTitle>
+          </ModalHeader>
+          <ModalBody>
+            当前入场方向：{direction}，内容始终在视口中部展示，仅动画滑入方向不同。
+          </ModalBody>
+        </Modal>
+      </DemoSection>
+
+      <DemoSection code={placementCode} title="弹出位置">
+        <div className="d-flex flex-wrap gap-2">
+          <Button onClick={() => handleOpenPlacement('center')} variant="outline-primary">
+            居中
+          </Button>
+          <Button onClick={() => handleOpenPlacement('top')} variant="outline-primary">
+            顶部
+          </Button>
+          <Button onClick={() => handleOpenPlacement('bottom')} variant="outline-primary">
+            底部
+          </Button>
+          <Button onClick={() => handleOpenPlacement('left')} variant="outline-primary">
+            左侧
+          </Button>
+          <Button onClick={() => handleOpenPlacement('right')} variant="outline-primary">
+            右侧
+          </Button>
+        </div>
+        <Modal isOpen={placementOpen} onOpenChange={setPlacementOpen} placement={placement}>
+          <ModalHeader closeButton>
+            <ModalTitle>位置演示</ModalTitle>
+          </ModalHeader>
+          <ModalBody>当前弹出位置：{placement}</ModalBody>
+        </Modal>
+      </DemoSection>
+
+      <DemoSection code={customSizeCode} title="自定义尺寸">
+        <Button onClick={() => setCustomSizeOpen(true)} variant="primary">
+          打开自定义尺寸模态框
+        </Button>
+        <Modal
+          height={320}
+          isOpen={customSizeOpen}
+          maxWidth="90vw"
+          onOpenChange={setCustomSizeOpen}
+          placement="center"
+          width={560}
+        >
+          <ModalHeader closeButton>
+            <ModalTitle>自定义尺寸</ModalTitle>
+          </ModalHeader>
+          <ModalBody>
+            通过 width、height 与 maxWidth
+            控制模态框尺寸，数字会自动转换为像素。内容超出高度时正文区域会出现滚动条。
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={() => setCustomSizeOpen(false)} variant="primary">
+              知道了
+            </Button>
+          </ModalFooter>
+        </Modal>
+      </DemoSection>
+
       <DemoSection code={optionsCode} title="遮罩与键盘">
         <div className="d-flex flex-wrap gap-2">
           <Button onClick={() => setStaticOpen(true)} variant="outline-secondary">
@@ -431,7 +607,7 @@ export const ModalDoc = () => {
 
   return (
     <DocTemplate
-      componentDescription="基于 React Portal 的模态框组件，支持尺寸、全屏、垂直居中与滚动布局，内置焦点管理、背景滚动锁定与自定义过渡动画，可通过页眉、正文、页脚等子组件自由组合内容"
+      componentDescription="基于 React Portal 的模态框组件，支持尺寸、全屏、垂直居中、滚动布局与多种弹出位置，内置焦点管理、背景滚动锁定与自定义过渡动画，可通过页眉、正文、页脚等子组件自由组合内容"
       componentName="Modal"
       componentTags={['基础', '对话框']}
       demoContent={demoContent}

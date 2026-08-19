@@ -39,7 +39,11 @@ export interface ModalContextValue {
   backdrop: ModalBackdrop;
   close: () => void;
   contentRef: RefObject<HTMLDivElement | null>;
+  descriptionId: string;
+  direction?: ModalDirection;
   handleContentTransitionEnd: (event: TransitionEvent<HTMLDivElement>) => void;
+  placement?: ModalPlacement;
+  sizingStyle: CSSProperties;
   status: ModalAnimationStatus;
   titleId: string;
 }
@@ -47,6 +51,12 @@ export interface ModalContextValue {
 export type ModalCssProperties = {
   '--modal-duration'?: string;
 } & CSSProperties;
+
+export interface ModalDescriptionProps extends HTMLAttributes<HTMLElement> {
+  as?: ElementType;
+  children?: ReactNode;
+  className?: string;
+}
 
 export interface ModalDialogProps extends HTMLAttributes<HTMLDivElement> {
   centered?: boolean;
@@ -56,6 +66,8 @@ export interface ModalDialogProps extends HTMLAttributes<HTMLDivElement> {
   scrollable?: boolean;
   size?: ModalSize;
 }
+
+export type ModalDirection = 'bottom' | 'center' | 'left' | 'right' | 'top';
 
 export interface ModalFooterProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
@@ -71,6 +83,8 @@ export interface ModalHeaderProps extends HTMLAttributes<HTMLDivElement> {
   closeLabel?: string;
 }
 
+export type ModalPlacement = 'bottom' | 'center' | 'left' | 'right' | 'top';
+
 export interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'children'> {
   ariaLabel?: string;
   backdrop?: ModalBackdrop;
@@ -83,14 +97,19 @@ export interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>
   contentStyle?: CSSProperties;
   dialogClassName?: string;
   dialogStyle?: CSSProperties;
+  direction?: ModalDirection;
   duration?: number;
   fullscreen?: ModalFullscreen;
+  height?: number | string;
   isOpen?: boolean;
   keyboard?: boolean;
+  maxWidth?: number | string;
   onOpenChange?: (isOpen: boolean) => void;
+  placement?: ModalPlacement;
   scrollable?: boolean;
   size?: ModalSize;
   style?: CSSProperties;
+  width?: number | string;
 }
 
 export type ModalSize = 'lg' | 'sm' | 'xl';

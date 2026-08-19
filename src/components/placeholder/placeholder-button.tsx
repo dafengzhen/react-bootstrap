@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { forwardRef } from 'react';
+import { type ForwardedRef, forwardRef } from 'react';
 
 import type { PlaceholderButtonProps } from './types';
 
@@ -16,7 +16,7 @@ export const PlaceholderButton = forwardRef<HTMLButtonElement, PlaceholderButton
         className,
       )}
       disabled
-      ref={ref}
+      ref={ref as unknown as ForwardedRef<HTMLElement>}
       tabIndex={-1}
       variant={variant}
       {...rest}

@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 const [clickCount, setClickCount] = useState(0);
 const [loading, setLoading] = useState(false);
+const [toggled, setToggled] = useState(false);
 
 const handleLoadingClick = () => {
   setLoading(true);
@@ -33,6 +34,13 @@ const handleCountClick = () => {
       点击计数: {clickCount}
     </Button>
     <span className="text-muted small">每次点击增加计数</span>
+  </div>
+
+  <div className="d-flex flex-wrap gap-2 align-items-center">
+    <Button active={toggled} onClick={() => setToggled((prev) => !prev)} toggle variant="info">
+      受控切换: {toggled ? '已激活' : '未激活'}
+    </Button>
+    <span className="text-muted small">active 受控的切换按钮</span>
   </div>
 </div>;
 ```

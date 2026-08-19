@@ -1,12 +1,20 @@
 ```typescript
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: ButtonVariant;
-  size?: ButtonSize;
+  active?: boolean;
+  as?: ElementType;
   block?: boolean;
-  disabled?: boolean;
-  loading?: boolean;
-  loadingText?: string;
   children?: ReactNode;
   className?: string;
+  defaultActive?: boolean;
+  disabled?: boolean;
+  download?: string;
+  href?: string;
+  loading?: boolean;
+  loadingText?: string;
+  rel?: string;
+  size?: ButtonSize;
+  target?: string;
+  toggle?: boolean;
+  variant?: ButtonVariant;
 }
 ```

@@ -13,6 +13,7 @@ import ModalDoc from './components/modal/modal.doc';
 import PaginationDoc from './components/pagination/pagination.doc';
 import PlaceholderDoc from './components/placeholder/placeholder.doc';
 import SpinnerDoc from './components/spinner/spinner.doc';
+import TabsDoc from './components/tabs/tabs.doc';
 import { type DocConfig, DocsHome, DocsLayout } from './internal/docs';
 
 const GITHUB_URL = 'https://github.com/dafengzhen/react-bootstrap';
@@ -133,6 +134,15 @@ const docsConfig: DocConfig[] = [
     order: 13,
     path: '/components/spinner',
     tags: ['Basic', 'Feedback'],
+  },
+  {
+    description:
+      'Tabs component that builds navigation and tabbed panels, supporting tabs/pills/underline variants, fill and justify layouts, vertical arrangement, active/disabled states and fade transitions.',
+    element: <TabsDoc />,
+    name: 'Tabs',
+    order: 14,
+    path: '/components/tabs',
+    tags: ['Basic', 'Navigation'],
   },
 ];
 

@@ -134,3 +134,31 @@ export type {
   SpinnerSize,
   SpinnerVariant,
 } from './components/spinner';
+
+export {
+  Nav,
+  NavItem,
+  NavLink,
+  Tab,
+  TabContainer,
+  TabContent,
+  TabPane,
+  Tabs,
+  useNav,
+  useTabs,
+} from './components/tabs';
+export type {
+  EventKey,
+  NavBreakpoint,
+  NavContextValue,
+  NavItemProps,
+  NavLinkProps,
+  NavProps,
+  NavVariant,
+  TabContainerProps,
+  TabContentProps,
+  TabPaneProps,
+  TabProps,
+  TabsContextValue,
+  TabsProps,
+} from './components/tabs';

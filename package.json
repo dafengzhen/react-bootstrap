@@ -85,6 +85,10 @@
       "import": "./dist/components/spinner/index.js",
       "types": "./dist/components/spinner/index.d.ts"
     },
+    "./tabs": {
+      "import": "./dist/components/tabs/index.js",
+      "types": "./dist/components/tabs/index.d.ts"
+    },
     "./button/style": "./dist/components/button/button.css",
     "./dialog/style": "./dist/components/dialog/dialog.css",
     "./modal/style": "./dist/components/modal/modal.css",

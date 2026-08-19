@@ -1,6 +1,11 @@
 import { useState } from 'react';
 
-import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
+import {
+  type ApiProp,
+  type ApiTypeDefinition,
+  DemoSection,
+  DocTemplate,
+} from '../../internal/doc-template';
 import activeCode from './demos/active.md?raw';
 import badgesCode from './demos/badges.md?raw';
 import basicCode from './demos/basic.md?raw';
@@ -23,84 +28,94 @@ type TabKey = 'home' | 'messages' | 'profile' | 'settings';
 
 const listGroupProps: ApiProp[] = [
   {
+    component: 'ListGroup',
     defaultValue: "'ul'",
-    description: 'ListGroup：容器渲染的元素标签，可选 `ol`、`div` 等',
+    description: '容器渲染的元素标签，可选 `ol`、`div` 等',
     name: 'as',
     type: 'ElementType',
   },
   {
+    component: 'ListGroup',
     defaultValue: 'false',
-    description: 'ListGroup：去除外边框与圆角，渲染为 `list-group-flush` 类',
+    description: '去除外边框与圆角，渲染为 `list-group-flush` 类',
     name: 'flush',
     type: 'boolean',
   },
   {
+    component: 'ListGroup',
     defaultValue: 'false',
     description:
-      'ListGroup：水平布局，`true` 始终水平，或传入断点 `sm`、`md`、`lg`、`xl`、`xxl` 从该断点起水平',
+      '水平布局，`true` 始终水平，或传入断点 `sm`、`md`、`lg`、`xl`、`xxl` 从该断点起水平',
     name: 'horizontal',
     type: 'ListGroupHorizontal | boolean',
   },
   {
+    component: 'ListGroup',
     defaultValue: 'false',
-    description: 'ListGroup：编号列表，渲染为 `list-group-numbered` 类（配合 `as="ol"` 使用）',
+    description: '编号列表，渲染为 `list-group-numbered` 类（配合 `as="ol"` 使用）',
     name: 'numbered',
     type: 'boolean',
   },
   {
+    component: 'ListGroupItem',
     defaultValue: 'false',
-    description:
-      'ListGroupItem：可交互样式，渲染为 `list-group-item-action` 类，未设置 `href` 时渲染为 `button`',
+    description: '可交互样式，渲染为 `list-group-item-action` 类，未设置 `href` 时渲染为 `button`',
     name: 'action',
     type: 'boolean',
   },
   {
+    component: 'ListGroupItem',
     defaultValue: 'false',
-    description: 'ListGroupItem：激活状态，渲染 `active` 类并设置 `aria-current="true"`',
+    description: '激活状态，渲染 `active` 类并设置 `aria-current="true"`',
     name: 'active',
     type: 'boolean',
   },
   {
+    component: 'ListGroupItem',
     defaultValue: "'li'",
     description:
-      'ListGroupItem：渲染的元素标签，默认 `li`；设置 `href` 时默认为 `a`，设置 `action` 时默认为 `button`',
+      '渲染的元素标签，默认 `li`；设置 `href` 时默认为 `a`，设置 `action` 时默认为 `button`',
     name: 'as',
     type: 'ElementType',
   },
   {
+    component: 'ListGroupItem',
     defaultValue: 'false',
     description:
-      'ListGroupItem：禁用状态，渲染 `disabled` 类并设置 `aria-disabled="true"`，渲染为 `button` 时同时设置原生 `disabled`',
+      '禁用状态，渲染 `disabled` 类并设置 `aria-disabled="true"`，渲染为 `button` 时同时设置原生 `disabled`',
     name: 'disabled',
     type: 'boolean',
   },
   {
+    component: 'ListGroupItem',
     defaultValue: '-',
-    description: 'ListGroupItem：链接地址，设置后渲染为 `a` 标签',
+    description: '链接地址，设置后渲染为 `a` 标签',
     name: 'href',
     type: 'string',
   },
   {
+    component: 'ListGroupItem',
     defaultValue: "'button'",
-    description: 'ListGroupItem：渲染为 `button` 时的原生 type，默认为 button 以避免意外提交表单',
+    description: '渲染为 `button` 时的原生 type，默认为 button 以避免意外提交表单',
     name: 'type',
     type: "'button' | 'reset' | 'submit'",
   },
   {
+    component: 'ListGroupItem',
     defaultValue: '-',
-    description: 'ListGroupItem：情景颜色变体，渲染为 `list-group-item-*` 类',
+    description: '情景颜色变体，渲染为 `list-group-item-*` 类',
     name: 'variant',
     type: 'ListGroupItemVariant',
   },
   {
     defaultValue: '-',
-    description: '所有组件：列表内容',
+    description: '列表内容',
     name: 'children',
     type: 'ReactNode',
   },
   {
     defaultValue: '-',
-    description: '所有组件：自定义类名',
+    description: '自定义类名',
     name: 'className',
     type: 'string',
   },

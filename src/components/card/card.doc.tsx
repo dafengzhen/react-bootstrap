@@ -1,5 +1,10 @@
+import {
+  type ApiProp,
+  type ApiTypeDefinition,
+  DemoSection,
+  DocTemplate,
+} from '../../internal/doc-template';
 import { Button } from '../button';
-import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import { ListGroup, ListGroupItem } from '../list-group';
 import basicCode from './demos/basic.md?raw';
 import bodyCode from './demos/body.md?raw';
@@ -40,52 +45,57 @@ import cardTextColorTypeCode from './types/card-text-color.md?raw';
 
 const cardProps: ApiProp[] = [
   {
+    component: 'Card',
     defaultValue: '-',
-    description: 'Card：设置卡片背景色，渲染为 `bg-*` 类',
+    description: '设置卡片背景色，渲染为 `bg-*` 类',
     name: 'bg',
     type: 'CardColor',
   },
   {
+    component: 'Card',
     defaultValue: 'false',
-    description: 'Card：为 `true` 时自动将子元素包裹在 `CardBody` 中',
+    description: '为 `true` 时自动将子元素包裹在 `CardBody` 中',
     name: 'body',
     type: 'boolean',
   },
   {
+    component: 'Card',
     defaultValue: '-',
-    description: 'Card：设置卡片边框颜色，渲染为 `border-*` 类',
+    description: '设置卡片边框颜色，渲染为 `border-*` 类',
     name: 'border',
     type: 'CardColor',
   },
   {
+    component: 'Card',
     defaultValue: '-',
-    description: 'Card：设置卡片文字颜色，渲染为 `text-*` 类',
+    description: '设置卡片文字颜色，渲染为 `text-*` 类',
     name: 'text',
     type: 'CardTextColor',
   },
   {
+    component: 'CardImg',
     defaultValue: "'card-img'",
-    description:
-      'CardImg：图片位置，`top` 置于卡片顶部、`bottom` 置于卡片底部，不设置则使用 `card-img` 类',
+    description: '图片位置，`top` 置于卡片顶部、`bottom` 置于卡片底部，不设置则使用 `card-img` 类',
     name: 'variant',
     type: 'CardImgVariant',
   },
   {
+    component: 'CardLink',
     defaultValue: "'#'",
-    description: 'CardLink：链接地址',
+    description: '链接地址',
     name: 'href',
     type: 'string',
   },
   {
     defaultValue: '-',
     description:
-      '所有组件：卡片内容，CardTitle 渲染为 `div.card-title.h5`，CardSubtitle 渲染为 `div.card-subtitle.h6`',
+      '卡片内容，CardTitle 渲染为 `div.card-title.h5`，CardSubtitle 渲染为 `div.card-subtitle.h6`',
     name: 'children',
     type: 'ReactNode',
   },
   {
     defaultValue: '-',
-    description: '所有组件：自定义类名',
+    description: '自定义类名',
     name: 'className',
     type: 'string',
   },

@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
+import {
+  type ApiProp,
+  type ApiTypeDefinition,
+  DemoSection,
+  DocTemplate,
+} from '../../internal/doc-template';
 import { Button } from './button';
 import basicVariantsCode from './demos/basic-variants.md?raw';
 import blockCode from './demos/block.md?raw';

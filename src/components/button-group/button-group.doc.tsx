@@ -1,8 +1,13 @@
 import { type ChangeEvent, useState } from 'react';
 
+import {
+  type ApiProp,
+  type ApiTypeDefinition,
+  DemoSection,
+  DocTemplate,
+} from '../../internal/doc-template';
 import { Button } from '../button';
 import buttonSizeTypeCode from '../button/types/button-size.md?raw';
-import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import { ButtonGroup } from './button-group';
 import { ButtonToolbar } from './button-toolbar';
 import basicCode from './demos/basic.md?raw';
@@ -19,26 +24,28 @@ import buttonToolbarPropsTypeCode from './types/button-toolbar-props.md?raw';
 
 const buttonGroupProps: ApiProp[] = [
   {
+    component: 'ButtonGroup',
     defaultValue: 'false',
-    description: 'ButtonGroup：是否垂直排列组内按钮，默认为水平排列',
+    description: '是否垂直排列组内按钮，默认为水平排列',
     name: 'vertical',
     type: 'boolean',
   },
   {
+    component: 'ButtonGroup',
     defaultValue: '-',
-    description: 'ButtonGroup：统一设置组内所有按钮的尺寸，可选 `sm` 或 `lg`',
+    description: '统一设置组内所有按钮的尺寸，可选 `sm` 或 `lg`',
     name: 'size',
     type: 'ButtonSize',
   },
   {
     defaultValue: "'group' / 'toolbar'",
-    description: 'ARIA 角色：ButtonGroup 默认为 `group`，ButtonToolbar 默认为 `toolbar`',
+    description: '无障碍 ARIA 角色，ButtonGroup 默认为 `group`，ButtonToolbar 默认为 `toolbar`',
     name: 'role',
     type: 'AriaRole',
   },
   {
     defaultValue: '-',
-    description: '无障碍标签，向屏幕阅读器描述分组用途（两个组件均支持）',
+    description: '无障碍标签，向屏幕阅读器描述分组用途（ButtonGroup 与 ButtonToolbar 均支持）',
     name: 'aria-label',
     type: 'string',
   },

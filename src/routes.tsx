@@ -8,9 +8,12 @@ import ButtonDoc from './components/button/button.doc';
 import CardDoc from './components/card/card.doc';
 import CloseButtonDoc from './components/close-button/close-button.doc';
 import DialogDoc from './components/dialog/dialog.doc';
-import { type DocConfig, DocsHome, DocsLayout } from './components/docs';
 import ListGroupDoc from './components/list-group/list-group.doc';
 import ModalDoc from './components/modal/modal.doc';
+import PaginationDoc from './components/pagination/pagination.doc';
+import PlaceholderDoc from './components/placeholder/placeholder.doc';
+import SpinnerDoc from './components/spinner/spinner.doc';
+import { type DocConfig, DocsHome, DocsLayout } from './internal/docs';
 
 const GITHUB_URL = 'https://github.com/dafengzhen/react-bootstrap';
 
@@ -103,6 +106,33 @@ const docsConfig: DocConfig[] = [
     order: 10,
     path: '/components/breadcrumb',
     tags: ['Basic', 'Navigation'],
+  },
+  {
+    description:
+      'Pagination component that splits a set of links across multiple pages, supporting icon links, active/disabled states, sizing, alignment and accessible labels.',
+    element: <PaginationDoc />,
+    name: 'Pagination',
+    order: 11,
+    path: '/components/pagination',
+    tags: ['Basic', 'Navigation'],
+  },
+  {
+    description:
+      'Placeholder component that renders skeleton loading placeholders for components and pages, supporting grid column widths, background colors, sizing, glow/wave animations and placeholder buttons.',
+    element: <PlaceholderDoc />,
+    name: 'Placeholder',
+    order: 12,
+    path: '/components/placeholder',
+    tags: ['Basic', 'Feedback'],
+  },
+  {
+    description:
+      'Spinner component that indicates the loading state of a component or page, supporting border/grow animations, color variants, sizes and usage inside buttons.',
+    element: <SpinnerDoc />,
+    name: 'Spinner',
+    order: 13,
+    path: '/components/spinner',
+    tags: ['Basic', 'Feedback'],
   },
 ];
 

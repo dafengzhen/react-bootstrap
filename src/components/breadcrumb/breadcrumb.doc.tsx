@@ -1,7 +1,12 @@
 import { type CSSProperties } from 'react';
 import { Link } from 'react-router';
 
-import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
+import {
+  type ApiProp,
+  type ApiTypeDefinition,
+  DemoSection,
+  DocTemplate,
+} from '../../internal/doc-template';
 import basicCode from './demos/basic.md?raw';
 import customStructureCode from './demos/custom-structure.md?raw';
 import dividersCode from './demos/dividers.md?raw';
@@ -13,64 +18,71 @@ import breadcrumbPropsTypeCode from './types/breadcrumb-props.md?raw';
 
 const breadcrumbProps: ApiProp[] = [
   {
+    component: 'Breadcrumb',
     defaultValue: "'nav'",
-    description: 'Breadcrumb：根元素标签，默认渲染 `nav` 并自动设置无障碍标签',
+    description: '根元素标签，默认渲染 `nav` 并自动设置无障碍标签',
     name: 'as',
     type: 'ElementType',
   },
   {
+    component: 'Breadcrumb',
     defaultValue: '-',
-    description:
-      'Breadcrumb：自定义分隔符，自动写入 `--bs-breadcrumb-divider` CSS 变量，替换默认的 `/`',
+    description: '自定义分隔符，自动写入 `--bs-breadcrumb-divider` CSS 变量，替换默认的 `/`',
     name: 'divider',
     type: 'string',
   },
   {
+    component: 'Breadcrumb',
     defaultValue: "'breadcrumb'",
-    description: 'Breadcrumb：根元素的 `aria-label` 无障碍标签，用于描述导航类型',
+    description: '根元素的 `aria-label` 无障碍标签，用于描述导航类型',
     name: 'label',
     type: 'string',
   },
   {
+    component: 'Breadcrumb',
     defaultValue: "'ol'",
-    description: 'Breadcrumb：列表容器元素标签，对应渲染 `breadcrumb` 类的元素',
+    description: '列表容器元素标签，对应渲染 `breadcrumb` 类的元素',
     name: 'listAs',
     type: 'ElementType',
   },
   {
+    component: 'Breadcrumb',
     defaultValue: '-',
-    description: 'Breadcrumb：透传给列表容器（默认 `ol`）的原生属性',
+    description: '透传给列表容器（默认 `ol`）的原生属性',
     name: 'listProps',
     type: 'OlHTMLAttributes<HTMLOListElement>',
   },
   {
+    component: 'BreadcrumbItem',
     defaultValue: 'false',
     description:
-      'BreadcrumbItem：激活状态，渲染 `active` 类并设置 `aria-current="page"`，同时忽略 `href` 渲染为纯文本',
+      '激活状态，渲染 `active` 类并设置 `aria-current="page"`，同时忽略 `href` 渲染为纯文本',
     name: 'active',
     type: 'boolean',
   },
   {
+    component: 'BreadcrumbItem',
     defaultValue: "'li'",
-    description: 'BreadcrumbItem：渲染的元素标签',
+    description: '渲染的元素标签',
     name: 'as',
     type: 'ElementType',
   },
   {
+    component: 'BreadcrumbItem',
     defaultValue: '-',
-    description: 'BreadcrumbItem：链接地址，非激活状态下在内部渲染 `a` 标签',
+    description: '链接地址，非激活状态下在内部渲染 `a` 标签',
     name: 'href',
     type: 'string',
   },
   {
     defaultValue: '-',
-    description: '所有组件：面包屑内容',
+    description: '面包屑内容',
     name: 'children',
     type: 'ReactNode',
   },
   {
     defaultValue: '-',
-    description: '所有组件：自定义类名',
+    description: '自定义类名',
     name: 'className',
     type: 'string',
   },

@@ -73,6 +73,18 @@
       "import": "./dist/components/modal/index.js",
       "types": "./dist/components/modal/index.d.ts"
     },
+    "./pagination": {
+      "import": "./dist/components/pagination/index.js",
+      "types": "./dist/components/pagination/index.d.ts"
+    },
+    "./placeholder": {
+      "import": "./dist/components/placeholder/index.js",
+      "types": "./dist/components/placeholder/index.d.ts"
+    },
+    "./spinner": {
+      "import": "./dist/components/spinner/index.js",
+      "types": "./dist/components/spinner/index.d.ts"
+    },
     "./button/style": "./dist/components/button/button.css",
     "./dialog/style": "./dist/components/dialog/dialog.css",
     "./modal/style": "./dist/components/modal/modal.css",

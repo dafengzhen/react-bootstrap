@@ -1,7 +1,12 @@
 import { useState } from 'react';
 
+import {
+  type ApiProp,
+  type ApiTypeDefinition,
+  DemoSection,
+  DocTemplate,
+} from '../../internal/doc-template';
 import { Button } from '../button';
-import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import additionalContentCode from './demos/additional-content.md?raw';
 import dismissibleCode from './demos/dismissible.md?raw';
 import iconsCode from './demos/icons.md?raw';
@@ -16,69 +21,78 @@ import alertVariantTypeCode from './types/alert-variant.md?raw';
 
 const alertProps: ApiProp[] = [
   {
+    component: 'Alert',
     defaultValue: "'primary'",
-    description: 'Alert：情景颜色变体，渲染为 `alert-*` 类',
+    description: '情景颜色变体，渲染为 `alert-*` 类',
     name: 'variant',
     type: 'AlertVariant',
   },
   {
+    component: 'Alert',
     defaultValue: 'false',
-    description: 'Alert：可关闭模式，渲染 `alert-dismissible` 类并在内容末尾渲染关闭按钮',
+    description: '可关闭模式，渲染 `alert-dismissible` 类并在内容末尾渲染关闭按钮',
     name: 'dismissible',
     type: 'boolean',
   },
   {
+    component: 'Alert',
     defaultValue: '-',
     description:
-      'Alert：受控的显示状态，为 `false` 时以淡出动画移除警告框；不传时为非受控，点击关闭按钮自动隐藏',
+      '受控的显示状态，为 `false` 时以淡出动画移除警告框；不传时为非受控，点击关闭按钮自动隐藏',
     name: 'show',
     type: 'boolean',
   },
   {
+    component: 'Alert',
     defaultValue: '-',
-    description: 'Alert：点击关闭按钮时触发的回调，受控模式下需配合 `show` 一起使用',
+    description: '点击关闭按钮时触发的回调，受控模式下需配合 `show` 一起使用',
     name: 'onClose',
     type: '() => void',
   },
   {
+    component: 'Alert',
     defaultValue: "'Close alert'",
-    description: 'Alert：关闭按钮的无障碍标签，向屏幕阅读器描述按钮用途',
+    description: '关闭按钮的无障碍标签，向屏幕阅读器描述按钮用途',
     name: 'closeLabel',
     type: 'string',
   },
   {
+    component: 'Alert',
     defaultValue: "'white'（variant 为 dark 时）",
-    description: 'Alert：关闭按钮变体，`variant="dark"` 时默认为 `white`，用于深色背景',
+    description: '关闭按钮变体，`variant="dark"` 时默认为 `white`，用于深色背景',
     name: 'closeVariant',
     type: 'CloseButtonVariant',
   },
   {
+    component: 'AlertHeading',
     defaultValue: "'h4'",
-    description: 'AlertHeading：渲染的标题元素标签，可选其他标题级别或元素',
+    description: '渲染的标题元素标签，可选其他标题级别或元素',
     name: 'as',
     type: 'ElementType',
   },
   {
+    component: 'AlertLink',
     defaultValue: "'a'",
-    description: 'AlertLink：渲染的元素标签，默认渲染为 `a` 标签',
+    description: '渲染的元素标签，默认渲染为 `a` 标签',
     name: 'as',
     type: 'ElementType',
   },
   {
+    component: 'AlertLink',
     defaultValue: "'#'",
-    description: 'AlertLink：链接地址',
+    description: '链接地址',
     name: 'href',
     type: 'string',
   },
   {
     defaultValue: '-',
-    description: '所有组件：内容',
+    description: '内容',
     name: 'children',
     type: 'ReactNode',
   },
   {
     defaultValue: '-',
-    description: '所有组件：自定义类名',
+    description: '自定义类名',
     name: 'className',
     type: 'string',
   },

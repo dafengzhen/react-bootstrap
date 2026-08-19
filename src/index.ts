@@ -108,3 +108,29 @@ export type {
   ModalSize,
   ModalTitleProps,
 } from './components/modal';
+
+export { Pagination, PaginationItem, PaginationLink } from './components/pagination';
+export type {
+  PaginationAlign,
+  PaginationItemProps,
+  PaginationLinkProps,
+  PaginationProps,
+  PaginationSize,
+} from './components/pagination';
+
+export { Placeholder, PlaceholderButton } from './components/placeholder';
+export type {
+  PlaceholderAnimation,
+  PlaceholderBg,
+  PlaceholderButtonProps,
+  PlaceholderProps,
+  PlaceholderSize,
+} from './components/placeholder';
+
+export { Spinner } from './components/spinner';
+export type {
+  SpinnerAnimation,
+  SpinnerProps,
+  SpinnerSize,
+  SpinnerVariant,
+} from './components/spinner';

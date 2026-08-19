@@ -23,7 +23,9 @@
     <ModalHeader closeButton>
       <ModalTitle>无遮罩</ModalTitle>
     </ModalHeader>
-    <ModalBody>backdrop 为 false 时不渲染背景遮罩，点击内容以外区域仍可关闭。</ModalBody>
+    <ModalBody>
+      backdrop 为 false 时不渲染背景遮罩，内容区自动添加 shadow-lg 阴影，点击内容以外区域仍可关闭。
+    </ModalBody>
   </Modal>
 
   <Modal isOpen={noKeyboardOpen} keyboard={false} onOpenChange={setNoKeyboardOpen}>

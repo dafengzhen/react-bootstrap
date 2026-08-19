@@ -3,20 +3,18 @@ import { forwardRef } from 'react';
 
 import type { ModalDialogProps, ModalFullscreen, ModalSize } from './types';
 
-import styles from './modal.module.css';
-
 const FULLSCREEN_CLASSES: Record<Exclude<ModalFullscreen, boolean>, string> = {
-  'lg-down': styles.modalFullscreenLgDown,
-  'md-down': styles.modalFullscreenMdDown,
-  'sm-down': styles.modalFullscreenSmDown,
-  'xl-down': styles.modalFullscreenXlDown,
-  'xxl-down': styles.modalFullscreenXxlDown,
+  'lg-down': 'modal-fullscreen-lg-down',
+  'md-down': 'modal-fullscreen-md-down',
+  'sm-down': 'modal-fullscreen-sm-down',
+  'xl-down': 'modal-fullscreen-xl-down',
+  'xxl-down': 'modal-fullscreen-xxl-down',
 };
 
 const SIZE_CLASSES: Record<ModalSize, string> = {
-  lg: styles.modalLg,
-  sm: styles.modalSm,
-  xl: styles.modalXl,
+  lg: 'modal-lg',
+  sm: 'modal-sm',
+  xl: 'modal-xl',
 };
 
 export const ModalDialog = forwardRef<HTMLDivElement, ModalDialogProps>(
@@ -34,12 +32,12 @@ export const ModalDialog = forwardRef<HTMLDivElement, ModalDialogProps>(
   ) => (
     <div
       className={clsx(
-        styles.modalDialog,
+        'modal-dialog',
         size && SIZE_CLASSES[size],
-        fullscreen === true && styles.modalFullscreen,
+        fullscreen === true && 'modal-fullscreen',
         typeof fullscreen === 'string' && FULLSCREEN_CLASSES[fullscreen],
-        centered && styles.modalDialogCentered,
-        scrollable && styles.modalDialogScrollable,
+        centered && 'modal-dialog-centered',
+        scrollable && 'modal-dialog-scrollable',
         className,
       )}
       ref={ref}

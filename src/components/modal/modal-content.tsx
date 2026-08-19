@@ -8,7 +8,7 @@ import styles from './modal.module.css';
 
 export const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
   ({ children, className, ...rest }, ref) => {
-    const { contentRef, handleContentTransitionEnd, status } = useModal();
+    const { backdrop, contentRef, handleContentTransitionEnd, status } = useModal();
 
     const setContentRef = useCallback(
       (node: HTMLDivElement | null) => {
@@ -24,7 +24,12 @@ export const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
 
     return (
       <div
-        className={clsx(styles.modalContent, className)}
+        className={clsx(
+          'modal-content',
+          styles.modalContent,
+          backdrop === false && 'shadow-lg',
+          className,
+        )}
         data-status={status}
         onTransitionEnd={handleContentTransitionEnd}
         ref={setContentRef}

@@ -50,7 +50,8 @@ const modalProps: ApiProp[] = [
   },
   {
     defaultValue: 'true',
-    description: '背景遮罩行为，为 `false` 时不渲染遮罩，为 `"static"` 时点击遮罩不会关闭',
+    description:
+      '背景遮罩行为，为 `false` 时不渲染遮罩且内容区自动添加 `shadow-lg` 阴影，为 `"static"` 时点击遮罩不会关闭',
     name: 'backdrop',
     type: 'ModalBackdrop',
   },
@@ -366,7 +367,10 @@ export const ModalDoc = () => {
           <ModalHeader closeButton>
             <ModalTitle>无遮罩</ModalTitle>
           </ModalHeader>
-          <ModalBody>backdrop 为 false 时不渲染背景遮罩，点击内容以外区域仍可关闭。</ModalBody>
+          <ModalBody>
+            backdrop 为 false 时不渲染背景遮罩，内容区自动添加 shadow-lg
+            阴影，点击内容以外区域仍可关闭。
+          </ModalBody>
         </Modal>
         <Modal isOpen={noKeyboardOpen} keyboard={false} onOpenChange={setNoKeyboardOpen}>
           <ModalHeader closeButton>

@@ -32,13 +32,13 @@ export const ModalClose = forwardRef<HTMLButtonElement, ModalCloseProps>(
     return (
       <button
         aria-label={ariaLabel}
-        className={clsx(styles.modalClose, className)}
+        className={clsx('btn-close', styles.modalClose, className)}
         onClick={handleClick}
         ref={ref}
         type={type}
         {...rest}
       >
-        {children || '✕'}
+        {children}
       </button>
     );
   },

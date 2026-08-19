@@ -84,23 +84,25 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
 
     const contextValue = useMemo<ModalContextValue>(
       () => ({
+        backdrop,
         close: handleClose,
         contentRef,
         handleContentTransitionEnd,
         status: state.status,
         titleId,
       }),
-      [handleClose, handleContentTransitionEnd, state.status, titleId],
+      [backdrop, handleClose, handleContentTransitionEnd, state.status, titleId],
     );
 
-    const animationStyle = useMemo<ModalCssProperties>(
+    const baseStyle = useMemo<ModalCssProperties>(
       () => ({
         '--modal-duration': `${effectiveDuration}ms`,
+        display: 'block',
       }),
       [effectiveDuration],
     );
 
-    const mergedStyle = useMemo(() => ({ ...style, ...animationStyle }), [style, animationStyle]);
+    const mergedStyle = useMemo(() => ({ ...style, ...baseStyle }), [style, baseStyle]);
 
     const clearAnimationFrame = useCallback(() => {
       if (rafRef.current !== null) {
@@ -221,12 +223,8 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
         return;
       }
 
-      const focusableElements = getFocusableElements(container);
-      if (focusableElements.length > 0) {
-        focusableElements[0].focus();
-      } else {
-        container.focus();
-      }
+      // 聚焦内容容器本身（tabIndex=-1），避免打开时自动聚焦页眉中的关闭按钮
+      container.focus();
 
       const handleTabKey = (event: KeyboardEvent) => {
         if (event.key !== 'Tab') {
@@ -283,7 +281,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
       return null;
     }
 
-    const modalClasses = clsx(styles.modal, className, {
+    const modalClasses = clsx('modal', styles.modal, className, {
       [styles.modalReducedMotion]: effectiveDuration === 0,
     });
 

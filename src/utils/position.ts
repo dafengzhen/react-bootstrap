@@ -13,6 +13,7 @@ export type Placement =
   | 'top';
 
 export interface PositionConfig {
+  arrowSelector?: string;
   flip: boolean;
   offset: readonly [number, number];
   padding: number;
@@ -194,7 +195,7 @@ export const positionElement = (
   reference: HTMLElement,
   config: PositionConfig,
 ): Placement => {
-  const { flip, offset, padding, placement } = config;
+  const { arrowSelector = '.tooltip-arrow', flip, offset, padding, placement } = config;
   const isRtl = getComputedStyle(floating).direction === 'rtl';
 
   floating.style.margin = '0';
@@ -237,6 +238,7 @@ export const positionElement = (
   floating.style.top = `${y - originTop}px`;
 
   positionArrow(floating, {
+    arrowSelector,
     floatingRect,
     placement: nextPlacement,
     reference: {
@@ -253,6 +255,7 @@ export const positionElement = (
 };
 
 interface PositionArrowConfig {
+  arrowSelector: string;
   floatingRect: PositionRect;
   placement: Placement;
   reference: PositionRect;
@@ -261,8 +264,8 @@ interface PositionArrowConfig {
 }
 
 const positionArrow = (floating: HTMLElement, config: PositionArrowConfig): void => {
-  const { floatingRect, placement, reference, x, y } = config;
-  const arrow = floating.querySelector<HTMLElement>('.tooltip-arrow');
+  const { arrowSelector, floatingRect, placement, reference, x, y } = config;
+  const arrow = floating.querySelector<HTMLElement>(arrowSelector);
   if (!arrow) {
     return;
   }
@@ -288,14 +291,14 @@ const positionArrow = (floating: HTMLElement, config: PositionArrowConfig): void
   }
 };
 
-export const resetPosition = (floating: HTMLElement): void => {
+export const resetPosition = (floating: HTMLElement, arrowSelector = '.tooltip-arrow'): void => {
   floating.style.bottom = '';
   floating.style.left = '';
   floating.style.margin = '';
   floating.style.right = '';
   floating.style.top = '';
 
-  const arrow = floating.querySelector<HTMLElement>('.tooltip-arrow');
+  const arrow = floating.querySelector<HTMLElement>(arrowSelector);
   if (arrow) {
     arrow.style.left = '';
     arrow.style.top = '';

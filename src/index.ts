@@ -143,6 +143,14 @@ export type {
   PlaceholderSize,
 } from './components/placeholder';
 
+export { Popover, PopoverTrigger } from './components/popover';
+export type {
+  PopoverDelay,
+  PopoverProps,
+  PopoverTriggerProps,
+  PopoverTriggerType,
+} from './components/popover';
+
 export { Spinner } from './components/spinner';
 export type {
   SpinnerAnimation,

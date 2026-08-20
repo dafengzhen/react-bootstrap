@@ -1,0 +1,15 @@
+.hasHeader:global(.popover)[data-popper-placement^='top'] > :global(.popover-arrow)::after {
+  border-top-color: var(--bs-popover-header-bg);
+}
+
+.hasHeader:global(.popover)[data-popper-placement^='right'] > :global(.popover-arrow)::after {
+  border-right-color: var(--bs-popover-header-bg);
+}
+
+.hasHeader:global(.popover)[data-popper-placement^='bottom'] > :global(.popover-arrow)::after {
+  border-bottom-color: var(--bs-popover-header-bg);
+}
+
+.hasHeader:global(.popover)[data-popper-placement^='left'] > :global(.popover-arrow)::after {
+  border-left-color: var(--bs-popover-header-bg);
+}

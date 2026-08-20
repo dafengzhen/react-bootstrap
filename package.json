@@ -81,6 +81,10 @@
       "import": "./dist/components/placeholder/index.js",
       "types": "./dist/components/placeholder/index.d.ts"
     },
+    "./popover": {
+      "import": "./dist/components/popover/index.js",
+      "types": "./dist/components/popover/index.d.ts"
+    },
     "./spinner": {
       "import": "./dist/components/spinner/index.js",
       "types": "./dist/components/spinner/index.d.ts"
@@ -99,12 +103,16 @@
     },
     "./button/style": "./dist/components/button/button.css",
     "./modal/style": "./dist/components/modal/modal.css",
+    "./popover/style": "./dist/components/popover/popover.css",
     "./toast/style": "./dist/components/toast/toast.css",
     "./button/cssmodule": {
       "import": "./dist/components/button/button.module.css.js"
     },
     "./modal/cssmodule": {
       "import": "./dist/components/modal/modal.module.css.js"
+    },
+    "./popover/cssmodule": {
+      "import": "./dist/components/popover/popover.module.css.js"
     },
     "./toast/cssmodule": {
       "import": "./dist/components/toast/toast.module.css.js"

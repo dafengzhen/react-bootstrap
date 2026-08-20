@@ -12,6 +12,7 @@ import ListGroupDoc from './components/list-group/list-group.doc';
 import ModalDoc from './components/modal/modal.doc';
 import PaginationDoc from './components/pagination/pagination.doc';
 import PlaceholderDoc from './components/placeholder/placeholder.doc';
+import PopoverDoc from './components/popover/popover.doc';
 import SpinnerDoc from './components/spinner/spinner.doc';
 import TabsDoc from './components/tabs/tabs.doc';
 import ToastDoc from './components/toast/toast.doc';
@@ -130,10 +131,19 @@ const docsConfig: DocConfig[] = [
   },
   {
     description:
+      'Popover component that shows extended content in a floating card beside trigger elements, supporting header/body structure, four directions with alignment variations, HTML content, custom styling, delays, click/hover/focus/manual triggers, controlled mode, disabled elements and flip positioning.',
+    element: <PopoverDoc />,
+    name: 'Popover',
+    order: 13,
+    path: '/components/popover',
+    tags: ['Basic', 'Feedback'],
+  },
+  {
+    description:
       'Spinner component that indicates the loading state of a component or page, supporting border/grow animations, color variants, sizes and usage inside buttons.',
     element: <SpinnerDoc />,
     name: 'Spinner',
-    order: 13,
+    order: 14,
     path: '/components/spinner',
     tags: ['Basic', 'Feedback'],
   },
@@ -142,7 +152,7 @@ const docsConfig: DocConfig[] = [
       'Tabs component that builds navigation and tabbed panels, supporting tabs/pills/underline variants, fill and justify layouts, vertical arrangement, active/disabled states and fade transitions.',
     element: <TabsDoc />,
     name: 'Tabs',
-    order: 14,
+    order: 15,
     path: '/components/tabs',
     tags: ['Basic', 'Navigation'],
   },
@@ -151,7 +161,7 @@ const docsConfig: DocConfig[] = [
       'Toast component that pushes lightweight notifications to users, supporting header/body structure, stacking, nine placements, color schemes, autohide with hover pause and custom transitions.',
     element: <ToastDoc />,
     name: 'Toast',
-    order: 15,
+    order: 16,
     path: '/components/toast',
     tags: ['Basic', 'Feedback'],
   },
@@ -160,7 +170,7 @@ const docsConfig: DocConfig[] = [
       'Tooltip component that shows contextual hints beside trigger elements, supporting four directions with alignment variations, HTML content, custom styling, delays, click/hover/focus/manual triggers, controlled mode, disabled elements and flip positioning.',
     element: <TooltipDoc />,
     name: 'Tooltip',
-    order: 16,
+    order: 17,
     path: '/components/tooltip',
     tags: ['Basic', 'Feedback'],
   },

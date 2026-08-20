@@ -6,6 +6,7 @@ import BreadcrumbDoc from './components/breadcrumb/breadcrumb.doc';
 import ButtonGroupDoc from './components/button-group/button-group.doc';
 import ButtonDoc from './components/button/button.doc';
 import CardDoc from './components/card/card.doc';
+import CarouselDoc from './components/carousel/carousel.doc';
 import CloseButtonDoc from './components/close-button/close-button.doc';
 import CollapseDoc from './components/collapse/collapse.doc';
 import DropdownDoc from './components/dropdown/dropdown.doc';
@@ -192,6 +193,15 @@ const docsConfig: DocConfig[] = [
     name: 'Collapse',
     order: 19,
     path: '/components/collapse',
+    tags: ['Basic', 'Layout'],
+  },
+  {
+    description:
+      'Carousel component that cycles through slides with reducer-driven custom slide and crossfade transitions, supporting indicators, controls, captions, autoplay with hover pause, per-slide intervals, keyboard and touch navigation, controlled mode and reduced-motion preferences.',
+    element: <CarouselDoc />,
+    name: 'Carousel',
+    order: 20,
+    path: '/components/carousel',
     tags: ['Basic', 'Layout'],
   },
 ];

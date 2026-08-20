@@ -57,6 +57,10 @@
       "import": "./dist/components/card/index.js",
       "types": "./dist/components/card/index.d.ts"
     },
+    "./carousel": {
+      "import": "./dist/components/carousel/index.js",
+      "types": "./dist/components/carousel/index.d.ts"
+    },
     "./close-button": {
       "import": "./dist/components/close-button/index.js",
       "types": "./dist/components/close-button/index.d.ts"
@@ -110,12 +114,16 @@
       "types": "./dist/components/tooltip/index.d.ts"
     },
     "./button/style": "./dist/components/button/button.css",
+    "./carousel/style": "./dist/components/carousel/carousel.css",
     "./collapse/style": "./dist/components/collapse/collapse.css",
     "./modal/style": "./dist/components/modal/modal.css",
     "./popover/style": "./dist/components/popover/popover.css",
     "./toast/style": "./dist/components/toast/toast.css",
     "./button/cssmodule": {
       "import": "./dist/components/button/button.module.css.js"
+    },
+    "./carousel/cssmodule": {
+      "import": "./dist/components/carousel/carousel.module.css.js"
     },
     "./collapse/cssmodule": {
       "import": "./dist/components/collapse/collapse.module.css.js"

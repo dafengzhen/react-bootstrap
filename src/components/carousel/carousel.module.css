@@ -1,0 +1,122 @@
+:root {
+  --rbs-carousel-control-disabled-opacity: 0.2;
+  --rbs-carousel-control-duration: 150ms;
+  --rbs-carousel-duration: 600ms;
+  --rbs-carousel-easing: cubic-bezier(0.65, 0, 0.35, 1);
+  --rbs-carousel-indicator-duration: 400ms;
+  --rbs-carousel-slide-offset: 100%;
+}
+
+.carousel {
+  position: relative;
+}
+
+.carousel.touch {
+  touch-action: pan-y;
+}
+
+.item.item {
+  backface-visibility: hidden;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: none;
+  z-index: 0;
+}
+
+.item.item[data-role='inactive'] {
+  display: none;
+}
+
+.item.item[data-role='active'],
+.item.item[data-role='entering'],
+.item.item[data-role='leaving'] {
+  display: block;
+}
+
+.slide .item.item[data-status='sliding'] {
+  transition: transform var(--rbs-carousel-duration, 600ms)
+    var(--rbs-carousel-easing, cubic-bezier(0.65, 0, 0.35, 1));
+  will-change: transform;
+}
+
+.slide .item.item[data-role='entering'][data-direction='next'] {
+  transform: translate3d(var(--rbs-carousel-slide-offset, 100%), 0, 0);
+}
+
+.slide .item.item[data-role='entering'][data-direction='prev'] {
+  transform: translate3d(calc(-1 * var(--rbs-carousel-slide-offset, 100%)), 0, 0);
+}
+
+.slide .item.item[data-role='entering'][data-direction='next'][data-status='sliding'],
+.slide .item.item[data-role='entering'][data-direction='prev'][data-status='sliding'] {
+  transform: translate3d(0, 0, 0);
+}
+
+.slide .item.item[data-role='leaving'][data-direction='next'][data-status='sliding'] {
+  transform: translate3d(calc(-1 * var(--rbs-carousel-slide-offset, 100%)), 0, 0);
+}
+
+.slide .item.item[data-role='leaving'][data-direction='prev'][data-status='sliding'] {
+  transform: translate3d(var(--rbs-carousel-slide-offset, 100%), 0, 0);
+}
+
+.fade .item.item {
+  opacity: 0;
+  transform: none;
+}
+
+.fade .item.item[data-role='active'] {
+  opacity: 1;
+  z-index: 1;
+}
+
+.fade .item.item[data-role='entering'] {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade .item.item[data-role='entering'][data-status='sliding'] {
+  opacity: 1;
+  transition: opacity var(--rbs-carousel-duration, 600ms)
+    var(--rbs-carousel-easing, cubic-bezier(0.65, 0, 0.35, 1));
+  will-change: opacity;
+}
+
+.fade .item.item[data-role='leaving'] {
+  opacity: 1;
+  z-index: 0;
+}
+
+.fade .item.item[data-role='leaving'][data-status='sliding'] {
+  opacity: 0;
+  transition: opacity 0s var(--rbs-carousel-duration, 600ms);
+}
+
+.control.control {
+  transition: opacity var(--rbs-carousel-control-duration, 150ms)
+    var(--rbs-carousel-easing, cubic-bezier(0.65, 0, 0.35, 1));
+}
+
+.control.control:disabled {
+  cursor: default;
+  opacity: var(--rbs-carousel-control-disabled-opacity, 0.2);
+}
+
+.indicator.indicator[data-bs-target] {
+  transition: opacity var(--rbs-carousel-indicator-duration, 400ms)
+    var(--rbs-carousel-easing, cubic-bezier(0.65, 0, 0.35, 1));
+}
+
+.reducedMotion .item.item,
+.reducedMotion .control.control,
+.reducedMotion .indicator.indicator[data-bs-target] {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item.item,
+  .control.control,
+  .indicator.indicator[data-bs-target] {
+    transition: none !important;
+  }
+}

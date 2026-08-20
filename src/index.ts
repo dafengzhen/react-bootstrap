@@ -48,6 +48,32 @@ export type {
   CardTitleProps,
 } from './components/card';
 
+export {
+  Carousel,
+  CarouselCaption,
+  CarouselControl,
+  CarouselIndicator,
+  CarouselIndicators,
+  CarouselInner,
+  CarouselItem,
+  useCarousel,
+} from './components/carousel';
+export type {
+  CarouselAnimationStatus,
+  CarouselCaptionProps,
+  CarouselContextValue,
+  CarouselControlProps,
+  CarouselDirection,
+  CarouselIndicatorProps,
+  CarouselIndicatorsProps,
+  CarouselInnerProps,
+  CarouselItemProps,
+  CarouselItemRole,
+  CarouselPause,
+  CarouselProps,
+  CarouselRide,
+} from './components/carousel';
+
 export { CloseButton } from './components/close-button';
 export type { CloseButtonProps, CloseButtonVariant } from './components/close-button';
 

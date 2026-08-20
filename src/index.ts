@@ -51,6 +51,41 @@ export type {
 export { CloseButton } from './components/close-button';
 export type { CloseButtonProps, CloseButtonVariant } from './components/close-button';
 
+export {
+  Dropdown,
+  DropdownButton,
+  DropdownDivider,
+  DropdownHeader,
+  DropdownItem,
+  DropdownItemText,
+  DropdownMenu,
+  DropdownToggle,
+  SplitButton,
+  useDropdown,
+} from './components/dropdown';
+export type {
+  DropdownAlign,
+  DropdownAlignMap,
+  DropdownAlignOption,
+  DropdownAutoClose,
+  DropdownButtonProps,
+  DropdownContextValue,
+  DropdownDirection,
+  DropdownDividerProps,
+  DropdownHeaderProps,
+  DropdownItemProps,
+  DropdownItemTextProps,
+  DropdownMenuProps,
+  DropdownMenuVariant,
+  DropdownPositionConfig,
+  DropdownProps,
+  DropdownToggleProps,
+  DropdownToggleSource,
+  SelectCallback,
+  SplitButtonProps,
+  ToggleCallback,
+} from './components/dropdown';
+
 export { ListGroup, ListGroupItem } from './components/list-group';
 export type {
   ListGroupHorizontal,
@@ -143,3 +178,35 @@ export type {
   TabsContextValue,
   TabsProps,
 } from './components/tabs';
+
+export {
+  Toast,
+  ToastBody,
+  ToastClose,
+  ToastContainer,
+  ToastHeader,
+  useToast,
+} from './components/toast';
+
+export type {
+  ToastAnimationStatus,
+  ToastBodyProps,
+  ToastCloseProps,
+  ToastContainerProps,
+  ToastContextValue,
+  ToastHeaderProps,
+  ToastPlacement,
+  ToastPosition,
+  ToastProps,
+  ToastVariant,
+} from './components/toast';
+
+export { Tooltip, TooltipTrigger } from './components/tooltip';
+export type {
+  TooltipDelay,
+  TooltipProps,
+  TooltipTriggerProps,
+  TooltipTriggerType,
+} from './components/tooltip';
+
+export { useReducedMotion } from './hooks';

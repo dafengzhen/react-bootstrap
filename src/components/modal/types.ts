@@ -9,13 +9,6 @@ import type {
   TransitionEvent,
 } from 'react';
 
-export type ModalAction =
-  | { type: 'ANIMATION_END' }
-  | { type: 'ANIMATION_START' }
-  | { type: 'CLOSE' }
-  | { type: 'INSTANT_OPEN' }
-  | { type: 'OPEN' };
-
 export type ModalAnimationStatus = 'closed' | 'closing' | 'opened' | 'opening';
 
 export type ModalBackdrop = 'static' | boolean;
@@ -113,11 +106,6 @@ export interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>
 }
 
 export type ModalSize = 'lg' | 'sm' | 'xl';
-
-export interface ModalState {
-  mounted: boolean;
-  status: ModalAnimationStatus;
-}
 
 export interface ModalTitleProps extends HTMLAttributes<HTMLElement> {
   as?: ElementType;

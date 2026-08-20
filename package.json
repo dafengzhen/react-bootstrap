@@ -61,6 +61,10 @@
       "import": "./dist/components/close-button/index.js",
       "types": "./dist/components/close-button/index.d.ts"
     },
+    "./dropdown": {
+      "import": "./dist/components/dropdown/index.js",
+      "types": "./dist/components/dropdown/index.d.ts"
+    },
     "./list-group": {
       "import": "./dist/components/list-group/index.js",
       "types": "./dist/components/list-group/index.d.ts"
@@ -85,13 +89,25 @@
       "import": "./dist/components/tabs/index.js",
       "types": "./dist/components/tabs/index.d.ts"
     },
+    "./toast": {
+      "import": "./dist/components/toast/index.js",
+      "types": "./dist/components/toast/index.d.ts"
+    },
+    "./tooltip": {
+      "import": "./dist/components/tooltip/index.js",
+      "types": "./dist/components/tooltip/index.d.ts"
+    },
     "./button/style": "./dist/components/button/button.css",
     "./modal/style": "./dist/components/modal/modal.css",
+    "./toast/style": "./dist/components/toast/toast.css",
     "./button/cssmodule": {
       "import": "./dist/components/button/button.module.css.js"
     },
     "./modal/cssmodule": {
       "import": "./dist/components/modal/modal.module.css.js"
+    },
+    "./toast/cssmodule": {
+      "import": "./dist/components/toast/toast.module.css.js"
     }
   },
   "scripts": {
@@ -120,7 +136,7 @@
     "@types/node": "^26.2.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
-    "@vitejs/plugin-react": "^6.0.5",
+    "@vitejs/plugin-react": "^6.1.0",
     "babel-plugin-react-compiler": "^1.0.0",
     "bootstrap": "^5.3.8",
     "clsx": "^2.1.1",
@@ -133,7 +149,7 @@
     "react-dom": "^19.2.8",
     "react-router": "^8.3.0",
     "typescript": "^6.0.3",
-    "vite": "^8.2.1"
+    "vite": "^8.2.2"
   },
   "peerDependencies": {
     "bootstrap": "^5.3.8",

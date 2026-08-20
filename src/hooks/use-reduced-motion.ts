@@ -20,3 +20,5 @@ export const useReducedMotion = () => {
 
   return reduced;
 };
+
+export default useReducedMotion;

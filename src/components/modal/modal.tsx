@@ -17,13 +17,13 @@ import { createPortal } from 'react-dom';
 
 import type { ModalContextValue, ModalCssProperties, ModalPlacement, ModalProps } from './types';
 
+import { useReducedMotion } from '../../hooks';
+import { transitionReducer } from '../../stores';
 import { DEFAULT_DURATION, TRANSITION_END_BUFFER } from './constants';
 import { ModalContext } from './context';
-import { useReducedMotion } from './hooks';
 import { ModalContent } from './modal-content';
 import { ModalDialog } from './modal-dialog';
 import styles from './modal.module.css';
-import { modalReducer } from './reducer';
 import { getFocusableElements, lockBodyScroll, toCssSize, unlockBodyScroll } from './utils';
 
 const PLACEMENT_ROOT_CLASSES: Partial<Record<ModalPlacement, string>> = {
@@ -68,7 +68,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
     const titleId = useId();
     const descriptionId = useId();
 
-    const [state, dispatch] = useReducer(modalReducer, {
+    const [state, dispatch] = useReducer(transitionReducer, {
       mounted: isOpen,
       status: isOpen ? 'opened' : 'closed',
     });

@@ -7,8 +7,6 @@
 }
 
 .modal {
-  --bs-modal-box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.2);
-
   margin: 0;
   border: 0;
   padding: 0;
@@ -185,27 +183,6 @@
   min-height: 0;
 }
 
-.modalBody::-webkit-scrollbar,
-.modalContentPlacement::-webkit-scrollbar {
-  width: 4px;
-}
-
-.modalBody::-webkit-scrollbar-track,
-.modalContentPlacement::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.modalBody::-webkit-scrollbar-thumb,
-.modalContentPlacement::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 2px;
-}
-
-.modalBody::-webkit-scrollbar-thumb:hover,
-.modalContentPlacement::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .modalPlacement,
   .modalBackdrop,
@@ -218,33 +195,4 @@
 .modalReducedMotion .modalBackdrop,
 .modalReducedMotion .modalContent {
   transition: none !important;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --modal-backdrop-bg: rgba(0, 0, 0, 0.7);
-    --modal-description-color: #94a3b8;
-  }
-
-  .modal {
-    --bs-modal-bg: #212529;
-    --bs-modal-border-color: rgba(255, 255, 255, 0.15);
-    --bs-modal-box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.7);
-    --bs-modal-footer-border-color: #3d444c;
-    --bs-modal-header-border-color: #3d444c;
-  }
-
-  .modalClose {
-    filter: var(--bs-btn-close-white-filter);
-  }
-
-  .modalBody::-webkit-scrollbar-thumb,
-  .modalContentPlacement::-webkit-scrollbar-thumb {
-    background: #475569;
-  }
-
-  .modalBody::-webkit-scrollbar-thumb:hover,
-  .modalContentPlacement::-webkit-scrollbar-thumb:hover {
-    background: #64748b;
-  }
 }

@@ -7,12 +7,15 @@ import ButtonGroupDoc from './components/button-group/button-group.doc';
 import ButtonDoc from './components/button/button.doc';
 import CardDoc from './components/card/card.doc';
 import CloseButtonDoc from './components/close-button/close-button.doc';
+import DropdownDoc from './components/dropdown/dropdown.doc';
 import ListGroupDoc from './components/list-group/list-group.doc';
 import ModalDoc from './components/modal/modal.doc';
 import PaginationDoc from './components/pagination/pagination.doc';
 import PlaceholderDoc from './components/placeholder/placeholder.doc';
 import SpinnerDoc from './components/spinner/spinner.doc';
 import TabsDoc from './components/tabs/tabs.doc';
+import ToastDoc from './components/toast/toast.doc';
+import TooltipDoc from './components/tooltip/tooltip.doc';
 import { type DocConfig, DocsHome, DocsLayout } from './internal/docs';
 
 const GITHUB_URL = 'https://github.com/dafengzhen/react-bootstrap';
@@ -70,6 +73,15 @@ const docsConfig: DocConfig[] = [
     order: 6,
     path: '/components/modal',
     tags: ['Basic', 'Dialog'],
+  },
+  {
+    description:
+      'Dropdown component that toggles contextual overlays for displaying lists of links and actions, supporting split buttons, sizing, dark menus, six directions, menu items with active/disabled states, headers/dividers/text, forms, alignment, auto-close behavior and keyboard navigation.',
+    element: <DropdownDoc />,
+    name: 'Dropdown',
+    order: 7,
+    path: '/components/dropdown',
+    tags: ['Basic', 'Navigation'],
   },
   {
     description:
@@ -133,6 +145,24 @@ const docsConfig: DocConfig[] = [
     order: 14,
     path: '/components/tabs',
     tags: ['Basic', 'Navigation'],
+  },
+  {
+    description:
+      'Toast component that pushes lightweight notifications to users, supporting header/body structure, stacking, nine placements, color schemes, autohide with hover pause and custom transitions.',
+    element: <ToastDoc />,
+    name: 'Toast',
+    order: 15,
+    path: '/components/toast',
+    tags: ['Basic', 'Feedback'],
+  },
+  {
+    description:
+      'Tooltip component that shows contextual hints beside trigger elements, supporting four directions with alignment variations, HTML content, custom styling, delays, click/hover/focus/manual triggers, controlled mode, disabled elements and flip positioning.',
+    element: <TooltipDoc />,
+    name: 'Tooltip',
+    order: 16,
+    path: '/components/tooltip',
+    tags: ['Basic', 'Feedback'],
   },
 ];
 

@@ -7,6 +7,7 @@ import ButtonGroupDoc from './components/button-group/button-group.doc';
 import ButtonDoc from './components/button/button.doc';
 import CardDoc from './components/card/card.doc';
 import CloseButtonDoc from './components/close-button/close-button.doc';
+import CollapseDoc from './components/collapse/collapse.doc';
 import DropdownDoc from './components/dropdown/dropdown.doc';
 import ListGroupDoc from './components/list-group/list-group.doc';
 import ModalDoc from './components/modal/modal.doc';
@@ -183,6 +184,15 @@ const docsConfig: DocConfig[] = [
     order: 18,
     path: '/components/progress',
     tags: ['Basic', 'Feedback'],
+  },
+  {
+    description:
+      'Collapse component that toggles the visibility of content with an animated height or width transition, supporting vertical and horizontal dimensions, multiple targets, transition callbacks and reduced-motion preferences.',
+    element: <CollapseDoc />,
+    name: 'Collapse',
+    order: 19,
+    path: '/components/collapse',
+    tags: ['Basic', 'Layout'],
   },
 ];
 

@@ -1,0 +1,38 @@
+:root {
+  --rbs-collapse-duration: 300ms;
+  --rbs-collapse-easing: ease;
+}
+
+.collapse {
+  overflow: hidden;
+}
+
+.collapse.collapse[data-status] {
+  display: block;
+}
+
+.collapse[data-dimension='height'][data-status='closing'],
+.collapse[data-dimension='height'][data-status='opening'] {
+  transition: height var(--rbs-collapse-duration, 300ms) var(--rbs-collapse-easing, ease);
+  will-change: height;
+}
+
+.collapse[data-dimension='width'][data-status='closing'],
+.collapse[data-dimension='width'][data-status='opening'] {
+  transition: width var(--rbs-collapse-duration, 300ms) var(--rbs-collapse-easing, ease);
+  will-change: width;
+}
+
+.collapse[data-status='opened'] {
+  overflow: visible;
+}
+
+.collapseReducedMotion {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collapse {
+    transition: none !important;
+  }
+}

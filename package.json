@@ -61,6 +61,10 @@
       "import": "./dist/components/close-button/index.js",
       "types": "./dist/components/close-button/index.d.ts"
     },
+    "./collapse": {
+      "import": "./dist/components/collapse/index.js",
+      "types": "./dist/components/collapse/index.d.ts"
+    },
     "./dropdown": {
       "import": "./dist/components/dropdown/index.js",
       "types": "./dist/components/dropdown/index.d.ts"
@@ -106,11 +110,15 @@
       "types": "./dist/components/tooltip/index.d.ts"
     },
     "./button/style": "./dist/components/button/button.css",
+    "./collapse/style": "./dist/components/collapse/collapse.css",
     "./modal/style": "./dist/components/modal/modal.css",
     "./popover/style": "./dist/components/popover/popover.css",
     "./toast/style": "./dist/components/toast/toast.css",
     "./button/cssmodule": {
       "import": "./dist/components/button/button.module.css.js"
+    },
+    "./collapse/cssmodule": {
+      "import": "./dist/components/collapse/collapse.module.css.js"
     },
     "./modal/cssmodule": {
       "import": "./dist/components/modal/modal.module.css.js"

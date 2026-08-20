@@ -51,6 +51,13 @@ export type {
 export { CloseButton } from './components/close-button';
 export type { CloseButtonProps, CloseButtonVariant } from './components/close-button';
 
+export { Collapse } from './components/collapse';
+export type {
+  CollapseAnimationStatus,
+  CollapseDimension,
+  CollapseProps,
+} from './components/collapse';
+
 export {
   Dropdown,
   DropdownButton,

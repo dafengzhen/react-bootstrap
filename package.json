@@ -97,6 +97,10 @@
       "import": "./dist/components/progress/index.js",
       "types": "./dist/components/progress/index.d.ts"
     },
+    "./scrollspy": {
+      "import": "./dist/components/scrollspy/index.js",
+      "types": "./dist/components/scrollspy/index.d.ts"
+    },
     "./spinner": {
       "import": "./dist/components/spinner/index.js",
       "types": "./dist/components/spinner/index.d.ts"
@@ -118,6 +122,7 @@
     "./collapse/style": "./dist/components/collapse/collapse.css",
     "./modal/style": "./dist/components/modal/modal.css",
     "./popover/style": "./dist/components/popover/popover.css",
+    "./scrollspy/style": "./dist/components/scrollspy/scrollspy.css",
     "./toast/style": "./dist/components/toast/toast.css",
     "./button/cssmodule": {
       "import": "./dist/components/button/button.module.css.js"
@@ -133,6 +138,9 @@
     },
     "./popover/cssmodule": {
       "import": "./dist/components/popover/popover.module.css.js"
+    },
+    "./scrollspy/cssmodule": {
+      "import": "./dist/components/scrollspy/scrollspy.module.css.js"
     },
     "./toast/cssmodule": {
       "import": "./dist/components/toast/toast.module.css.js"

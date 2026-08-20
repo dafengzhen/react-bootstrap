@@ -193,6 +193,14 @@ export type {
   ProgressVariant,
 } from './components/progress';
 
+export { ScrollSpy, ScrollSpyContainer, ScrollSpyLink, useScrollSpy } from './components/scrollspy';
+export type {
+  ScrollSpyContainerProps,
+  ScrollSpyContextValue,
+  ScrollSpyLinkProps,
+  ScrollSpyProps,
+} from './components/scrollspy';
+
 export { Spinner } from './components/spinner';
 export type {
   SpinnerAnimation,

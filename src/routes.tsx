@@ -16,6 +16,7 @@ import PaginationDoc from './components/pagination/pagination.doc';
 import PlaceholderDoc from './components/placeholder/placeholder.doc';
 import PopoverDoc from './components/popover/popover.doc';
 import ProgressDoc from './components/progress/progress.doc';
+import ScrollSpyDoc from './components/scrollspy/scrollspy.doc';
 import SpinnerDoc from './components/spinner/spinner.doc';
 import TabsDoc from './components/tabs/tabs.doc';
 import ToastDoc from './components/toast/toast.doc';
@@ -203,6 +204,15 @@ const docsConfig: DocConfig[] = [
     order: 20,
     path: '/components/carousel',
     tags: ['Basic', 'Layout'],
+  },
+  {
+    description:
+      'ScrollSpy component that automatically updates navigation links based on the scroll position of a container or the page, supporting rootMargin/threshold observation options, smooth scrolling, controlled mode, context-based ScrollSpyLink links and plain HTML targets via selector.',
+    element: <ScrollSpyDoc />,
+    name: 'ScrollSpy',
+    order: 21,
+    path: '/components/scrollspy',
+    tags: ['Basic', 'Navigation'],
   },
 ];
 

@@ -160,6 +160,18 @@ pre code.hljs {
   border-bottom: none;
 }
 
+.scrollspy-example {
+  position: relative;
+  height: 200px;
+  overflow-y: auto;
+}
+
+.scrollspy-example-lg {
+  position: relative;
+  height: 320px;
+  overflow-y: auto;
+}
+
 .demo-code .code-block-wrapper {
   margin: 0;
 }

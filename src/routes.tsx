@@ -13,6 +13,7 @@ import ModalDoc from './components/modal/modal.doc';
 import PaginationDoc from './components/pagination/pagination.doc';
 import PlaceholderDoc from './components/placeholder/placeholder.doc';
 import PopoverDoc from './components/popover/popover.doc';
+import ProgressDoc from './components/progress/progress.doc';
 import SpinnerDoc from './components/spinner/spinner.doc';
 import TabsDoc from './components/tabs/tabs.doc';
 import ToastDoc from './components/toast/toast.doc';
@@ -172,6 +173,15 @@ const docsConfig: DocConfig[] = [
     name: 'Tooltip',
     order: 17,
     path: '/components/tooltip',
+    tags: ['Basic', 'Feedback'],
+  },
+  {
+    description:
+      'Progress component that displays the completion state of a task or workflow, supporting labels, custom heights, color variants, striped and animated stripes, stacked segments and manual composition of multiple bars.',
+    element: <ProgressDoc />,
+    name: 'Progress',
+    order: 18,
+    path: '/components/progress',
     tags: ['Basic', 'Feedback'],
   },
 ];

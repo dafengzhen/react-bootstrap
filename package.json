@@ -85,6 +85,10 @@
       "import": "./dist/components/popover/index.js",
       "types": "./dist/components/popover/index.d.ts"
     },
+    "./progress": {
+      "import": "./dist/components/progress/index.js",
+      "types": "./dist/components/progress/index.d.ts"
+    },
     "./spinner": {
       "import": "./dist/components/spinner/index.js",
       "types": "./dist/components/spinner/index.d.ts"

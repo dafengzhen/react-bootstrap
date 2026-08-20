@@ -151,6 +151,15 @@ export type {
   PopoverTriggerType,
 } from './components/popover';
 
+export { Progress, ProgressBar, ProgressStacked, useProgressStacked } from './components/progress';
+export type {
+  ProgressBarProps,
+  ProgressProps,
+  ProgressStackedContextValue,
+  ProgressStackedProps,
+  ProgressVariant,
+} from './components/progress';
+
 export { Spinner } from './components/spinner';
 export type {
   SpinnerAnimation,

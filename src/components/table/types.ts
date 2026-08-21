@@ -9,6 +9,12 @@ import type {
   TextareaHTMLAttributes,
 } from 'react';
 
+export interface ExportTableCsvOptions<Row> {
+  columns: readonly TableCsvColumn<Row>[];
+  filename?: string;
+  rows: readonly Row[];
+}
+
 export type TableAlign = 'bottom' | 'middle' | 'top';
 
 export type TableBreakpoint = 'lg' | 'md' | 'sm' | 'xl' | 'xxl';
@@ -33,6 +39,19 @@ export interface TableCellProps extends HTMLAttributes<HTMLElement> {
 }
 
 export type TableCellScope = 'col' | 'colgroup' | 'row' | 'rowgroup';
+
+export interface TableColumnPreference {
+  key: string;
+  label: string;
+  visible: boolean;
+  width?: number;
+}
+
+export interface TableCsvColumn<Row> {
+  key: string;
+  label?: string;
+  value?: (row: Row) => number | string | undefined;
+}
 
 export interface TableDetailRowProps extends HTMLAttributes<HTMLTableRowElement> {
   cellClassName?: string;
@@ -156,6 +175,10 @@ export interface TableSelectCellProps extends Omit<HTMLAttributes<HTMLElement>, 
 
 export type TableSize = 'sm';
 
+export type TableSortDirection = 'ascending' | 'descending';
+
+export type TableSortValue = number | string | undefined;
+
 export type TableStriped = 'columns' | boolean;
 
 export type TableVariant =
@@ -167,6 +190,23 @@ export type TableVariant =
   | 'secondary'
   | 'success'
   | 'warning';
+
+export interface UseTableColumnsOptions {
+  initialColumns: readonly TableColumnPreference[];
+  storageKey?: string;
+}
+
+export interface UseTableColumnsResult {
+  columns: readonly TableColumnPreference[];
+  getColumn: (key: string) => TableColumnPreference | undefined;
+  reset: () => void;
+  setColumns: (columns: readonly TableColumnPreference[]) => void;
+  setColumnVisible: (key: string, visible: boolean) => void;
+  setColumnWidth: (key: string, width: number) => void;
+  toggleColumn: (key: string) => void;
+  visibleColumns: readonly TableColumnPreference[];
+  visibleCount: number;
+}
 
 export interface UseTableEditingOptions<Key> {
   defaultEditingKey?: Key | null;
@@ -198,9 +238,51 @@ export interface UseTableExpansionResult<Key> {
   toggleAll: (keys: Iterable<Key>) => void;
 }
 
+export interface UseTableFilterOptions<Row> {
+  initialFilters?: Readonly<Record<string, unknown>>;
+  predicate?: (row: Row, filters: Readonly<Record<string, unknown>>) => boolean;
+}
+
+export interface UseTableFilterResult<Row> {
+  clearFilters: () => void;
+  filterCount: number;
+  filterRows: (rows: readonly Row[]) => readonly Row[];
+  filters: Readonly<Record<string, unknown>>;
+  hasFilter: (key: string) => boolean;
+  hasFilters: boolean;
+  removeFilter: (key: string) => void;
+  setFilter: (key: string, value: unknown) => void;
+  setFilters: (filters: Readonly<Record<string, unknown>>) => void;
+}
+
 export interface UseTableOptions<Row, Key> {
   getRowKey: (row: Row) => Key;
   initialRows?: readonly Row[];
+}
+
+export interface UseTablePaginationOptions {
+  initialPage?: number;
+  initialPageSize?: number;
+  pageSizeOptions?: readonly number[];
+  totalCount?: number;
+}
+
+export interface UseTablePaginationResult {
+  endIndex: number;
+  firstPage: () => void;
+  getPageRows: <Row>(rows: readonly Row[]) => readonly Row[];
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  lastPage: () => void;
+  nextPage: () => void;
+  page: number;
+  pageSize: number;
+  pageSizeOptions: readonly number[];
+  previousPage: () => void;
+  setPage: (page: number) => void;
+  setPageSize: (pageSize: number) => void;
+  startIndex: number;
+  totalPages: number;
 }
 
 export interface UseTableResult<Row, Key> {
@@ -213,6 +295,21 @@ export interface UseTableResult<Row, Key> {
   rows: readonly Row[];
   setRows: (rows: readonly Row[]) => void;
   updateRow: (key: Key, updater: (row: Row) => Row) => void;
+}
+
+export interface UseTableSearchOptions<Row> {
+  fields?: readonly string[];
+  initialQuery?: string;
+  match?: (row: Row, query: string) => boolean;
+}
+
+export interface UseTableSearchResult<Row> {
+  clear: () => void;
+  hasQuery: boolean;
+  matches: (row: Row) => boolean;
+  query: string;
+  searchRows: (rows: readonly Row[]) => readonly Row[];
+  setQuery: (query: string) => void;
 }
 
 export interface UseTableSelectionOptions<Key> {
@@ -232,4 +329,22 @@ export interface UseTableSelectionResult<Key> {
   setSelectedKeys: (keys: Iterable<Key>) => void;
   toggle: (key: Key) => void;
   toggleAll: (keys: Iterable<Key>) => void;
+}
+
+export interface UseTableSortingOptions {
+  initialDirection?: TableSortDirection;
+  initialSortKey?: string;
+}
+
+export interface UseTableSortingResult {
+  clearSort: () => void;
+  direction: TableSortDirection;
+  isActive: (key: string) => boolean;
+  setSort: (key: string, direction?: TableSortDirection) => void;
+  sortKey: string | undefined;
+  sortRows: <Row>(
+    rows: readonly Row[],
+    getValue?: (row: Row, key: string) => TableSortValue,
+  ) => readonly Row[];
+  toggleSort: (key: string) => void;
 }

@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 
-import type { TableEditOption, TableEditValue } from './types';
+import type { TableColumnPreference, TableEditOption, TableEditValue } from './types';
 
 import {
   type ApiProp,
@@ -10,37 +10,48 @@ import {
 } from '../../internal/doc-template';
 import { Button } from '../button';
 import { ButtonGroup } from '../button-group';
+import { FormCheck, FormCheckInput, FormCheckLabel } from '../form-check';
 import { FormControl } from '../form-control';
+import { FormSelect } from '../form-select';
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from '../modal';
 import { Offcanvas, OffcanvasBody, OffcanvasHeader, OffcanvasTitle } from '../offcanvas';
+import { Pagination, PaginationItem, PaginationLink } from '../pagination';
 import activeCode from './demos/active.md?raw';
 import addRowCode from './demos/add-row.md?raw';
 import anatomyCode from './demos/anatomy.md?raw';
 import basicCode from './demos/basic.md?raw';
+import batchCode from './demos/batch.md?raw';
 import borderedCode from './demos/bordered.md?raw';
 import borderlessCode from './demos/borderless.md?raw';
 import captionTopCode from './demos/caption-top.md?raw';
+import columnWidthCode from './demos/column-width.md?raw';
 import crudCode from './demos/crud.md?raw';
 import deleteRowCode from './demos/delete-row.md?raw';
 import detailDrawerCode from './demos/detail-drawer.md?raw';
 import detailModalCode from './demos/detail-modal.md?raw';
 import emptyCode from './demos/empty.md?raw';
 import expandableCode from './demos/expandable.md?raw';
+import filterCode from './demos/filter.md?raw';
 import groupDividersCode from './demos/group-dividers.md?raw';
 import hoverCode from './demos/hover.md?raw';
 import inlineEditCode from './demos/inline-edit.md?raw';
 import loadingCode from './demos/loading.md?raw';
 import masterDetailCode from './demos/master-detail.md?raw';
 import nestingCode from './demos/nesting.md?raw';
+import paginationCode from './demos/pagination.md?raw';
+import preferencesCode from './demos/preferences.md?raw';
 import responsiveCode from './demos/responsive.md?raw';
+import searchCode from './demos/search.md?raw';
 import selectionCode from './demos/selection.md?raw';
 import smallCode from './demos/small.md?raw';
+import sortingCode from './demos/sorting.md?raw';
 import stripedColumnsCode from './demos/striped-columns.md?raw';
 import stripedCode from './demos/striped.md?raw';
 import variantsCode from './demos/variants.md?raw';
 import verticalAlignmentCode from './demos/vertical-alignment.md?raw';
 import viewToggleCode from './demos/view-toggle.md?raw';
 import {
+  exportTableCsv,
   Table,
   TableBody,
   TableCaption,
@@ -56,15 +67,23 @@ import {
   TableRow,
   TableSelectCell,
   useTable,
+  useTableColumns,
   useTableEditing,
   useTableExpansion,
+  useTableFilter,
+  useTablePagination,
+  useTableSearch,
   useTableSelection,
+  useTableSorting,
 } from './index';
+import exportTableCsvOptionsTypeCode from './types/export-table-csv-options.md?raw';
 import tableAlignTypeCode from './types/table-align.md?raw';
 import tableBreakpointTypeCode from './types/table-breakpoint.md?raw';
 import tableCaptionPropsTypeCode from './types/table-caption-props.md?raw';
 import tableCellPropsTypeCode from './types/table-cell-props.md?raw';
 import tableCellScopeTypeCode from './types/table-cell-scope.md?raw';
+import tableColumnPreferenceTypeCode from './types/table-column-preference.md?raw';
+import tableCsvColumnTypeCode from './types/table-csv-column.md?raw';
 import tableDetailRowPropsTypeCode from './types/table-detail-row-props.md?raw';
 import tableEditCellPropsTypeCode from './types/table-edit-cell-props.md?raw';
 import tableEditOptionTypeCode from './types/table-edit-option.md?raw';
@@ -79,16 +98,28 @@ import tableRowPropsTypeCode from './types/table-row-props.md?raw';
 import tableSectionPropsTypeCode from './types/table-section-props.md?raw';
 import tableSelectCellPropsTypeCode from './types/table-select-cell-props.md?raw';
 import tableSizeTypeCode from './types/table-size.md?raw';
+import tableSortDirectionTypeCode from './types/table-sort-direction.md?raw';
+import tableSortValueTypeCode from './types/table-sort-value.md?raw';
 import tableStripedTypeCode from './types/table-striped.md?raw';
 import tableVariantTypeCode from './types/table-variant.md?raw';
+import useTableColumnsOptionsTypeCode from './types/use-table-columns-options.md?raw';
+import useTableColumnsResultTypeCode from './types/use-table-columns-result.md?raw';
 import useTableEditingOptionsTypeCode from './types/use-table-editing-options.md?raw';
 import useTableEditingResultTypeCode from './types/use-table-editing-result.md?raw';
 import useTableExpansionOptionsTypeCode from './types/use-table-expansion-options.md?raw';
 import useTableExpansionResultTypeCode from './types/use-table-expansion-result.md?raw';
+import useTableFilterOptionsTypeCode from './types/use-table-filter-options.md?raw';
+import useTableFilterResultTypeCode from './types/use-table-filter-result.md?raw';
 import useTableOptionsTypeCode from './types/use-table-options.md?raw';
+import useTablePaginationOptionsTypeCode from './types/use-table-pagination-options.md?raw';
+import useTablePaginationResultTypeCode from './types/use-table-pagination-result.md?raw';
 import useTableResultTypeCode from './types/use-table-result.md?raw';
+import useTableSearchOptionsTypeCode from './types/use-table-search-options.md?raw';
+import useTableSearchResultTypeCode from './types/use-table-search-result.md?raw';
 import useTableSelectionOptionsTypeCode from './types/use-table-selection-options.md?raw';
 import useTableSelectionResultTypeCode from './types/use-table-selection-result.md?raw';
+import useTableSortingOptionsTypeCode from './types/use-table-sorting-options.md?raw';
+import useTableSortingResultTypeCode from './types/use-table-sorting-result.md?raw';
 
 interface DocUser {
   firstName: string;
@@ -120,6 +151,538 @@ const STATUS_OPTIONS: TableEditOption[] = [
 
 const requiredValidator = (value: TableEditValue) =>
   String(value).trim() === '' ? '不能为空' : undefined;
+
+const PAGED_USERS: DocUser[] = Array.from({ length: 12 }, (_, index) => ({
+  firstName: '用户',
+  id: index + 1,
+  lastName: `姓${index + 1}`,
+  note: index % 3 === 0 ? `备注 ${index + 1}` : '',
+  status: ['在线', '离线', '忙碌'][index % 3],
+  username: `@user${index + 1}`,
+}));
+
+const PREFERENCES_COLUMNS: TableColumnPreference[] = [
+  { key: 'id', label: '#', visible: true, width: 60 },
+  { key: 'firstName', label: '姓氏', visible: true, width: 100 },
+  { key: 'lastName', label: '名字', visible: true, width: 100 },
+  { key: 'username', label: '用户名', visible: true, width: 140 },
+  { key: 'status', label: '状态', visible: true, width: 90 },
+  { key: 'note', label: '备注', visible: false, width: 160 },
+];
+
+const COLUMN_WIDTH_COLUMNS: TableColumnPreference[] = [
+  { key: 'id', label: '#', visible: true, width: 80 },
+  { key: 'firstName', label: '姓氏', visible: true, width: 120 },
+  { key: 'lastName', label: '名字', visible: true, width: 120 },
+  { key: 'username', label: '用户名', visible: true, width: 160 },
+  { key: 'note', label: '备注', visible: true, width: 240 },
+];
+
+const WIDTH_OPTIONS: TableEditOption[] = [
+  { label: '紧凑 (80px)', value: '80' },
+  { label: '默认 (120px)', value: '120' },
+  { label: '较宽 (160px)', value: '160' },
+  { label: '宽松 (240px)', value: '240' },
+];
+
+const SearchDemo = () => {
+  const search = useTableSearch<DocUser>({
+    fields: ['firstName', 'lastName', 'username', 'note'],
+  });
+  const matchedRows = search.searchRows(DOC_USERS);
+
+  return (
+    <>
+      <div className="mb-2" style={{ maxWidth: '20rem' }}>
+        <FormControl
+          onChange={(event) => search.setQuery(event.target.value)}
+          placeholder="搜索姓名、用户名或备注…"
+          type="search"
+          value={search.query}
+        />
+      </div>
+      <p className="text-body-secondary">
+        共 {matchedRows.length} 条记录
+        {search.hasQuery && `，关键词「${search.query}」`}
+      </p>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell as="th" scope="col">
+              #
+            </TableCell>
+            <TableCell as="th" scope="col">
+              姓氏
+            </TableCell>
+            <TableCell as="th" scope="col">
+              名字
+            </TableCell>
+            <TableCell as="th" scope="col">
+              用户名
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {matchedRows.map((user) => (
+            <TableRow key={user.id}>
+              <TableCell as="th" scope="row">
+                {user.id}
+              </TableCell>
+              <TableCell>{user.firstName}</TableCell>
+              <TableCell>{user.lastName}</TableCell>
+              <TableCell>{user.username}</TableCell>
+            </TableRow>
+          ))}
+          {matchedRows.length === 0 && <TableEmpty colSpan={4}>未找到匹配的记录</TableEmpty>}
+        </TableBody>
+      </Table>
+    </>
+  );
+};
+
+const FilterDemo = () => {
+  const filter = useTableFilter<DocUser>();
+  const filteredRows = filter.filterRows(DOC_USERS);
+
+  const statuses = (filter.filters.status ?? []) as string[];
+
+  const handleToggleStatus = (status: string) => {
+    const next = statuses.includes(status)
+      ? statuses.filter((item) => item !== status)
+      : [...statuses, status];
+    filter.setFilter('status', next);
+  };
+
+  return (
+    <>
+      <div className="d-flex flex-wrap align-items-center gap-3 mb-2">
+        {STATUS_OPTIONS.map((status) => (
+          <FormCheck inline key={status.value}>
+            <FormCheckInput
+              checked={statuses.includes(status.value)}
+              id={`filter-status-${status.value}`}
+              onChange={() => handleToggleStatus(status.value)}
+            />
+            <FormCheckLabel htmlFor={`filter-status-${status.value}`}>
+              {status.label}
+            </FormCheckLabel>
+          </FormCheck>
+        ))}
+        {filter.hasFilters && (
+          <Button onClick={filter.clearFilters} size="sm" variant="outline-secondary">
+            清除筛选
+          </Button>
+        )}
+      </div>
+      <p className="text-body-secondary">
+        共 {filteredRows.length} 条记录
+        {filter.filterCount > 0 && `，已应用 ${filter.filterCount} 个筛选条件`}
+      </p>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell as="th" scope="col">
+              #
+            </TableCell>
+            <TableCell as="th" scope="col">
+              姓氏
+            </TableCell>
+            <TableCell as="th" scope="col">
+              名字
+            </TableCell>
+            <TableCell as="th" scope="col">
+              状态
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {filteredRows.map((user) => (
+            <TableRow key={user.id}>
+              <TableCell as="th" scope="row">
+                {user.id}
+              </TableCell>
+              <TableCell>{user.firstName}</TableCell>
+              <TableCell>{user.lastName}</TableCell>
+              <TableCell>{user.status}</TableCell>
+            </TableRow>
+          ))}
+          {filteredRows.length === 0 && <TableEmpty colSpan={4}>没有符合条件的记录</TableEmpty>}
+        </TableBody>
+      </Table>
+    </>
+  );
+};
+
+const SortDemo = () => {
+  const sorting = useTableSorting({ initialSortKey: 'no' });
+  const sortedOrders = sorting.sortRows(DOC_ORDERS);
+
+  const ariaSort = (key: string): 'ascending' | 'descending' | 'none' =>
+    sorting.isActive(key)
+      ? sorting.direction === 'ascending'
+        ? 'ascending'
+        : 'descending'
+      : 'none';
+
+  return (
+    <Table hover>
+      <TableHead>
+        <TableRow>
+          <TableCell aria-sort={ariaSort('no')} as="th" scope="col">
+            <Button onClick={() => sorting.toggleSort('no')} size="sm" variant="link">
+              订单号 {sorting.isActive('no') && (sorting.direction === 'ascending' ? '▲' : '▼')}
+            </Button>
+          </TableCell>
+          <TableCell as="th" scope="col">
+            客户
+          </TableCell>
+          <TableCell aria-sort={ariaSort('amount')} as="th" scope="col">
+            <Button onClick={() => sorting.toggleSort('amount')} size="sm" variant="link">
+              金额 {sorting.isActive('amount') && (sorting.direction === 'ascending' ? '▲' : '▼')}
+            </Button>
+          </TableCell>
+          <TableCell as="th" scope="col">
+            状态
+          </TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {sortedOrders.map((order) => (
+          <TableRow key={order.id}>
+            <TableCell as="th" scope="row">
+              {order.no}
+            </TableCell>
+            <TableCell>{order.customer}</TableCell>
+            <TableCell>¥{order.amount}</TableCell>
+            <TableCell>{order.status}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
+};
+
+const PaginationDemo = () => {
+  const pagination = useTablePagination({
+    initialPageSize: 5,
+    pageSizeOptions: [5, 10, 20],
+    totalCount: PAGED_USERS.length,
+  });
+  const pageRows = pagination.getPageRows(PAGED_USERS);
+
+  return (
+    <>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell as="th" scope="col">
+              #
+            </TableCell>
+            <TableCell as="th" scope="col">
+              姓氏
+            </TableCell>
+            <TableCell as="th" scope="col">
+              名字
+            </TableCell>
+            <TableCell as="th" scope="col">
+              用户名
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {pageRows.map((user) => (
+            <TableRow key={user.id}>
+              <TableCell as="th" scope="row">
+                {user.id}
+              </TableCell>
+              <TableCell>{user.firstName}</TableCell>
+              <TableCell>{user.lastName}</TableCell>
+              <TableCell>{user.username}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-2">
+        <div className="d-flex align-items-center gap-2 text-nowrap">
+          <span className="text-body-secondary">每页</span>
+          <FormSelect
+            onChange={(event) => pagination.setPageSize(Number(event.target.value))}
+            style={{ maxWidth: '8rem' }}
+            value={pagination.pageSize}
+          >
+            {pagination.pageSizeOptions.map((size) => (
+              <option key={size} value={size}>
+                {size} 条
+              </option>
+            ))}
+          </FormSelect>
+          <span className="text-body-secondary">
+            共 {PAGED_USERS.length} 条，第 {pagination.page} / {pagination.totalPages} 页
+          </span>
+        </div>
+        <Pagination size="sm">
+          <PaginationItem disabled={!pagination.hasPreviousPage}>
+            <PaginationLink onClick={pagination.previousPage}>上一页</PaginationLink>
+          </PaginationItem>
+          {Array.from({ length: pagination.totalPages }, (_, index) => index + 1).map((page) => (
+            <PaginationItem active={page === pagination.page} key={page}>
+              <PaginationLink onClick={() => pagination.setPage(page)}>{page}</PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem disabled={!pagination.hasNextPage}>
+            <PaginationLink onClick={pagination.nextPage}>下一页</PaginationLink>
+          </PaginationItem>
+        </Pagination>
+      </div>
+    </>
+  );
+};
+
+const PreferencesDemo = () => {
+  const columns = useTableColumns({
+    initialColumns: PREFERENCES_COLUMNS,
+    storageKey: 'table-demo-columns',
+  });
+
+  return (
+    <>
+      <div className="d-flex flex-wrap align-items-center gap-3 mb-2">
+        {columns.columns.map((column) => (
+          <FormCheck inline key={column.key}>
+            <FormCheckInput
+              checked={column.visible}
+              id={`pref-column-${column.key}`}
+              onChange={() => columns.toggleColumn(column.key)}
+            />
+            <FormCheckLabel htmlFor={`pref-column-${column.key}`}>{column.label}</FormCheckLabel>
+          </FormCheck>
+        ))}
+        <Button onClick={columns.reset} size="sm" variant="outline-secondary">
+          重置偏好
+        </Button>
+      </div>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {columns.visibleColumns.map((column) => (
+              <TableCell as="th" key={column.key} scope="col" style={{ width: column.width }}>
+                {column.label}
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {DOC_USERS.map((user) => (
+            <TableRow key={user.id}>
+              {columns.visibleColumns.map((column) => (
+                <TableCell key={column.key}>
+                  {String((user as unknown as Record<string, unknown>)[column.key] ?? '无')}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <p className="mb-0 text-body-secondary">
+        当前显示 {columns.visibleCount} / {columns.columns.length} 列，偏好已保存到 localStorage
+      </p>
+    </>
+  );
+};
+
+const ColumnWidthDemo = () => {
+  const columns = useTableColumns({
+    initialColumns: COLUMN_WIDTH_COLUMNS,
+    storageKey: 'table-demo-column-widths',
+  });
+
+  return (
+    <>
+      <div className="mb-2">
+        <Button onClick={columns.reset} size="sm" variant="outline-secondary">
+          重置列宽
+        </Button>
+      </div>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {columns.visibleColumns.map((column) => (
+              <TableCell
+                as="th"
+                key={column.key}
+                scope="col"
+                style={{ minWidth: column.width, width: column.width }}
+              >
+                <div className="align-items-start d-flex flex-column gap-1">
+                  {column.label}
+                  <FormSelect
+                    aria-label={`${column.label} 列宽`}
+                    onChange={(event) =>
+                      columns.setColumnWidth(column.key, Number(event.target.value))
+                    }
+                    size="sm"
+                    style={{ fontWeight: 400, maxWidth: '10rem' }}
+                    value={column.width}
+                  >
+                    {WIDTH_OPTIONS.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </FormSelect>
+                </div>
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {DOC_USERS.map((user) => (
+            <TableRow key={user.id}>
+              {columns.visibleColumns.map((column) => (
+                <TableCell key={column.key}>
+                  {String((user as unknown as Record<string, unknown>)[column.key] ?? '无')}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <p className="mb-0 text-body-secondary">
+        通过表头下拉选择每列宽度，设置已保存到 localStorage
+      </p>
+    </>
+  );
+};
+
+const BatchDemo = () => {
+  const { removeRows, rows, updateRow } = useTable<DocUser, number>({
+    getRowKey: (user) => user.id,
+    initialRows: PAGED_USERS,
+  });
+  const selection = useTableSelection<number>();
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const selectedCount = selection.selectedCount;
+
+  const handleExport = () => {
+    const selected = rows.filter((user) => selection.isSelected(user.id));
+    exportTableCsv({
+      columns: [
+        { key: 'id', label: '编号' },
+        { key: 'firstName', label: '姓氏' },
+        { key: 'lastName', label: '名字' },
+        { key: 'username', label: '用户名' },
+        { key: 'status', label: '状态' },
+      ],
+      filename: `users-${Date.now()}.csv`,
+      rows: selectedCount > 0 ? selected : rows,
+    });
+  };
+
+  const handleMarkOnline = () => {
+    for (const id of selection.selectedKeys) {
+      updateRow(id, (user) => ({ ...user, status: '在线' }));
+    }
+  };
+
+  const handleBatchDelete = () => {
+    removeRows(selection.selectedKeys);
+    selection.clear();
+    setConfirmDelete(false);
+  };
+
+  return (
+    <>
+      <div className="d-flex flex-wrap align-items-center gap-2 mb-2">
+        <span className="text-body-secondary">已选 {selectedCount} 行</span>
+        <Button
+          disabled={selectedCount === 0}
+          onClick={handleMarkOnline}
+          size="sm"
+          variant="outline-primary"
+        >
+          批量标记在线
+        </Button>
+        <Button
+          disabled={selectedCount === 0}
+          onClick={() => setConfirmDelete(true)}
+          size="sm"
+          variant="outline-danger"
+        >
+          批量删除
+        </Button>
+        <Button onClick={handleExport} size="sm" variant="outline-secondary">
+          导出 CSV
+        </Button>
+      </div>
+      <Table hover>
+        <TableHead>
+          <TableRow>
+            <TableSelectCell
+              as="th"
+              checked={selection.isAllSelected(rows.map((user) => user.id))}
+              indeterminate={selection.isIndeterminate(rows.map((user) => user.id))}
+              label="全选"
+              onChange={() => selection.toggleAll(rows.map((user) => user.id))}
+            />
+            <TableCell as="th" scope="col">
+              #
+            </TableCell>
+            <TableCell as="th" scope="col">
+              姓氏
+            </TableCell>
+            <TableCell as="th" scope="col">
+              名字
+            </TableCell>
+            <TableCell as="th" scope="col">
+              状态
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((user) => (
+            <TableRow active={selection.isSelected(user.id)} key={user.id}>
+              <TableSelectCell
+                checked={selection.isSelected(user.id)}
+                label={`选择 ${user.username}`}
+                onChange={() => selection.toggle(user.id)}
+                value={String(user.id)}
+              />
+              <TableCell as="th" scope="row">
+                {user.id}
+              </TableCell>
+              <TableCell>{user.firstName}</TableCell>
+              <TableCell>{user.lastName}</TableCell>
+              <TableCell>{user.status}</TableCell>
+            </TableRow>
+          ))}
+          {rows.length === 0 && <TableEmpty colSpan={5}>暂无数据</TableEmpty>}
+        </TableBody>
+      </Table>
+      <Modal
+        isOpen={confirmDelete}
+        onOpenChange={(open) => {
+          if (!open) {
+            setConfirmDelete(false);
+          }
+        }}
+      >
+        <ModalHeader closeButton>
+          <ModalTitle>确认批量删除</ModalTitle>
+        </ModalHeader>
+        <ModalBody>确定要删除选中的 {selectedCount} 行吗？删除后无法恢复。</ModalBody>
+        <ModalFooter>
+          <Button onClick={() => setConfirmDelete(false)} variant="secondary">
+            取消
+          </Button>
+          <Button onClick={handleBatchDelete} variant="danger">
+            删除
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </>
+  );
+};
 
 interface DocOrder {
   address: string;
@@ -1852,6 +2415,16 @@ const tableTypeDefinitions: ApiTypeDefinition[] = [
     name: 'TableEditValue',
   },
   {
+    code: tableSortDirectionTypeCode,
+    description: '表格排序方向类型',
+    name: 'TableSortDirection',
+  },
+  {
+    code: tableSortValueTypeCode,
+    description: '表格排序值类型',
+    name: 'TableSortValue',
+  },
+  {
     code: tableSizeTypeCode,
     description: '表格尺寸类型',
     name: 'TableSize',
@@ -1927,6 +2500,21 @@ const tableTypeDefinitions: ApiTypeDefinition[] = [
     name: 'TableSelectCellProps',
   },
   {
+    code: exportTableCsvOptionsTypeCode,
+    description: '导出 CSV 配置参数接口',
+    name: 'ExportTableCsvOptions',
+  },
+  {
+    code: tableColumnPreferenceTypeCode,
+    description: '列偏好定义类型',
+    name: 'TableColumnPreference',
+  },
+  {
+    code: tableCsvColumnTypeCode,
+    description: 'CSV 导出列定义类型',
+    name: 'TableCsvColumn',
+  },
+  {
     code: useTableEditingOptionsTypeCode,
     description: 'useTableEditing 配置参数接口',
     name: 'UseTableEditingOptions',
@@ -1965,6 +2553,56 @@ const tableTypeDefinitions: ApiTypeDefinition[] = [
     code: useTableSelectionResultTypeCode,
     description: 'useTableSelection 返回值接口',
     name: 'UseTableSelectionResult',
+  },
+  {
+    code: useTableColumnsOptionsTypeCode,
+    description: 'useTableColumns 配置参数接口',
+    name: 'UseTableColumnsOptions',
+  },
+  {
+    code: useTableColumnsResultTypeCode,
+    description: 'useTableColumns 返回值接口',
+    name: 'UseTableColumnsResult',
+  },
+  {
+    code: useTableFilterOptionsTypeCode,
+    description: 'useTableFilter 配置参数接口',
+    name: 'UseTableFilterOptions',
+  },
+  {
+    code: useTableFilterResultTypeCode,
+    description: 'useTableFilter 返回值接口',
+    name: 'UseTableFilterResult',
+  },
+  {
+    code: useTablePaginationOptionsTypeCode,
+    description: 'useTablePagination 配置参数接口',
+    name: 'UseTablePaginationOptions',
+  },
+  {
+    code: useTablePaginationResultTypeCode,
+    description: 'useTablePagination 返回值接口',
+    name: 'UseTablePaginationResult',
+  },
+  {
+    code: useTableSearchOptionsTypeCode,
+    description: 'useTableSearch 配置参数接口',
+    name: 'UseTableSearchOptions',
+  },
+  {
+    code: useTableSearchResultTypeCode,
+    description: 'useTableSearch 返回值接口',
+    name: 'UseTableSearchResult',
+  },
+  {
+    code: useTableSortingOptionsTypeCode,
+    description: 'useTableSorting 配置参数接口',
+    name: 'UseTableSortingOptions',
+  },
+  {
+    code: useTableSortingResultTypeCode,
+    description: 'useTableSorting 返回值接口',
+    name: 'UseTableSortingResult',
   },
 ];
 
@@ -2894,12 +3532,40 @@ export const TableDoc = () => {
       <DemoSection code={viewToggleCode} title="视图切换">
         <ViewToggleDemo />
       </DemoSection>
+
+      <DemoSection code={searchCode} title="搜索">
+        <SearchDemo />
+      </DemoSection>
+
+      <DemoSection code={filterCode} title="筛选">
+        <FilterDemo />
+      </DemoSection>
+
+      <DemoSection code={sortingCode} title="排序">
+        <SortDemo />
+      </DemoSection>
+
+      <DemoSection code={paginationCode} title="分页">
+        <PaginationDemo />
+      </DemoSection>
+
+      <DemoSection code={preferencesCode} title="列偏好">
+        <PreferencesDemo />
+      </DemoSection>
+
+      <DemoSection code={columnWidthCode} title="自定义列宽">
+        <ColumnWidthDemo />
+      </DemoSection>
+
+      <DemoSection code={batchCode} title="批量操作">
+        <BatchDemo />
+      </DemoSection>
     </>
   );
 
   return (
     <DocTemplate
-      componentDescription="基于 Bootstrap 5 的表格组件，提供表格容器与表头/表体/表尾、行、单元格、标题等结构组件，支持情景颜色、条纹行/列、悬停与激活状态、边框、紧凑尺寸、分组分隔线、垂直对齐、嵌套、标题置顶与响应式滚动容器；并通过选择单元格、行内编辑单元格、加载/空状态行以及 useTable、useTableSelection、useTableEditing 钩子完整支持多选、增删改查等交互场景，配合展开开关单元格、详情行与 useTableExpansion 钩子可实现展开行、主从视图、详情弹窗、详情抽屉与表格/卡片视图切换等多种查看详情方式"
+      componentDescription="基于 Bootstrap 5 的表格组件，提供表格容器与表头/表体/表尾、行、单元格、标题等结构组件，支持情景颜色、条纹行/列、悬停与激活状态、边框、紧凑尺寸、分组分隔线、垂直对齐、嵌套、标题置顶与响应式滚动容器；并通过选择单元格、行内编辑单元格、加载/空状态行以及 useTable、useTableSelection、useTableEditing 钩子完整支持多选、增删改查等交互场景，配合展开开关单元格、详情行与 useTableExpansion 钩子可实现展开行、主从视图、详情弹窗、详情抽屉与表格/卡片视图切换等多种查看详情方式；此外通过 useTableSearch、useTableFilter、useTableSorting、useTablePagination、useTableColumns 钩子与 exportTableCsv 导出能力，完整覆盖搜索、筛选、排序、分页、列偏好与列宽选项设置、批量操作与数据导出等数据场景"
       componentName="Table"
       componentTags={['基础', '布局']}
       demoContent={demoContent}

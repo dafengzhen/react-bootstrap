@@ -73,6 +73,10 @@
       "import": "./dist/components/dropdown/index.js",
       "types": "./dist/components/dropdown/index.d.ts"
     },
+    "./form-control": {
+      "import": "./dist/components/form-control/index.js",
+      "types": "./dist/components/form-control/index.d.ts"
+    },
     "./list-group": {
       "import": "./dist/components/list-group/index.js",
       "types": "./dist/components/list-group/index.d.ts"

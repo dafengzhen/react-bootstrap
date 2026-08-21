@@ -119,6 +119,14 @@ export type {
   ToggleCallback,
 } from './components/dropdown';
 
+export { FormControl, FormText } from './components/form-control';
+export type {
+  FormControlElement,
+  FormControlProps,
+  FormControlSize,
+  FormTextProps,
+} from './components/form-control';
+
 export { ListGroup, ListGroupItem } from './components/list-group';
 export type {
   ListGroupHorizontal,

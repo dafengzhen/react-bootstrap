@@ -10,6 +10,7 @@ import CarouselDoc from './components/carousel/carousel.doc';
 import CloseButtonDoc from './components/close-button/close-button.doc';
 import CollapseDoc from './components/collapse/collapse.doc';
 import DropdownDoc from './components/dropdown/dropdown.doc';
+import FormControlDoc from './components/form-control/form-control.doc';
 import ListGroupDoc from './components/list-group/list-group.doc';
 import ModalDoc from './components/modal/modal.doc';
 import NavbarDoc from './components/navbar/navbar.doc';
@@ -233,6 +234,15 @@ const docsConfig: DocConfig[] = [
     order: 23,
     path: '/components/scrollspy',
     tags: ['Basic', 'Navigation'],
+  },
+  {
+    description:
+      'Form control component that renders inputs, selects and textareas with consistent Bootstrap styles, supporting sizing, disabled and readonly states, readonly plain text, file and color inputs, datalists, valid/invalid states, and the FormText helper text component.',
+    element: <FormControlDoc />,
+    name: 'FormControl',
+    order: 24,
+    path: '/components/form-control',
+    tags: ['Basic', 'Forms'],
   },
 ];
 

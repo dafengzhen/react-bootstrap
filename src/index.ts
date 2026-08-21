@@ -181,6 +181,26 @@ export type {
   NavbarVariant,
 } from './components/navbar';
 
+export {
+  Offcanvas,
+  OffcanvasBody,
+  OffcanvasClose,
+  OffcanvasHeader,
+  OffcanvasTitle,
+  useOffcanvas,
+} from './components/offcanvas';
+export type {
+  OffcanvasAnimationStatus,
+  OffcanvasBackdrop,
+  OffcanvasBodyProps,
+  OffcanvasCloseProps,
+  OffcanvasContextValue,
+  OffcanvasHeaderProps,
+  OffcanvasPlacement,
+  OffcanvasProps,
+  OffcanvasTitleProps,
+} from './components/offcanvas';
+
 export { Pagination, PaginationItem, PaginationLink } from './components/pagination';
 export type {
   PaginationAlign,

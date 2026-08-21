@@ -1,0 +1,102 @@
+:root {
+  --rbs-offcanvas-backdrop-bg: rgba(0, 0, 0, 0.5);
+  --rbs-offcanvas-duration: 300ms;
+  --rbs-offcanvas-easing: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.offcanvas {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  width: auto;
+  height: auto;
+  max-height: none;
+  left: auto;
+  right: auto;
+  overflow: visible;
+}
+
+.offcanvas.offcanvas {
+  --rbs-offcanvas-closed-transform: translate3d(-100%, 0, 0);
+  --rbs-offcanvas-open-transform: translate3d(0, 0, 0);
+
+  visibility: visible;
+  transform: var(--rbs-offcanvas-closed-transform);
+  transition: transform var(--rbs-offcanvas-duration, 300ms)
+    var(--rbs-offcanvas-easing, cubic-bezier(0.22, 1, 0.36, 1));
+  will-change: transform;
+}
+
+.offcanvas.offcanvas[data-status='opening'],
+.offcanvas.offcanvas[data-status='opened'] {
+  transform: var(--rbs-offcanvas-open-transform);
+}
+
+.offcanvas.offcanvas[data-status='closing'] {
+  transform: var(--rbs-offcanvas-closed-transform);
+}
+
+.offcanvas.offcanvasPlacementStart {
+  --rbs-offcanvas-closed-transform: translate3d(-100%, 0, 0);
+  --rbs-offcanvas-open-transform: translate3d(0, 0, 0);
+}
+
+.offcanvas.offcanvasPlacementEnd {
+  --rbs-offcanvas-closed-transform: translate3d(100%, 0, 0);
+  --rbs-offcanvas-open-transform: translate3d(0, 0, 0);
+}
+
+.offcanvas.offcanvasPlacementTop {
+  --rbs-offcanvas-closed-transform: translate3d(0, -100%, 0);
+  --rbs-offcanvas-open-transform: translate3d(0, 0, 0);
+}
+
+.offcanvas.offcanvasPlacementBottom {
+  --rbs-offcanvas-closed-transform: translate3d(0, 100%, 0);
+  --rbs-offcanvas-open-transform: translate3d(0, 0, 0);
+}
+
+.offcanvasBackdrop {
+  background: var(--rbs-offcanvas-backdrop-bg, rgba(0, 0, 0, 0.5));
+  opacity: 0;
+  transition: opacity var(--rbs-offcanvas-duration, 300ms)
+    var(--rbs-offcanvas-easing, cubic-bezier(0.22, 1, 0.36, 1));
+  will-change: opacity;
+}
+
+.offcanvasBackdrop[data-status='opening'],
+.offcanvasBackdrop[data-status='opened'] {
+  opacity: 1;
+}
+
+.offcanvasBackdrop[data-status='closing'],
+.offcanvasBackdrop[data-status='closed'] {
+  opacity: 0;
+}
+
+.offcanvasBackdropTransparent {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background: transparent;
+  pointer-events: none;
+}
+
+.offcanvasBackdropTransparent[data-status='opening'],
+.offcanvasBackdropTransparent[data-status='opened'] {
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .offcanvas,
+  .offcanvasBackdrop {
+    transition: none !important;
+  }
+}
+
+.offcanvasReducedMotion {
+  transition: none !important;
+}

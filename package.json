@@ -85,6 +85,10 @@
       "import": "./dist/components/navbar/index.js",
       "types": "./dist/components/navbar/index.d.ts"
     },
+    "./offcanvas": {
+      "import": "./dist/components/offcanvas/index.js",
+      "types": "./dist/components/offcanvas/index.d.ts"
+    },
     "./pagination": {
       "import": "./dist/components/pagination/index.js",
       "types": "./dist/components/pagination/index.d.ts"
@@ -125,6 +129,7 @@
     "./carousel/style": "./dist/components/carousel/carousel.css",
     "./collapse/style": "./dist/components/collapse/collapse.css",
     "./modal/style": "./dist/components/modal/modal.css",
+    "./offcanvas/style": "./dist/components/offcanvas/offcanvas.css",
     "./popover/style": "./dist/components/popover/popover.css",
     "./scrollspy/style": "./dist/components/scrollspy/scrollspy.css",
     "./toast/style": "./dist/components/toast/toast.css",
@@ -139,6 +144,9 @@
     },
     "./modal/cssmodule": {
       "import": "./dist/components/modal/modal.module.css.js"
+    },
+    "./offcanvas/cssmodule": {
+      "import": "./dist/components/offcanvas/offcanvas.module.css.js"
     },
     "./popover/cssmodule": {
       "import": "./dist/components/popover/popover.module.css.js"

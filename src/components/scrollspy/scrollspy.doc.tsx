@@ -206,7 +206,7 @@ const scrollspyProps: ApiProp[] = [
     component: 'ScrollSpy',
     defaultValue: '-',
     description:
-      '选择器字符串，等价于 Bootstrap 的 data-bs-target：指定普通 HTML 导航元素，自动收集其中带锚点 href 的链接并直接管理其 active 类，适合静态导航、嵌套导航与列表组',
+      '选择器字符串，等价于 Bootstrap 的 data-bs-target：指定普通 HTML 导航元素，自动收集其中带锚点 href 的链接并直接管理其 active 类，适合静态导航、嵌套导航与列表组；点击其中链接时保留原生锚点跳转（URL hash 同步），并在跳转后让点击的链接保持激活（即使目标标题无法滚动到激活线）',
     name: 'target',
     type: 'string',
   },

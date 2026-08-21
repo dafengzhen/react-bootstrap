@@ -469,7 +469,7 @@ export const TabsDoc = () => {
         </Nav>
         <p className="mb-0 mt-3 text-muted small">
           Nav 渲染 `ul.nav`，NavItem 渲染 `li.nav-item`，NavLink 渲染 `a.nav-link`， 与 Bootstrap
-          的导航结构一一对应
+          的导航结构一一对应；Nav 位于 Navbar 内时会自动追加 `navbar-nav` 类
         </p>
       </DemoSection>
 

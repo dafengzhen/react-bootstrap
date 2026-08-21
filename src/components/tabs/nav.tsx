@@ -3,6 +3,7 @@ import { forwardRef, type SyntheticEvent, useCallback, useMemo, useState } from 
 
 import type { EventKey, NavContextValue, NavProps } from './types';
 
+import { useNavbar } from '../navbar/context';
 import { NavContext, useTabs } from './context';
 
 export const Nav = forwardRef<HTMLElement, NavProps>(
@@ -24,13 +25,14 @@ export const Nav = forwardRef<HTMLElement, NavProps>(
     ref,
   ) => {
     const tabs = useTabs();
+    const navbar = useNavbar();
     const [internalKey, setInternalKey] = useState<EventKey | undefined>(defaultActiveKey);
 
     const currentKey = tabs ? tabs.activeEventKey : activeKey != null ? activeKey : internalKey;
 
     const handleSelect = useCallback(
       (eventKey: EventKey, event: SyntheticEvent) => {
-        onSelect?.(eventKey, event);
+        (onSelect ?? (tabs ? undefined : navbar?.onSelect))?.(eventKey, event);
         if (tabs) {
           tabs.onSelect(eventKey, event);
           return;
@@ -39,7 +41,7 @@ export const Nav = forwardRef<HTMLElement, NavProps>(
           setInternalKey(eventKey);
         }
       },
-      [activeKey, defaultActiveKey, onSelect, tabs],
+      [activeKey, defaultActiveKey, navbar, onSelect, tabs],
     );
 
     const contextValue = useMemo<NavContextValue>(
@@ -56,6 +58,7 @@ export const Nav = forwardRef<HTMLElement, NavProps>(
         <Component
           className={clsx(
             'nav',
+            navbar && 'navbar-nav',
             variant && `nav-${variant}`,
             fill && 'nav-fill',
             justify && 'nav-justified',

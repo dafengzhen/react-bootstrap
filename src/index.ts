@@ -158,6 +158,29 @@ export type {
   ModalTitleProps,
 } from './components/modal';
 
+export {
+  Navbar,
+  NavbarBrand,
+  NavbarCollapse,
+  NavbarOffcanvas,
+  NavbarText,
+  NavbarToggle,
+  useNavbar,
+} from './components/navbar';
+export type {
+  NavbarBrandProps,
+  NavbarCollapseProps,
+  NavbarContextValue,
+  NavbarExpand,
+  NavbarFixed,
+  NavbarOffcanvasPlacement,
+  NavbarOffcanvasProps,
+  NavbarProps,
+  NavbarTextProps,
+  NavbarToggleProps,
+  NavbarVariant,
+} from './components/navbar';
+
 export { Pagination, PaginationItem, PaginationLink } from './components/pagination';
 export type {
   PaginationAlign,

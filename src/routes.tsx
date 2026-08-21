@@ -10,7 +10,12 @@ import CarouselDoc from './components/carousel/carousel.doc';
 import CloseButtonDoc from './components/close-button/close-button.doc';
 import CollapseDoc from './components/collapse/collapse.doc';
 import DropdownDoc from './components/dropdown/dropdown.doc';
+import FloatingLabelDoc from './components/floating-label/floating-label.doc';
+import FormCheckDoc from './components/form-check/form-check.doc';
 import FormControlDoc from './components/form-control/form-control.doc';
+import FormRangeDoc from './components/form-range/form-range.doc';
+import FormSelectDoc from './components/form-select/form-select.doc';
+import InputGroupDoc from './components/input-group/input-group.doc';
 import ListGroupDoc from './components/list-group/list-group.doc';
 import ModalDoc from './components/modal/modal.doc';
 import NavbarDoc from './components/navbar/navbar.doc';
@@ -21,6 +26,7 @@ import PopoverDoc from './components/popover/popover.doc';
 import ProgressDoc from './components/progress/progress.doc';
 import ScrollSpyDoc from './components/scrollspy/scrollspy.doc';
 import SpinnerDoc from './components/spinner/spinner.doc';
+import TableDoc from './components/table/table.doc';
 import TabsDoc from './components/tabs/tabs.doc';
 import ToastDoc from './components/toast/toast.doc';
 import TooltipDoc from './components/tooltip/tooltip.doc';
@@ -243,6 +249,60 @@ const docsConfig: DocConfig[] = [
     order: 24,
     path: '/components/form-control',
     tags: ['Basic', 'Forms'],
+  },
+  {
+    description:
+      'Floating label component that renders a form control with a label that floats above the input, supporting textareas, selects, disabled and readonly plaintext states, input groups, validation states and grid layouts.',
+    element: <FloatingLabelDoc />,
+    name: 'FloatingLabel',
+    order: 25,
+    path: '/components/floating-label',
+    tags: ['Basic', 'Forms'],
+  },
+  {
+    description:
+      'Input group component that combines text addons, buttons, dropdowns, checkboxes and radios with form controls, supporting prefix/suffix and multiple addons, multiple inputs, button and dropdown addons, segmented buttons, custom selects and file inputs, wrapping, sizing and validation states.',
+    element: <InputGroupDoc />,
+    name: 'InputGroup',
+    order: 26,
+    path: '/components/input-group',
+    tags: ['Basic', 'Forms'],
+  },
+  {
+    description:
+      'Form select component that renders native selects with customized appearance, supporting small/large sizing, multiple selection, visible option count, disabled state and valid/invalid validation states.',
+    element: <FormSelectDoc />,
+    name: 'FormSelect',
+    order: 27,
+    path: '/components/form-select',
+    tags: ['Basic', 'Forms'],
+  },
+  {
+    description:
+      'Form check component that renders consistent checkboxes, radios and switches, composing FormCheck, FormCheckInput and FormCheckLabel, supporting indeterminate and disabled states, inline/reverse layouts and valid/invalid validation states.',
+    element: <FormCheckDoc />,
+    name: 'FormCheck',
+    order: 28,
+    path: '/components/form-check',
+    tags: ['Basic', 'Forms'],
+  },
+  {
+    description:
+      'Form range component that renders a styled native range input, supporting min/max values, step intervals, disabled state and valid/invalid validation states.',
+    element: <FormRangeDoc />,
+    name: 'FormRange',
+    order: 29,
+    path: '/components/form-range',
+    tags: ['Basic', 'Forms'],
+  },
+  {
+    description:
+      'Table component that displays tabular data with Bootstrap styles, providing structural helpers for head/body/footer, rows, cells and captions, supporting contextual variants, striped rows/columns, hover and active states, bordered/borderless styles, small sizing, group dividers, vertical alignment, nesting, top captions, responsive scroll wrappers, plus selection cells, inline editable cells, loading/empty rows and useTable/useTableSelection/useTableEditing hooks for full CRUD interactions.',
+    element: <TableDoc />,
+    name: 'Table',
+    order: 30,
+    path: '/components/table',
+    tags: ['Basic', 'Layout'],
   },
 ];
 

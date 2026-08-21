@@ -119,6 +119,17 @@ export type {
   ToggleCallback,
 } from './components/dropdown';
 
+export { FloatingLabel } from './components/floating-label';
+export type { FloatingLabelProps } from './components/floating-label';
+
+export { FormCheck, FormCheckInput, FormCheckLabel } from './components/form-check';
+export type {
+  FormCheckInputProps,
+  FormCheckLabelProps,
+  FormCheckProps,
+  FormCheckType,
+} from './components/form-check';
+
 export { FormControl, FormText } from './components/form-control';
 export type {
   FormControlElement,
@@ -126,6 +137,26 @@ export type {
   FormControlSize,
   FormTextProps,
 } from './components/form-control';
+
+export { FormRange } from './components/form-range';
+export type { FormRangeProps } from './components/form-range';
+
+export { FormSelect } from './components/form-select';
+export type { FormSelectProps, FormSelectSize } from './components/form-select';
+
+export {
+  InputGroup,
+  InputGroupCheckbox,
+  InputGroupRadio,
+  InputGroupText,
+} from './components/input-group';
+export type {
+  InputGroupCheckboxProps,
+  InputGroupProps,
+  InputGroupRadioProps,
+  InputGroupSize,
+  InputGroupTextProps,
+} from './components/input-group';
 
 export { ListGroup, ListGroupItem } from './components/list-group';
 export type {
@@ -259,6 +290,51 @@ export type {
   SpinnerSize,
   SpinnerVariant,
 } from './components/spinner';
+
+export {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableEditCell,
+  TableEmpty,
+  TableFooter,
+  TableHead,
+  TableLoading,
+  TableResponsive,
+  TableRow,
+  TableSelectCell,
+  useTable,
+  useTableEditing,
+  useTableSelection,
+} from './components/table';
+export type {
+  TableAlign,
+  TableBreakpoint,
+  TableCaptionProps,
+  TableCellProps,
+  TableCellScope,
+  TableEditCellProps,
+  TableEditOption,
+  TableEditType,
+  TableEditValue,
+  TableEmptyProps,
+  TableLoadingProps,
+  TableProps,
+  TableResponsiveProps,
+  TableRowProps,
+  TableSectionProps,
+  TableSelectCellProps,
+  TableSize,
+  TableStriped,
+  TableVariant,
+  UseTableEditingOptions,
+  UseTableEditingResult,
+  UseTableOptions,
+  UseTableResult,
+  UseTableSelectionOptions,
+  UseTableSelectionResult,
+} from './components/table';
 
 export {
   Nav,

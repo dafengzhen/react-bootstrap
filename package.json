@@ -73,9 +73,29 @@
       "import": "./dist/components/dropdown/index.js",
       "types": "./dist/components/dropdown/index.d.ts"
     },
+    "./form-check": {
+      "import": "./dist/components/form-check/index.js",
+      "types": "./dist/components/form-check/index.d.ts"
+    },
+    "./floating-label": {
+      "import": "./dist/components/floating-label/index.js",
+      "types": "./dist/components/floating-label/index.d.ts"
+    },
     "./form-control": {
       "import": "./dist/components/form-control/index.js",
       "types": "./dist/components/form-control/index.d.ts"
+    },
+    "./form-range": {
+      "import": "./dist/components/form-range/index.js",
+      "types": "./dist/components/form-range/index.d.ts"
+    },
+    "./form-select": {
+      "import": "./dist/components/form-select/index.js",
+      "types": "./dist/components/form-select/index.d.ts"
+    },
+    "./input-group": {
+      "import": "./dist/components/input-group/index.js",
+      "types": "./dist/components/input-group/index.d.ts"
     },
     "./list-group": {
       "import": "./dist/components/list-group/index.js",
@@ -116,6 +136,10 @@
     "./spinner": {
       "import": "./dist/components/spinner/index.js",
       "types": "./dist/components/spinner/index.d.ts"
+    },
+    "./table": {
+      "import": "./dist/components/table/index.js",
+      "types": "./dist/components/table/index.d.ts"
     },
     "./tabs": {
       "import": "./dist/components/tabs/index.js",

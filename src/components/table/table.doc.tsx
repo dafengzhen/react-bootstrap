@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 
 import type { TableEditOption, TableEditValue } from './types';
 
@@ -9,8 +9,10 @@ import {
   DocTemplate,
 } from '../../internal/doc-template';
 import { Button } from '../button';
+import { ButtonGroup } from '../button-group';
 import { FormControl } from '../form-control';
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from '../modal';
+import { Offcanvas, OffcanvasBody, OffcanvasHeader, OffcanvasTitle } from '../offcanvas';
 import activeCode from './demos/active.md?raw';
 import addRowCode from './demos/add-row.md?raw';
 import anatomyCode from './demos/anatomy.md?raw';
@@ -20,11 +22,15 @@ import borderlessCode from './demos/borderless.md?raw';
 import captionTopCode from './demos/caption-top.md?raw';
 import crudCode from './demos/crud.md?raw';
 import deleteRowCode from './demos/delete-row.md?raw';
+import detailDrawerCode from './demos/detail-drawer.md?raw';
+import detailModalCode from './demos/detail-modal.md?raw';
 import emptyCode from './demos/empty.md?raw';
+import expandableCode from './demos/expandable.md?raw';
 import groupDividersCode from './demos/group-dividers.md?raw';
 import hoverCode from './demos/hover.md?raw';
 import inlineEditCode from './demos/inline-edit.md?raw';
 import loadingCode from './demos/loading.md?raw';
+import masterDetailCode from './demos/master-detail.md?raw';
 import nestingCode from './demos/nesting.md?raw';
 import responsiveCode from './demos/responsive.md?raw';
 import selectionCode from './demos/selection.md?raw';
@@ -33,13 +39,16 @@ import stripedColumnsCode from './demos/striped-columns.md?raw';
 import stripedCode from './demos/striped.md?raw';
 import variantsCode from './demos/variants.md?raw';
 import verticalAlignmentCode from './demos/vertical-alignment.md?raw';
+import viewToggleCode from './demos/view-toggle.md?raw';
 import {
   Table,
   TableBody,
   TableCaption,
   TableCell,
+  TableDetailRow,
   TableEditCell,
   TableEmpty,
+  TableExpandCell,
   TableFooter,
   TableHead,
   TableLoading,
@@ -48,6 +57,7 @@ import {
   TableSelectCell,
   useTable,
   useTableEditing,
+  useTableExpansion,
   useTableSelection,
 } from './index';
 import tableAlignTypeCode from './types/table-align.md?raw';
@@ -55,11 +65,13 @@ import tableBreakpointTypeCode from './types/table-breakpoint.md?raw';
 import tableCaptionPropsTypeCode from './types/table-caption-props.md?raw';
 import tableCellPropsTypeCode from './types/table-cell-props.md?raw';
 import tableCellScopeTypeCode from './types/table-cell-scope.md?raw';
+import tableDetailRowPropsTypeCode from './types/table-detail-row-props.md?raw';
 import tableEditCellPropsTypeCode from './types/table-edit-cell-props.md?raw';
 import tableEditOptionTypeCode from './types/table-edit-option.md?raw';
 import tableEditTypeTypeCode from './types/table-edit-type.md?raw';
 import tableEditValueTypeCode from './types/table-edit-value.md?raw';
 import tableEmptyPropsTypeCode from './types/table-empty-props.md?raw';
+import tableExpandCellPropsTypeCode from './types/table-expand-cell-props.md?raw';
 import tableLoadingPropsTypeCode from './types/table-loading-props.md?raw';
 import tablePropsTypeCode from './types/table-props.md?raw';
 import tableResponsivePropsTypeCode from './types/table-responsive-props.md?raw';
@@ -71,6 +83,8 @@ import tableStripedTypeCode from './types/table-striped.md?raw';
 import tableVariantTypeCode from './types/table-variant.md?raw';
 import useTableEditingOptionsTypeCode from './types/use-table-editing-options.md?raw';
 import useTableEditingResultTypeCode from './types/use-table-editing-result.md?raw';
+import useTableExpansionOptionsTypeCode from './types/use-table-expansion-options.md?raw';
+import useTableExpansionResultTypeCode from './types/use-table-expansion-result.md?raw';
 import useTableOptionsTypeCode from './types/use-table-options.md?raw';
 import useTableResultTypeCode from './types/use-table-result.md?raw';
 import useTableSelectionOptionsTypeCode from './types/use-table-selection-options.md?raw';
@@ -106,6 +120,497 @@ const STATUS_OPTIONS: TableEditOption[] = [
 
 const requiredValidator = (value: TableEditValue) =>
   String(value).trim() === '' ? '不能为空' : undefined;
+
+interface DocOrder {
+  address: string;
+  amount: number;
+  createdAt: string;
+  customer: string;
+  id: number;
+  items: DocOrderItem[];
+  no: string;
+  note: string;
+  status: string;
+}
+
+interface DocOrderItem {
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+const DOC_ORDERS: DocOrder[] = [
+  {
+    address: '北京市朝阳区望京街道 88 号',
+    amount: 129.0,
+    createdAt: '2025-01-12 10:24',
+    customer: '张伟',
+    id: 1,
+    items: [
+      { name: '机械键盘', price: 99, quantity: 1 },
+      { name: '鼠标垫', price: 30, quantity: 1 },
+    ],
+    no: '202501120001',
+    note: '请放前台代收',
+    status: '已发货',
+  },
+  {
+    address: '上海市浦东新区世纪大道 100 号',
+    amount: 59.9,
+    createdAt: '2025-01-12 14:08',
+    customer: '李磊',
+    id: 2,
+    items: [{ name: '笔记本支架', price: 59.9, quantity: 1 }],
+    no: '202501120002',
+    note: '',
+    status: '待发货',
+  },
+  {
+    address: '广州市天河区珠江新城 12 号',
+    amount: 358.5,
+    createdAt: '2025-01-13 09:45',
+    customer: '王芳',
+    id: 3,
+    items: [
+      { name: '显示器挂灯', price: 199, quantity: 1 },
+      { name: '集线器', price: 79.5, quantity: 2 },
+    ],
+    no: '202501130003',
+    note: '工作日送达',
+    status: '已完成',
+  },
+];
+
+const ExpandableDemo = () => {
+  const expansion = useTableExpansion<number>();
+  const orderIds = DOC_ORDERS.map((order) => order.id);
+
+  return (
+    <>
+      <div className="d-flex gap-2 mb-2">
+        <Button onClick={() => expansion.expandAll(orderIds)} size="sm" variant="outline-primary">
+          全部展开
+        </Button>
+        <Button onClick={expansion.collapseAll} size="sm" variant="outline-secondary">
+          全部收起
+        </Button>
+      </div>
+      <Table hover>
+        <TableHead>
+          <TableRow>
+            <TableCell as="th" scope="col" />
+            <TableCell as="th" scope="col">
+              订单号
+            </TableCell>
+            <TableCell as="th" scope="col">
+              客户
+            </TableCell>
+            <TableCell as="th" scope="col">
+              金额
+            </TableCell>
+            <TableCell as="th" scope="col">
+              状态
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {DOC_ORDERS.map((order) => (
+            <Fragment key={order.id}>
+              <TableRow>
+                <TableExpandCell
+                  collapseLabel={`收起订单 ${order.no}`}
+                  expanded={expansion.isExpanded(order.id)}
+                  expandLabel={`展开订单 ${order.no}`}
+                  onToggle={() => expansion.toggle(order.id)}
+                />
+                <TableCell as="th" scope="row">
+                  {order.no}
+                </TableCell>
+                <TableCell>{order.customer}</TableCell>
+                <TableCell>¥{order.amount}</TableCell>
+                <TableCell>{order.status}</TableCell>
+              </TableRow>
+              {expansion.isExpanded(order.id) && (
+                <TableDetailRow colSpan={5}>
+                  <div className="mb-2 row g-2">
+                    <div className="col-md-6">
+                      <strong>收货地址：</strong>
+                      {order.address}
+                    </div>
+                    <div className="col-md-6">
+                      <strong>下单时间：</strong>
+                      {order.createdAt}
+                    </div>
+                    <div className="col-12">
+                      <strong>备注：</strong>
+                      {order.note || '无'}
+                    </div>
+                  </div>
+                  <Table bordered size="sm">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell as="th" scope="col">
+                          条目
+                        </TableCell>
+                        <TableCell as="th" scope="col">
+                          数量
+                        </TableCell>
+                        <TableCell as="th" scope="col">
+                          单价
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {order.items.map((item) => (
+                        <TableRow key={item.name}>
+                          <TableCell>{item.name}</TableCell>
+                          <TableCell>{item.quantity}</TableCell>
+                          <TableCell>¥{item.price}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableDetailRow>
+              )}
+            </Fragment>
+          ))}
+        </TableBody>
+      </Table>
+    </>
+  );
+};
+
+const MasterDetailDemo = () => {
+  const [detailId, setDetailId] = useState<number>(DOC_USERS[0].id);
+  const detail = DOC_USERS.find((user) => user.id === detailId);
+
+  return (
+    <div className="row g-3">
+      <div className="col-md-7">
+        <Table hover>
+          <TableHead>
+            <TableRow>
+              <TableCell as="th" scope="col">
+                #
+              </TableCell>
+              <TableCell as="th" scope="col">
+                姓氏
+              </TableCell>
+              <TableCell as="th" scope="col">
+                名字
+              </TableCell>
+              <TableCell as="th" scope="col">
+                用户名
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {DOC_USERS.map((user) => (
+              <TableRow
+                active={detailId === user.id}
+                key={user.id}
+                onClick={() => setDetailId(user.id)}
+              >
+                <TableCell as="th" scope="row">
+                  {user.id}
+                </TableCell>
+                <TableCell>{user.firstName}</TableCell>
+                <TableCell>{user.lastName}</TableCell>
+                <TableCell>{user.username}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      <div className="col-md-5">
+        <div className="card">
+          <div className="card-header">用户详情</div>
+          <div className="card-body">
+            {detail && (
+              <dl className="mb-0 row">
+                <dt className="col-4">编号</dt>
+                <dd className="col-8">{detail.id}</dd>
+                <dt className="col-4">姓名</dt>
+                <dd className="col-8">
+                  {detail.lastName}
+                  {detail.firstName}
+                </dd>
+                <dt className="col-4">用户名</dt>
+                <dd className="col-8">{detail.username}</dd>
+                <dt className="col-4">状态</dt>
+                <dd className="col-8">{detail.status}</dd>
+                <dt className="col-4">备注</dt>
+                <dd className="col-8">{detail.note || '无'}</dd>
+              </dl>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const DetailModalDemo = () => {
+  const [detailId, setDetailId] = useState<number>();
+  const detail = DOC_USERS.find((user) => user.id === detailId);
+
+  return (
+    <>
+      <Table hover>
+        <TableHead>
+          <TableRow>
+            <TableCell as="th" scope="col">
+              #
+            </TableCell>
+            <TableCell as="th" scope="col">
+              姓氏
+            </TableCell>
+            <TableCell as="th" scope="col">
+              名字
+            </TableCell>
+            <TableCell as="th" scope="col">
+              用户名
+            </TableCell>
+            <TableCell as="th" scope="col">
+              操作
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {DOC_USERS.map((user) => (
+            <TableRow key={user.id}>
+              <TableCell as="th" scope="row">
+                {user.id}
+              </TableCell>
+              <TableCell>{user.firstName}</TableCell>
+              <TableCell>{user.lastName}</TableCell>
+              <TableCell>{user.username}</TableCell>
+              <TableCell>
+                <Button onClick={() => setDetailId(user.id)} size="sm" variant="outline-primary">
+                  查看
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <Modal
+        isOpen={detailId !== undefined}
+        onOpenChange={(open) => {
+          if (!open) {
+            setDetailId(undefined);
+          }
+        }}
+      >
+        <ModalHeader closeButton>
+          <ModalTitle>用户详情</ModalTitle>
+        </ModalHeader>
+        <ModalBody>
+          {detail && (
+            <Table bordered size="sm">
+              <TableBody>
+                <TableRow>
+                  <TableCell as="th" scope="row">
+                    编号
+                  </TableCell>
+                  <TableCell>{detail.id}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell as="th" scope="row">
+                    姓名
+                  </TableCell>
+                  <TableCell>
+                    {detail.lastName}
+                    {detail.firstName}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell as="th" scope="row">
+                    用户名
+                  </TableCell>
+                  <TableCell>{detail.username}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell as="th" scope="row">
+                    状态
+                  </TableCell>
+                  <TableCell>{detail.status}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell as="th" scope="row">
+                    备注
+                  </TableCell>
+                  <TableCell>{detail.note || '无'}</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          )}
+        </ModalBody>
+        <ModalFooter>
+          <Button onClick={() => setDetailId(undefined)} variant="secondary">
+            关闭
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </>
+  );
+};
+
+const DetailDrawerDemo = () => {
+  const [detailId, setDetailId] = useState<number>();
+  const detail = DOC_USERS.find((user) => user.id === detailId);
+
+  return (
+    <>
+      <Table hover>
+        <TableHead>
+          <TableRow>
+            <TableCell as="th" scope="col">
+              #
+            </TableCell>
+            <TableCell as="th" scope="col">
+              姓氏
+            </TableCell>
+            <TableCell as="th" scope="col">
+              名字
+            </TableCell>
+            <TableCell as="th" scope="col">
+              用户名
+            </TableCell>
+            <TableCell as="th" scope="col">
+              操作
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {DOC_USERS.map((user) => (
+            <TableRow key={user.id}>
+              <TableCell as="th" scope="row">
+                {user.id}
+              </TableCell>
+              <TableCell>{user.firstName}</TableCell>
+              <TableCell>{user.lastName}</TableCell>
+              <TableCell>{user.username}</TableCell>
+              <TableCell>
+                <Button onClick={() => setDetailId(user.id)} size="sm" variant="outline-primary">
+                  查看
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <Offcanvas
+        isOpen={detailId !== undefined}
+        onOpenChange={(open) => {
+          if (!open) {
+            setDetailId(undefined);
+          }
+        }}
+        placement="end"
+      >
+        <OffcanvasHeader closeButton>
+          <OffcanvasTitle>用户详情</OffcanvasTitle>
+        </OffcanvasHeader>
+        <OffcanvasBody>
+          {detail && (
+            <dl className="mb-0 row">
+              <dt className="col-4">编号</dt>
+              <dd className="col-8">{detail.id}</dd>
+              <dt className="col-4">姓名</dt>
+              <dd className="col-8">
+                {detail.lastName}
+                {detail.firstName}
+              </dd>
+              <dt className="col-4">用户名</dt>
+              <dd className="col-8">{detail.username}</dd>
+              <dt className="col-4">状态</dt>
+              <dd className="col-8">{detail.status}</dd>
+              <dt className="col-4">备注</dt>
+              <dd className="col-8">{detail.note || '无'}</dd>
+            </dl>
+          )}
+        </OffcanvasBody>
+      </Offcanvas>
+    </>
+  );
+};
+
+const ViewToggleDemo = () => {
+  const [view, setView] = useState<'card' | 'table'>('table');
+
+  return (
+    <>
+      <ButtonGroup aria-label="视图切换" className="mb-3">
+        <Button
+          active={view === 'table'}
+          onClick={() => setView('table')}
+          variant={view === 'table' ? 'primary' : 'outline-primary'}
+        >
+          表格视图
+        </Button>
+        <Button
+          active={view === 'card'}
+          onClick={() => setView('card')}
+          variant={view === 'card' ? 'primary' : 'outline-primary'}
+        >
+          卡片视图
+        </Button>
+      </ButtonGroup>
+      {view === 'table' ? (
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell as="th" scope="col">
+                #
+              </TableCell>
+              <TableCell as="th" scope="col">
+                姓氏
+              </TableCell>
+              <TableCell as="th" scope="col">
+                名字
+              </TableCell>
+              <TableCell as="th" scope="col">
+                用户名
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {DOC_USERS.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell as="th" scope="row">
+                  {user.id}
+                </TableCell>
+                <TableCell>{user.firstName}</TableCell>
+                <TableCell>{user.lastName}</TableCell>
+                <TableCell>{user.username}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      ) : (
+        <div className="row g-3">
+          {DOC_USERS.map((user) => (
+            <div className="col-sm-6 col-lg-4" key={user.id}>
+              <div className="card h-100">
+                <div className="card-body">
+                  <h5 className="card-title">
+                    {user.lastName}
+                    {user.firstName}
+                  </h5>
+                  <h6 className="card-subtitle mb-2 text-body-secondary">{user.username}</h6>
+                  <p className="card-text mb-0">
+                    编号 {user.id} · 状态 {user.status}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </>
+  );
+};
 
 const SelectionDemo = () => {
   const selection = useTableSelection<number>();
@@ -988,6 +1493,69 @@ const tableProps: ApiProp[] = [
     type: 'TableVariant',
   },
   {
+    component: 'TableExpandCell',
+    defaultValue: 'false',
+    description: '激活状态，渲染为 `table-active` 类',
+    name: 'active',
+    type: 'boolean',
+  },
+  {
+    component: 'TableExpandCell',
+    defaultValue: '-',
+    description: '单元格垂直对齐方式，渲染为 `align-top`、`align-middle` 或 `align-bottom` 类',
+    name: 'align',
+    type: 'TableAlign',
+  },
+  {
+    component: 'TableExpandCell',
+    defaultValue: "'td'",
+    description: '渲染的元素标签',
+    name: 'as',
+    type: 'ElementType',
+  },
+  {
+    component: 'TableExpandCell',
+    defaultValue: "'Collapse'",
+    description: '展开状态下的开关无障碍标签，渲染为 `aria-label`',
+    name: 'collapseLabel',
+    type: 'string',
+  },
+  {
+    component: 'TableExpandCell',
+    defaultValue: 'false',
+    description: '禁用展开开关',
+    name: 'disabled',
+    type: 'boolean',
+  },
+  {
+    component: 'TableExpandCell',
+    defaultValue: "'Expand'",
+    description: '收起状态下的开关无障碍标签，渲染为 `aria-label`',
+    name: 'expandLabel',
+    type: 'string',
+  },
+  {
+    component: 'TableExpandCell',
+    defaultValue: 'false',
+    description: '展开状态，设置 `aria-expanded` 并切换箭头方向',
+    name: 'expanded',
+    type: 'boolean',
+  },
+  {
+    component: 'TableExpandCell',
+    defaultValue: '-',
+    description: '开关点击回调，携带切换后的展开状态与原生事件',
+    name: 'onToggle',
+    type: '(expanded: boolean, event: MouseEvent<HTMLButtonElement>) => void',
+  },
+  {
+    component: 'TableExpandCell',
+    defaultValue: '-',
+    description: '情景颜色变体，渲染为 `table-*` 类',
+    name: 'variant',
+    type: 'TableVariant',
+  },
+  {
     component: 'TableEditCell',
     defaultValue: 'false',
     description: '激活状态，渲染为 `table-active` 类',
@@ -1205,6 +1773,34 @@ const tableProps: ApiProp[] = [
     type: 'TableBreakpoint | boolean',
   },
   {
+    component: 'TableDetailRow',
+    defaultValue: '-',
+    description: '详情单元格自定义类名',
+    name: 'cellClassName',
+    type: 'string',
+  },
+  {
+    component: 'TableDetailRow',
+    defaultValue: '-',
+    description: '展开后的详情内容，可放置字段网格、嵌套表格等任意内容',
+    name: 'children',
+    type: 'ReactNode',
+  },
+  {
+    component: 'TableDetailRow',
+    defaultValue: '-',
+    description: '详情行自定义类名',
+    name: 'className',
+    type: 'string',
+  },
+  {
+    component: 'TableDetailRow',
+    defaultValue: '-',
+    description: '详情单元格跨列数，通常传表格总列数',
+    name: 'colSpan',
+    type: 'number',
+  },
+  {
     defaultValue: '-',
     description: '表格内容',
     name: 'children',
@@ -1281,6 +1877,11 @@ const tableTypeDefinitions: ApiTypeDefinition[] = [
     name: 'TableCellProps',
   },
   {
+    code: tableDetailRowPropsTypeCode,
+    description: '展开详情行组件属性接口',
+    name: 'TableDetailRowProps',
+  },
+  {
     code: tableEditCellPropsTypeCode,
     description: '行内编辑单元格组件属性接口',
     name: 'TableEditCellProps',
@@ -1289,6 +1890,11 @@ const tableTypeDefinitions: ApiTypeDefinition[] = [
     code: tableEmptyPropsTypeCode,
     description: '空状态行组件属性接口',
     name: 'TableEmptyProps',
+  },
+  {
+    code: tableExpandCellPropsTypeCode,
+    description: '展开开关单元格组件属性接口',
+    name: 'TableExpandCellProps',
   },
   {
     code: tableLoadingPropsTypeCode,
@@ -1329,6 +1935,16 @@ const tableTypeDefinitions: ApiTypeDefinition[] = [
     code: useTableEditingResultTypeCode,
     description: 'useTableEditing 返回值接口',
     name: 'UseTableEditingResult',
+  },
+  {
+    code: useTableExpansionOptionsTypeCode,
+    description: 'useTableExpansion 配置参数接口',
+    name: 'UseTableExpansionOptions',
+  },
+  {
+    code: useTableExpansionResultTypeCode,
+    description: 'useTableExpansion 返回值接口',
+    name: 'UseTableExpansionResult',
   },
   {
     code: useTableOptionsTypeCode,
@@ -2258,12 +2874,32 @@ export const TableDoc = () => {
       <DemoSection code={emptyCode} title="空状态">
         <EmptyDemo />
       </DemoSection>
+
+      <DemoSection code={expandableCode} title="展开行详情">
+        <ExpandableDemo />
+      </DemoSection>
+
+      <DemoSection code={masterDetailCode} title="主从视图">
+        <MasterDetailDemo />
+      </DemoSection>
+
+      <DemoSection code={detailModalCode} title="详情弹窗">
+        <DetailModalDemo />
+      </DemoSection>
+
+      <DemoSection code={detailDrawerCode} title="详情抽屉">
+        <DetailDrawerDemo />
+      </DemoSection>
+
+      <DemoSection code={viewToggleCode} title="视图切换">
+        <ViewToggleDemo />
+      </DemoSection>
     </>
   );
 
   return (
     <DocTemplate
-      componentDescription="基于 Bootstrap 5 的表格组件，提供表格容器与表头/表体/表尾、行、单元格、标题等结构组件，支持情景颜色、条纹行/列、悬停与激活状态、边框、紧凑尺寸、分组分隔线、垂直对齐、嵌套、标题置顶与响应式滚动容器；并通过选择单元格、行内编辑单元格、加载/空状态行以及 useTable、useTableSelection、useTableEditing 钩子完整支持多选、增删改查等交互场景"
+      componentDescription="基于 Bootstrap 5 的表格组件，提供表格容器与表头/表体/表尾、行、单元格、标题等结构组件，支持情景颜色、条纹行/列、悬停与激活状态、边框、紧凑尺寸、分组分隔线、垂直对齐、嵌套、标题置顶与响应式滚动容器；并通过选择单元格、行内编辑单元格、加载/空状态行以及 useTable、useTableSelection、useTableEditing 钩子完整支持多选、增删改查等交互场景，配合展开开关单元格、详情行与 useTableExpansion 钩子可实现展开行、主从视图、详情弹窗、详情抽屉与表格/卡片视图切换等多种查看详情方式"
       componentName="Table"
       componentTags={['基础', '布局']}
       demoContent={demoContent}

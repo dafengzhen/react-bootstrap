@@ -3,6 +3,7 @@ import type {
   ElementType,
   HTMLAttributes,
   InputHTMLAttributes,
+  MouseEvent,
   ReactNode,
   SelectHTMLAttributes,
   TextareaHTMLAttributes,
@@ -32,6 +33,13 @@ export interface TableCellProps extends HTMLAttributes<HTMLElement> {
 }
 
 export type TableCellScope = 'col' | 'colgroup' | 'row' | 'rowgroup';
+
+export interface TableDetailRowProps extends HTMLAttributes<HTMLTableRowElement> {
+  cellClassName?: string;
+  children?: ReactNode;
+  className?: string;
+  colSpan?: number;
+}
 
 export interface TableEditCellProps extends HTMLAttributes<HTMLElement> {
   active?: boolean;
@@ -73,6 +81,19 @@ export interface TableEmptyProps extends HTMLAttributes<HTMLTableRowElement> {
   children?: ReactNode;
   className?: string;
   colSpan?: number;
+}
+
+export interface TableExpandCellProps extends Omit<HTMLAttributes<HTMLElement>, 'onToggle'> {
+  active?: boolean;
+  align?: TableAlign;
+  as?: ElementType;
+  className?: string;
+  collapseLabel?: string;
+  disabled?: boolean;
+  expanded?: boolean;
+  expandLabel?: string;
+  onToggle?: (expanded: boolean, event: MouseEvent<HTMLButtonElement>) => void;
+  variant?: TableVariant;
 }
 
 export interface TableLoadingProps extends HTMLAttributes<HTMLTableRowElement> {
@@ -158,6 +179,23 @@ export interface UseTableEditingResult<Key> {
   editingKey: Key | null;
   isEditing: (key: Key) => boolean;
   startEdit: (key: Key) => void;
+}
+
+export interface UseTableExpansionOptions<Key> {
+  initialExpandedKeys?: Iterable<Key>;
+}
+
+export interface UseTableExpansionResult<Key> {
+  collapse: (key: Key) => void;
+  collapseAll: () => void;
+  expand: (key: Key) => void;
+  expandAll: (keys: Iterable<Key>) => void;
+  expandedCount: number;
+  expandedKeys: ReadonlySet<Key>;
+  isExpanded: (key: Key) => boolean;
+  setExpandedKeys: (keys: Iterable<Key>) => void;
+  toggle: (key: Key) => void;
+  toggleAll: (keys: Iterable<Key>) => void;
 }
 
 export interface UseTableOptions<Row, Key> {

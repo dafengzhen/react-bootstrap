@@ -2,8 +2,10 @@ export { Table } from './table';
 export { TableBody } from './table-body';
 export { TableCaption } from './table-caption';
 export { TableCell } from './table-cell';
+export { TableDetailRow } from './table-detail-row';
 export { TableEditCell } from './table-edit-cell';
 export { TableEmpty } from './table-empty';
+export { TableExpandCell } from './table-expand-cell';
 export { TableFooter } from './table-footer';
 export { TableHead } from './table-head';
 export { TableLoading } from './table-loading';
@@ -16,11 +18,13 @@ export type {
   TableCaptionProps,
   TableCellProps,
   TableCellScope,
+  TableDetailRowProps,
   TableEditCellProps,
   TableEditOption,
   TableEditType,
   TableEditValue,
   TableEmptyProps,
+  TableExpandCellProps,
   TableLoadingProps,
   TableProps,
   TableResponsiveProps,
@@ -32,6 +36,8 @@ export type {
   TableVariant,
   UseTableEditingOptions,
   UseTableEditingResult,
+  UseTableExpansionOptions,
+  UseTableExpansionResult,
   UseTableOptions,
   UseTableResult,
   UseTableSelectionOptions,
@@ -39,4 +45,5 @@ export type {
 } from './types';
 export { useTable } from './use-table';
 export { useTableEditing } from './use-table-editing';
+export { useTableExpansion } from './use-table-expansion';
 export { useTableSelection } from './use-table-selection';

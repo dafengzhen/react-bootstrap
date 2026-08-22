@@ -1,10 +1,5 @@
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
 import { Button } from '../button';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import { ListGroup, ListGroupItem } from '../list-group';
 import basicCode from './demos/basic.md?raw';
 import bodyCode from './demos/body.md?raw';
@@ -74,7 +69,7 @@ const cardProps: ApiProp[] = [
   },
   {
     component: 'CardImg',
-    defaultValue: "'card-img'",
+    defaultValue: '-',
     description: '图片位置，`top` 置于卡片顶部、`bottom` 置于卡片底部，不设置则使用 `card-img` 类',
     name: 'variant',
     type: 'CardImgVariant',

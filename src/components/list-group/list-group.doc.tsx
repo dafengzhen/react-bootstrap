@@ -1,11 +1,6 @@
 import { useState } from 'react';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import activeCode from './demos/active.md?raw';
 import badgesCode from './demos/badges.md?raw';
 import basicCode from './demos/basic.md?raw';
@@ -43,7 +38,7 @@ const listGroupProps: ApiProp[] = [
   },
   {
     component: 'ListGroup',
-    defaultValue: 'false',
+    defaultValue: '-',
     description:
       '水平布局，`true` 始终水平，或传入断点 `sm`、`md`、`lg`、`xl`、`xxl` 从该断点起水平',
     name: 'horizontal',

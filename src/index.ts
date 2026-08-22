@@ -85,6 +85,28 @@ export type {
 } from './components/collapse';
 
 export {
+  CodeBlock,
+  DemoSection,
+  DocTemplate,
+  NameColorBadge,
+  TableOfContents,
+  useDocSidebar,
+} from './components/doc-template';
+export type {
+  ApiProp,
+  ApiTypeDefinition,
+  CodeBlockProps,
+  DemoSectionProps,
+  DocTemplateProps,
+  TableOfContentsProps,
+  TocItem,
+  TocLevel,
+} from './components/doc-template';
+
+export { DocsHome, DocsLayout } from './components/docs';
+export type { DocConfig, DocsHomeProps, DocsLayoutProps } from './components/docs';
+
+export {
   Dropdown,
   DropdownButton,
   DropdownDivider,
@@ -333,6 +355,7 @@ export {
   useTableSelection,
   useTableSorting,
 } from './components/table';
+
 export type {
   ExportTableCsvOptions,
   TableAlign,
@@ -429,13 +452,12 @@ export type {
   ToastProps,
   ToastVariant,
 } from './components/toast';
-
 export { Tooltip, TooltipTrigger } from './components/tooltip';
+
 export type {
   TooltipDelay,
   TooltipProps,
   TooltipTriggerProps,
   TooltipTriggerType,
 } from './components/tooltip';
-
 export { useReducedMotion } from './hooks';

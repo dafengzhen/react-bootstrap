@@ -4,7 +4,7 @@ import { existsSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 
-const DEFAULT_EXCLUDED_COMPONENTS = ['doc-template', 'docs'];
+const DEFAULT_EXCLUDED_COMPONENTS: string[] = [];
 
 function getComponentEntries(exclude = DEFAULT_EXCLUDED_COMPONENTS) {
   const componentsDir = resolve(import.meta.dirname, 'src/components');

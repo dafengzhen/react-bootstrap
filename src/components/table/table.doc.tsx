@@ -2,14 +2,9 @@ import { Fragment, useState } from 'react';
 
 import type { TableColumnPreference, TableEditOption, TableEditValue } from './types';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
 import { Button } from '../button';
 import { ButtonGroup } from '../button-group';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import { FormCheck, FormCheckInput, FormCheckLabel } from '../form-check';
 import { FormControl } from '../form-control';
 import { FormSelect } from '../form-select';
@@ -1970,6 +1965,20 @@ const tableProps: ApiProp[] = [
     description: '表头单元格的关联范围，渲染为 `th` 时使用',
     name: 'scope',
     type: 'TableCellScope',
+  },
+  {
+    component: 'TableCell',
+    defaultValue: '-',
+    description: '单元格跨越的列数',
+    name: 'colSpan',
+    type: 'number',
+  },
+  {
+    component: 'TableCell',
+    defaultValue: '-',
+    description: '单元格跨越的行数',
+    name: 'rowSpan',
+    type: 'number',
   },
   {
     component: 'TableCell',

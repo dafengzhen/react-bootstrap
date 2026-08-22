@@ -1,11 +1,6 @@
 import { useState } from 'react';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import activeCode from './demos/active.md?raw';
 import alignmentCode from './demos/alignment.md?raw';
 import basicCode from './demos/basic.md?raw';

@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import baseCode from './demos/base.md?raw';
 import buttonsCode from './demos/buttons.md?raw';
 import controlledCode from './demos/controlled.md?raw';
@@ -156,6 +151,13 @@ const tabsProps: ApiProp[] = [
     description: '标签触发按钮的文案',
     name: 'title',
     type: 'ReactNode',
+  },
+  {
+    component: 'Tab',
+    defaultValue: '-',
+    description: '选择回调，在标签被选中时触发',
+    name: 'onSelect',
+    type: '(eventKey: EventKey, event: SyntheticEvent) => void',
   },
   {
     component: 'Tab',

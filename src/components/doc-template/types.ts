@@ -16,6 +16,7 @@ export interface ApiTypeDefinition {
 
 export interface CodeBlockProps {
   code: string;
+  highlightElement?: HighlightElement;
   language?: string;
   showCopyButton?: boolean;
   title?: string;
@@ -34,14 +35,27 @@ export interface DocTemplateProps {
   componentName: string;
   componentTags?: string[];
   demoContent?: ReactNode;
+  embedded?: boolean;
   props: ApiProp[];
   showCopyButton?: boolean;
   typeDefinitions?: ApiTypeDefinition[];
 }
 
+export type HighlightElement = (element: HTMLElement) => void;
+
+export interface LinkRenderProps {
+  children: ReactNode;
+  className?: string;
+  to: string;
+}
+
+export type RenderLink = (props: LinkRenderProps) => ReactNode;
+
 export interface TableOfContentsProps {
+  activeTo?: string;
   items: TocItem[];
   onNavigate?: () => void;
+  renderLink?: RenderLink;
   title?: string;
 }
 

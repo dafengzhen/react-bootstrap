@@ -1,13 +1,8 @@
 import { type CSSProperties, useState } from 'react';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
 import { Button } from '../button';
 import { CloseButton } from '../close-button';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import { Dropdown, DropdownDivider, DropdownItem, DropdownMenu, DropdownToggle } from '../dropdown';
 import { Nav, NavItem, NavLink } from '../tabs';
 import brandCode from './demos/brand.md?raw';

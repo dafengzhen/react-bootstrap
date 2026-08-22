@@ -1,11 +1,6 @@
 import { type ChangeEvent, useState } from 'react';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import { FormFeedback } from '../form-feedback';
 import basicCode from './demos/basic.md?raw';
 import disabledRadiosCode from './demos/disabled-radios.md?raw';

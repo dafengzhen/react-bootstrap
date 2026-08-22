@@ -1,11 +1,6 @@
 import { useState } from 'react';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import basicCode from './demos/basic.md?raw';
 import controlledCode from './demos/controlled.md?raw';
 import listGroupCode from './demos/list-group.md?raw';

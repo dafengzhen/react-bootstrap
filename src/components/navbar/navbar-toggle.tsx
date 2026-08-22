@@ -8,10 +8,11 @@ import { useNavbar } from './context';
 export const NavbarToggle = forwardRef<HTMLElement, NavbarToggleProps>(
   (
     {
-      'aria-label': ariaLabel = 'Toggle navigation',
+      'aria-label': ariaLabel,
       as: Component = 'button',
       children,
       className,
+      label = 'Toggle navigation',
       onClick,
       ...rest
     },
@@ -27,7 +28,7 @@ export const NavbarToggle = forwardRef<HTMLElement, NavbarToggleProps>(
     return (
       <Component
         aria-expanded={navbar?.expanded}
-        aria-label={ariaLabel}
+        aria-label={ariaLabel ?? label}
         className={clsx('navbar-toggler', !navbar?.expanded && 'collapsed', className)}
         onClick={handleClick}
         ref={ref}

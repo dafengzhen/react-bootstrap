@@ -1,11 +1,6 @@
 import { type CSSProperties, useEffect, useRef, useState } from 'react';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import { Button } from './button';
 import baseCode from './demos/base.md?raw';
 import basicVariantsCode from './demos/basic-variants.md?raw';
@@ -43,7 +38,7 @@ const buttonProps: ApiProp[] = [
     type: 'ButtonSize',
   },
   {
-    defaultValue: 'false',
+    defaultValue: '-',
     description: '激活状态：应用 `active` 类；与 `toggle` 配合时作为受控的按压状态',
     name: 'active',
     type: 'boolean',
@@ -93,8 +88,26 @@ const buttonProps: ApiProp[] = [
   },
   {
     defaultValue: '-',
-    description: '链接地址，提供后自动渲染为 `a` 元素；可配合 `target`、`rel`、`download` 使用',
+    description: '链接地址，提供后自动渲染为 `a` 元素；可配合 `download`、`rel`、`target` 使用',
     name: 'href',
+    type: 'string',
+  },
+  {
+    defaultValue: '-',
+    description: '提示浏览器下载链接资源而非导航，值为建议的文件名',
+    name: 'download',
+    type: 'string',
+  },
+  {
+    defaultValue: '-',
+    description: '链接与目标资源的关系，例如 `noopener`、`nofollow`',
+    name: 'rel',
+    type: 'string',
+  },
+  {
+    defaultValue: '-',
+    description: '链接打开的目标窗口，例如 `_blank`、`_self`',
+    name: 'target',
     type: 'string',
   },
   {

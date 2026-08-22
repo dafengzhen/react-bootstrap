@@ -1,12 +1,7 @@
 import { type ChangeEvent, useState } from 'react';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
 import { Button } from '../button';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import { DropdownButton, DropdownDivider, DropdownItem, SplitButton } from '../dropdown';
 import { FormControl, FormText } from '../form-control';
 import { FormFeedback } from '../form-feedback';

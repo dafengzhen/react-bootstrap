@@ -2,13 +2,8 @@ import { useCallback, useState } from 'react';
 
 import type { CarouselDirection } from './types';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
 import { Button } from '../button';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import autoplayCode from './demos/autoplay.md?raw';
 import captionsCode from './demos/captions.md?raw';
 import controlledCode from './demos/controlled.md?raw';

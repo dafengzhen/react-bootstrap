@@ -1,12 +1,7 @@
 import { useState } from 'react';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
 import { Button } from '../button';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import alignmentCode from './demos/alignment.md?raw';
 import basicCode from './demos/basic.md?raw';
 import controlledCode from './demos/controlled.md?raw';

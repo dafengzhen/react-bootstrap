@@ -1,11 +1,6 @@
 import { type ChangeEvent, useState } from 'react';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import { FormControl, FormText } from '../form-control';
 import { FormFeedback } from '../form-feedback';
 import { FormSelect } from '../form-select';

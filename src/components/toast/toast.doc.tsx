@@ -1,12 +1,7 @@
 import { useState } from 'react';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
 import { Button } from '../button';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import autohideCode from './demos/autohide.md?raw';
 import basicCode from './demos/basic.md?raw';
 import customCode from './demos/custom.md?raw';

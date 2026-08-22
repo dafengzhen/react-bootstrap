@@ -1,16 +1,10 @@
 import clsx from 'clsx';
-import hljs from 'highlight.js/lib/core';
-import typescript from 'highlight.js/lib/languages/typescript';
-import xml from 'highlight.js/lib/languages/xml';
-import 'highlight.js/styles/github-dark.css';
 import { type FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import type { CodeBlockProps } from './types.ts';
 
-hljs.registerLanguage('typescript', typescript);
-hljs.registerLanguage('xml', xml);
-hljs.registerLanguage('ts', typescript);
-hljs.registerLanguage('tsx', typescript);
+import styles from './doc-template.module.css';
+import { useCodeBlockHighlight } from './highlight-context.ts';
 
 const COPY_FEEDBACK_DURATION = 2000;
 
@@ -37,6 +31,7 @@ async function copyToClipboard(text: string): Promise<boolean> {
 
 export const CodeBlock: FC<CodeBlockProps> = ({
   code,
+  highlightElement,
   language = 'typescript',
   showCopyButton = true,
   title,
@@ -44,6 +39,8 @@ export const CodeBlock: FC<CodeBlockProps> = ({
   const codeRef = useRef<HTMLElement>(null);
   const timerRef = useRef<null | number>(null);
   const [copied, setCopied] = useState(false);
+  const contextHighlightElement = useCodeBlockHighlight();
+  const resolvedHighlightElement = highlightElement ?? contextHighlightElement;
 
   useEffect(() => {
     const element = codeRef.current;
@@ -52,8 +49,8 @@ export const CodeBlock: FC<CodeBlockProps> = ({
     }
     element.textContent = code;
     delete element.dataset.highlighted;
-    hljs.highlightElement(element);
-  }, [code, language]);
+    resolvedHighlightElement?.(element);
+  }, [code, language, resolvedHighlightElement]);
 
   useEffect(
     () => () => {
@@ -79,7 +76,7 @@ export const CodeBlock: FC<CodeBlockProps> = ({
     <button
       aria-label="复制代码"
       aria-live="polite"
-      className={clsx('copy-button', copied && 'copied')}
+      className={clsx(styles.copyButton, copied && styles.copied)}
       onClick={handleCopy}
       title={copied ? '已复制' : '复制代码'}
       type="button"
@@ -89,10 +86,10 @@ export const CodeBlock: FC<CodeBlockProps> = ({
   ) : null;
 
   return (
-    <div className="code-block-wrapper">
+    <div className={styles.codeBlockWrapper}>
       {title ? (
-        <div className="code-title">
-          <span className="code-title-text">{title}</span>
+        <div className={styles.codeTitle}>
+          <span>{title}</span>
           {copyButton}
         </div>
       ) : (

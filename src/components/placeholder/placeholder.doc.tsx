@@ -1,13 +1,8 @@
 import { useState } from 'react';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
 import { Button } from '../button';
 import { Card, CardBody, CardImg, CardText, CardTitle } from '../card';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import animationCode from './demos/animation.md?raw';
 import basicCode from './demos/basic.md?raw';
 import cardCode from './demos/card.md?raw';
@@ -89,7 +84,7 @@ const placeholderProps: ApiProp[] = [
   },
   {
     component: 'PlaceholderButton',
-    defaultValue: "'primary'",
+    defaultValue: '-',
     description: '按钮变体，渲染 `btn-*` 类并透传给 Button 组件',
     name: 'variant',
     type: 'ButtonVariant',

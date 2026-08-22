@@ -1,13 +1,8 @@
 import { type ChangeEvent, useState } from 'react';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
 import { Button } from '../button';
 import buttonSizeTypeCode from '../button/types/button-size.md?raw';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import { ButtonGroup } from './button-group';
 import { ButtonToolbar } from './button-toolbar';
 import basicCode from './demos/basic.md?raw';

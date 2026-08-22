@@ -16,6 +16,7 @@ import {
   type DemoSectionsContextValue,
 } from './demo-section.tsx';
 import { useDocSidebar } from './doc-sidebar-context.ts';
+import styles from './doc-template.module.css';
 import { NameColorBadge } from './name-badge.tsx';
 import { PropsTable } from './props-table.tsx';
 import { TableOfContents } from './table-of-contents.tsx';
@@ -36,6 +37,7 @@ export const DocTemplate: FC<DocTemplateProps> = ({
   componentName,
   componentTags = [],
   demoContent,
+  embedded,
   props,
   showCopyButton = true,
   typeDefinitions = [],
@@ -48,6 +50,7 @@ export const DocTemplate: FC<DocTemplateProps> = ({
   const [demoSections, setDemoSections] = useState<TocItem[]>([]);
   const [highlightedType, setHighlightedType] = useState<string>();
   const docSidebar = useDocSidebar();
+  const isEmbedded = embedded ?? docSidebar !== null;
 
   const typeDefIds = useMemo(() => {
     const counts = new Map<string, number>();
@@ -208,11 +211,11 @@ export const DocTemplate: FC<DocTemplateProps> = ({
   }, [docSidebar, tocItems]);
 
   const content = (
-    <main className="api-doc-content">
-      <section className="api-section">
-        <div className="api-component-header">
+    <main className={styles.apiDocContent}>
+      <section className={styles.apiSection}>
+        <div className={styles.apiComponentHeader}>
           <NameColorBadge name={componentName} size="lg" />
-          <h2 className="api-component-name">{componentName}</h2>
+          <h2 className={styles.apiComponentName}>{componentName}</h2>
           {componentTags.map((tag) => (
             <span className="badge bg-secondary" key={tag}>
               {tag}
@@ -222,7 +225,7 @@ export const DocTemplate: FC<DocTemplateProps> = ({
         <p className="text-muted">{componentDescription}</p>
       </section>
 
-      <section className="api-section" id={`${idPrefix}-demo-overview`}>
+      <section className={styles.apiSection} id={`${idPrefix}-demo-overview`}>
         <h3 className="h5 mb-3">Component Demo</h3>
         <p className="text-muted mb-4">Basic usage and examples of the {componentName} component</p>
       </section>
@@ -231,16 +234,16 @@ export const DocTemplate: FC<DocTemplateProps> = ({
         {demoContent}
       </DemoSectionsContext.Provider>
 
-      <section className="api-section" id={`${idPrefix}-api-overview`}>
+      <section className={styles.apiSection} id={`${idPrefix}-api-overview`}>
         <h2 className="h4 mb-3">API Documentation</h2>
         <p className="text-muted mb-4">Complete API reference for the {componentName} component</p>
       </section>
 
-      <section className="api-section" id={`${idPrefix}-props`}>
+      <section className={styles.apiSection} id={`${idPrefix}-props`}>
         <h3 className="h5 mb-3">Props</h3>
         {showPropGroups ? (
           propGroups.map((group, index) => (
-            <div className="props-group mb-4" key={propGroupIds[index]}>
+            <div className="mb-4" key={propGroupIds[index]}>
               <h4 className="h6 mb-3" id={propGroupIds[index]}>
                 {group.component ?? COMMON_PROPS_TITLE}
               </h4>
@@ -268,10 +271,10 @@ export const DocTemplate: FC<DocTemplateProps> = ({
     </main>
   );
 
-  if (!docSidebar) {
+  if (!isEmbedded) {
     return (
-      <div className="api-doc-container">
-        <aside className="api-doc-sidebar">
+      <div className={styles.apiDocContainer}>
+        <aside className={styles.apiDocSidebar}>
           <TableOfContents items={tocItems} />
         </aside>
         {content}

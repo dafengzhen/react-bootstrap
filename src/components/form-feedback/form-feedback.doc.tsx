@@ -1,14 +1,9 @@
 import clsx from 'clsx';
 import { type ChangeEvent, type FormEvent, useState } from 'react';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
 import { Alert } from '../alert';
 import { Button } from '../button';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import { FormCheck, FormCheckInput, FormCheckLabel } from '../form-check';
 import { FormControl } from '../form-control';
 import { FormRange } from '../form-range';

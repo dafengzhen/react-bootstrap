@@ -14,6 +14,7 @@ import {
 import type { DemoSectionProps, TocLevel } from './types.ts';
 
 import { CodeBlock } from './code-block.tsx';
+import styles from './doc-template.module.css';
 import { extractFencedCode } from './markdown.ts';
 import { sanitizeUseId, slugify } from './utils.ts';
 
@@ -83,14 +84,16 @@ export const DemoSection: FC<DemoSectionProps> = ({
   const Heading = level === 3 ? 'h3' : 'h2';
 
   return (
-    <section className={clsx('demo-section', className)} id={sectionId || undefined} {...rest}>
-      <div className="demo-section-heading">
-        <Heading className={clsx('demo-section-title', level === 3 ? 'h6' : 'h5')}>{title}</Heading>
+    <section className={clsx(styles.demoSection, className)} id={sectionId || undefined} {...rest}>
+      <div className={styles.demoSectionHeading}>
+        <Heading className={clsx(styles.demoSectionTitle, level === 3 ? 'h6' : 'h5')}>
+          {title}
+        </Heading>
         {code ? (
           <button
             aria-controls={codeRegionId}
             aria-expanded={codeVisible}
-            className="demo-code-toggle"
+            className={styles.demoCodeToggle}
             onClick={handleToggleCode}
             title={codeVisible ? '隐藏示例代码' : '查看示例代码'}
             type="button"
@@ -99,11 +102,11 @@ export const DemoSection: FC<DemoSectionProps> = ({
           </button>
         ) : null}
       </div>
-      <div className={clsx('demo-preview', code && codeVisible && 'demo-preview-code-open')}>
+      <div className={clsx(styles.demoPreview, code && codeVisible && styles.demoPreviewCodeOpen)}>
         {children}
       </div>
       {code && codeVisible ? (
-        <div className="demo-code" id={codeRegionId}>
+        <div className={styles.demoCode} id={codeRegionId}>
           <CodeBlock code={resolvedCode} language={codeLanguage} />
         </div>
       ) : null}

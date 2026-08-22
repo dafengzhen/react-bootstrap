@@ -4,6 +4,7 @@ import { type FC } from 'react';
 import type { ApiTypeDefinition } from './types.ts';
 
 import { CodeBlock } from './code-block.tsx';
+import styles from './doc-template.module.css';
 import { extractFencedCode } from './markdown.ts';
 
 export interface TypeDefinitionsProps {
@@ -21,11 +22,14 @@ export const TypeDefinitions: FC<TypeDefinitionsProps> = ({
   typeDefIds,
   typeDefinitions,
 }) => (
-  <section className="api-section" id={sectionId}>
+  <section className={styles.apiSection} id={sectionId}>
     <h3 className="h5 mb-3">Type Definitions</h3>
     {typeDefinitions.map((typeDef) => (
       <div
-        className={clsx('type-def', highlightedType === typeDef.name && 'type-def-highlight')}
+        className={clsx(
+          styles.typeDef,
+          highlightedType === typeDef.name && styles.typeDefHighlight,
+        )}
         id={typeDefIds.get(typeDef.name)}
         key={typeDef.name}
       >

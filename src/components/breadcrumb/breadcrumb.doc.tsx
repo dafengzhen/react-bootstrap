@@ -1,12 +1,7 @@
 import { type CSSProperties } from 'react';
 import { Link } from 'react-router';
 
-import {
-  type ApiProp,
-  type ApiTypeDefinition,
-  DemoSection,
-  DocTemplate,
-} from '../../internal/doc-template';
+import { type ApiProp, type ApiTypeDefinition, DemoSection, DocTemplate } from '../doc-template';
 import basicCode from './demos/basic.md?raw';
 import customStructureCode from './demos/custom-structure.md?raw';
 import dividersCode from './demos/dividers.md?raw';

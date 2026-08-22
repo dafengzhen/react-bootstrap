@@ -2,6 +2,8 @@ import { type FC, type MouseEvent as ReactMouseEvent } from 'react';
 
 import type { ApiProp } from './types.ts';
 
+import styles from './doc-template.module.css';
+
 export interface PropsTableProps {
   onTypeClick: (event: ReactMouseEvent<HTMLAnchorElement>, typeName: string) => void;
   props: ApiProp[];
@@ -11,7 +13,7 @@ export interface PropsTableProps {
 
 export const PropsTable: FC<PropsTableProps> = ({ onTypeClick, props, typeDefIds }) => (
   <div className="table-responsive">
-    <table className="table table-bordered table-hover props-table">
+    <table className={`table table-bordered table-hover ${styles.propsTable}`}>
       <thead className="table-light">
         <tr>
           <th>属性名</th>
@@ -29,7 +31,7 @@ export const PropsTable: FC<PropsTableProps> = ({ onTypeClick, props, typeDefIds
             <td>
               {typeDefIds.has(prop.type) ? (
                 <a
-                  className="prop-type-link"
+                  className={styles.propTypeLink}
                   href={`#${typeDefIds.get(prop.type)}`}
                   onClick={(event) => onTypeClick(event, prop.type)}
                   title={`查看类型定义：${prop.type}`}
@@ -42,7 +44,7 @@ export const PropsTable: FC<PropsTableProps> = ({ onTypeClick, props, typeDefIds
             </td>
             <td>
               {prop.defaultValue && prop.defaultValue !== '-' ? (
-                <code className="prop-default-value">{prop.defaultValue}</code>
+                <code className={styles.propDefaultValue}>{prop.defaultValue}</code>
               ) : (
                 <span className="text-muted">-</span>
               )}

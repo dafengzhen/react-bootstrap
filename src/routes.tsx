@@ -1,4 +1,6 @@
-import type { RouteObject } from 'react-router';
+import { Link, Outlet, type RouteObject, useLocation } from 'react-router';
+
+import type { RenderLink } from './components/doc-template';
 
 import AlertDoc from './components/alert/alert.doc';
 import BadgeDoc from './components/badge/badge.doc';
@@ -9,6 +11,14 @@ import CardDoc from './components/card/card.doc';
 import CarouselDoc from './components/carousel/carousel.doc';
 import CloseButtonDoc from './components/close-button/close-button.doc';
 import CollapseDoc from './components/collapse/collapse.doc';
+import CodeBlockDoc from './components/doc-template/code-block.doc';
+import DemoSectionDoc from './components/doc-template/demo-section.doc';
+import DocTemplateDoc from './components/doc-template/doc-template.doc';
+import NameColorBadgeDoc from './components/doc-template/name-badge.doc';
+import TableOfContentsDoc from './components/doc-template/table-of-contents.doc';
+import { type DocConfig, DocsHome, DocsLayout } from './components/docs';
+import DocsHomeDoc from './components/docs/docs-home.doc';
+import DocsLayoutDoc from './components/docs/docs-layout.doc';
 import DropdownDoc from './components/dropdown/dropdown.doc';
 import FloatingLabelDoc from './components/floating-label/floating-label.doc';
 import FormCheckDoc from './components/form-check/form-check.doc';
@@ -32,7 +42,6 @@ import TableDoc from './components/table/table.doc';
 import TabsDoc from './components/tabs/tabs.doc';
 import ToastDoc from './components/toast/toast.doc';
 import TooltipDoc from './components/tooltip/tooltip.doc';
-import { type DocConfig, DocsHome, DocsLayout } from './internal/docs';
 
 const GITHUB_URL = 'https://github.com/dafengzhen/react-bootstrap';
 
@@ -324,22 +333,106 @@ const docsConfig: DocConfig[] = [
     path: '/components/table',
     tags: ['Basic', 'Layout'],
   },
+  {
+    description: 'Code block component with syntax highlighting and copy-to-clipboard support.',
+    element: <CodeBlockDoc />,
+    name: 'CodeBlock',
+    order: 33,
+    path: '/components/code-block',
+    tags: ['Documentation'],
+  },
+  {
+    description: 'Demo section component for showcasing runnable examples with source code.',
+    element: <DemoSectionDoc />,
+    name: 'DemoSection',
+    order: 34,
+    path: '/components/demo-section',
+    tags: ['Documentation'],
+  },
+  {
+    description: 'Documentation template that composes a single component API reference page.',
+    element: <DocTemplateDoc />,
+    name: 'DocTemplate',
+    order: 35,
+    path: '/components/doc-template',
+    tags: ['Documentation'],
+  },
+  {
+    description: 'Color badge component that derives a stable background color from a name.',
+    element: <NameColorBadgeDoc />,
+    name: 'NameColorBadge',
+    order: 36,
+    path: '/components/name-badge',
+    tags: ['Documentation'],
+  },
+  {
+    description: 'Collapsible table of contents for documentation navigation.',
+    element: <TableOfContentsDoc />,
+    name: 'TableOfContents',
+    order: 37,
+    path: '/components/table-of-contents',
+    tags: ['Documentation'],
+  },
+  {
+    description: 'Documentation home component that renders component entries as a card grid.',
+    element: <DocsHomeDoc />,
+    name: 'DocsHome',
+    order: 38,
+    path: '/components/docs-home',
+    tags: ['Documentation', 'Layout'],
+  },
+  {
+    description: 'Documentation layout component with sidebar navigation and footer.',
+    element: <DocsLayoutDoc />,
+    name: 'DocsLayout',
+    order: 39,
+    path: '/components/docs-layout',
+    tags: ['Documentation', 'Layout'],
+  },
 ];
 
 const HOME_DESCRIPTION =
   'React component library based on Bootstrap 5, with documentation and usage guides for all components below.';
 const HOME_TITLE = 'React Bootstrap';
 
+const renderLink: RenderLink = ({ children, className, to }) => (
+  <Link className={className} to={to}>
+    {children}
+  </Link>
+);
+
+const DocsRoute = () => {
+  const { pathname } = useLocation();
+
+  return (
+    <DocsLayout
+      docs={docsConfig}
+      githubUrl={GITHUB_URL}
+      pathname={pathname}
+      renderLink={renderLink}
+    >
+      <Outlet />
+    </DocsLayout>
+  );
+};
+
 const appRoutes: RouteObject[] = [
   {
     children: [
       {
-        element: <DocsHome description={HOME_DESCRIPTION} docs={docsConfig} title={HOME_TITLE} />,
+        element: (
+          <DocsHome
+            description={HOME_DESCRIPTION}
+            docs={docsConfig}
+            renderLink={renderLink}
+            title={HOME_TITLE}
+          />
+        ),
         index: true,
       },
       ...docsConfig.map((doc): RouteObject => ({ element: doc.element, path: doc.path.slice(1) })),
     ],
-    element: <DocsLayout docs={docsConfig} githubUrl={GITHUB_URL} />,
+    element: <DocsRoute />,
     path: '/',
   },
 ];

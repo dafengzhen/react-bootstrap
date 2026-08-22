@@ -7,6 +7,7 @@ import {
   DocTemplate,
 } from '../../internal/doc-template';
 import { FormControl, FormText } from '../form-control';
+import { FormFeedback } from '../form-feedback';
 import { FormSelect } from '../form-select';
 import { InputGroup, InputGroupText } from '../input-group';
 import basicCode from './demos/basic.md?raw';
@@ -195,9 +196,9 @@ export const FloatingLabelDoc = () => {
                 type="text"
               />
             </FloatingLabel>
-            <div className="invalid-feedback" id="floatingInputGroup2Feedback">
+            <FormFeedback id="floatingInputGroup2Feedback" type="invalid">
               请选择一个用户名。
-            </div>
+            </FormFeedback>
           </InputGroup>
         </div>
         <p className="mb-0 mt-3 text-muted small">
@@ -217,7 +218,7 @@ export const FloatingLabelDoc = () => {
                 type="email"
               />
             </FloatingLabel>
-            <div className="valid-feedback">看起来不错！</div>
+            <FormFeedback type="valid">看起来不错！</FormFeedback>
           </div>
           <div>
             <FloatingLabel controlId="floatingInputInvalid" label="无效的输入框">
@@ -228,7 +229,7 @@ export const FloatingLabelDoc = () => {
                 type="email"
               />
             </FloatingLabel>
-            <div className="invalid-feedback">请输入有效的邮箱地址。</div>
+            <FormFeedback type="invalid">请输入有效的邮箱地址。</FormFeedback>
           </div>
         </div>
         <p className="mb-0 mt-3 text-muted small">

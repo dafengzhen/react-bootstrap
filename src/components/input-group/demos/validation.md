@@ -8,8 +8,8 @@
     required
     type="text"
   />
-  <div className="invalid-feedback" id="validation-feedback">
+  <FormFeedback id="validation-feedback" type="invalid">
     请填写用户名。
-  </div>
+  </FormFeedback>
 </InputGroup>
 ```

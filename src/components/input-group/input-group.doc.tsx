@@ -9,6 +9,7 @@ import {
 import { Button } from '../button';
 import { DropdownButton, DropdownDivider, DropdownItem, SplitButton } from '../dropdown';
 import { FormControl, FormText } from '../form-control';
+import { FormFeedback } from '../form-feedback';
 import { FormSelect } from '../form-select';
 import basicCode from './demos/basic.md?raw';
 import buttonAddonsCode from './demos/button-addons.md?raw';
@@ -381,12 +382,12 @@ export const InputGroupDoc = () => {
             required
             type="text"
           />
-          <div className="invalid-feedback" id="validation-feedback">
+          <FormFeedback id="validation-feedback" type="invalid">
             请填写用户名。
-          </div>
+          </FormFeedback>
         </InputGroup>
         <p className="mb-0 mt-3 text-muted small">
-          使用 hasValidation 属性后，invalid-feedback 会相对整个输入组定位
+          使用 hasValidation 属性后，FormFeedback 会相对整个输入组定位
         </p>
       </DemoSection>
 

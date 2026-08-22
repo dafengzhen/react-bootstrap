@@ -7,6 +7,7 @@ import {
   DocTemplate,
 } from '../../internal/doc-template';
 import { FormText } from '../form-control';
+import { FormFeedback } from '../form-feedback';
 import basicCode from './demos/basic.md?raw';
 import disabledCode from './demos/disabled.md?raw';
 import htmlSizeCode from './demos/html-size.md?raw';
@@ -156,7 +157,7 @@ export const FormSelectDoc = () => {
               <option value="2">选项 2</option>
               <option value="3">选项 3</option>
             </FormSelect>
-            <div className="valid-feedback">看起来不错！</div>
+            <FormFeedback type="valid">看起来不错！</FormFeedback>
           </div>
           <div>
             <FormSelect aria-label="无效的下拉选择框示例" defaultValue="" isInvalid>
@@ -165,11 +166,12 @@ export const FormSelectDoc = () => {
               <option value="2">选项 2</option>
               <option value="3">选项 3</option>
             </FormSelect>
-            <div className="invalid-feedback">请选择一个选项。</div>
+            <FormFeedback type="invalid">请选择一个选项。</FormFeedback>
           </div>
         </div>
         <p className="mb-0 mt-3 text-muted small">
-          通过 isValid / isInvalid 属性应用 is-valid / is-invalid 校验样式，配合校验反馈文本使用
+          通过 isValid / isInvalid 属性应用 is-valid / is-invalid 校验样式，配合 FormFeedback
+          提供有效/无效反馈文本
         </p>
       </DemoSection>
 

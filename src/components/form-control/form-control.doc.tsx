@@ -6,6 +6,7 @@ import {
   DemoSection,
   DocTemplate,
 } from '../../internal/doc-template';
+import { FormFeedback } from '../form-feedback';
 import basicCode from './demos/basic.md?raw';
 import colorCode from './demos/color.md?raw';
 import datalistsCode from './demos/datalists.md?raw';
@@ -330,11 +331,18 @@ export const FormControlDoc = () => {
 
       <DemoSection code={validationCode} title="校验状态">
         <div className="d-flex flex-column gap-3">
-          <FormControl aria-label="有效输入示例" isValid placeholder="有效输入" type="text" />
-          <FormControl aria-label="无效输入示例" isInvalid placeholder="无效输入" type="text" />
+          <div>
+            <FormControl aria-label="有效输入示例" isValid placeholder="有效输入" type="text" />
+            <FormFeedback type="valid">看起来不错！</FormFeedback>
+          </div>
+          <div>
+            <FormControl aria-label="无效输入示例" isInvalid placeholder="无效输入" type="text" />
+            <FormFeedback type="invalid">请输入内容。</FormFeedback>
+          </div>
         </div>
         <p className="mb-0 mt-3 text-muted small">
-          通过 isValid / isInvalid 属性应用 is-valid / is-invalid 校验样式
+          通过 isValid / isInvalid 属性应用 is-valid / is-invalid 校验样式，配合 FormFeedback
+          提供有效/无效反馈文本
         </p>
       </DemoSection>
 

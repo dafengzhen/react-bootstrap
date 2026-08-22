@@ -7,6 +7,7 @@ import {
   DocTemplate,
 } from '../../internal/doc-template';
 import { FormText } from '../form-control';
+import { FormFeedback } from '../form-feedback';
 import basicCode from './demos/basic.md?raw';
 import disabledCode from './demos/disabled.md?raw';
 import interactiveCode from './demos/interactive.md?raw';
@@ -139,15 +140,16 @@ export const FormRangeDoc = () => {
         <div className="d-flex flex-column gap-3">
           <div>
             <FormRange aria-label="有效的范围示例" defaultValue={75} isValid />
-            <div className="valid-feedback">看起来不错！</div>
+            <FormFeedback type="valid">看起来不错！</FormFeedback>
           </div>
           <div>
             <FormRange aria-label="无效的范围示例" defaultValue={10} isInvalid />
-            <div className="invalid-feedback">请选择一个值。</div>
+            <FormFeedback type="invalid">请选择一个值。</FormFeedback>
           </div>
         </div>
         <p className="mb-0 mt-3 text-muted small">
-          通过 isValid / isInvalid 属性应用 is-valid / is-invalid 校验样式，配合校验反馈文本使用
+          通过 isValid / isInvalid 属性应用 is-valid / is-invalid 校验样式，配合 FormFeedback
+          提供有效/无效反馈文本
         </p>
       </DemoSection>
 

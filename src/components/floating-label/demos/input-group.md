@@ -17,9 +17,9 @@
         type="text"
       />
     </FloatingLabel>
-    <div className="invalid-feedback" id="floatingInputGroup2Feedback">
+    <FormFeedback id="floatingInputGroup2Feedback" type="invalid">
       请选择一个用户名。
-    </div>
+    </FormFeedback>
   </InputGroup>
 </div>
 ```

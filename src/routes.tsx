@@ -13,9 +13,11 @@ import DropdownDoc from './components/dropdown/dropdown.doc';
 import FloatingLabelDoc from './components/floating-label/floating-label.doc';
 import FormCheckDoc from './components/form-check/form-check.doc';
 import FormControlDoc from './components/form-control/form-control.doc';
+import FormFeedbackDoc from './components/form-feedback/form-feedback.doc';
 import FormRangeDoc from './components/form-range/form-range.doc';
 import FormSelectDoc from './components/form-select/form-select.doc';
 import InputGroupDoc from './components/input-group/input-group.doc';
+import LayoutDoc from './components/layout/layout.doc';
 import ListGroupDoc from './components/list-group/list-group.doc';
 import ModalDoc from './components/modal/modal.doc';
 import NavbarDoc from './components/navbar/navbar.doc';
@@ -297,10 +299,28 @@ const docsConfig: DocConfig[] = [
   },
   {
     description:
+      'Form feedback component that renders valid/invalid feedback text for form controls, supporting tooltip variants, browser native constraint validation with the was-validated form class and server-side validation states.',
+    element: <FormFeedbackDoc />,
+    name: 'FormFeedback',
+    order: 30,
+    path: '/components/form-feedback',
+    tags: ['Basic', 'Forms'],
+  },
+  {
+    description:
+      'Layout components that structure forms with the grid system, providing Row and Col for multi-column form grids, gutters and alignment utilities, horizontal form labels with size variants, column sizing and auto-sizing, and responsive inline forms.',
+    element: <LayoutDoc />,
+    name: 'Layout',
+    order: 31,
+    path: '/components/layout',
+    tags: ['Basic', 'Forms', 'Layout'],
+  },
+  {
+    description:
       'Table component that displays tabular data with Bootstrap styles, providing structural helpers for head/body/footer, rows, cells and captions, supporting contextual variants, striped rows/columns, hover and active states, bordered/borderless styles, small sizing, group dividers, vertical alignment, nesting, top captions, responsive scroll wrappers, plus selection cells, inline editable cells, loading/empty rows and useTable/useTableSelection/useTableEditing hooks for full CRUD interactions.',
     element: <TableDoc />,
     name: 'Table',
-    order: 30,
+    order: 32,
     path: '/components/table',
     tags: ['Basic', 'Layout'],
   },

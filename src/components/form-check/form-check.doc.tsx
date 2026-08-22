@@ -6,6 +6,7 @@ import {
   DemoSection,
   DocTemplate,
 } from '../../internal/doc-template';
+import { FormFeedback } from '../form-feedback';
 import basicCode from './demos/basic.md?raw';
 import disabledRadiosCode from './demos/disabled-radios.md?raw';
 import disabledCode from './demos/disabled.md?raw';
@@ -386,15 +387,16 @@ export const FormCheckDoc = () => {
         <FormCheck>
           <FormCheckInput id="validCheck" isValid />
           <FormCheckLabel htmlFor="validCheck">有效的复选框</FormCheckLabel>
-          <div className="valid-feedback">看起来不错！</div>
+          <FormFeedback type="valid">看起来不错！</FormFeedback>
         </FormCheck>
         <FormCheck>
           <FormCheckInput id="invalidCheck" isInvalid />
           <FormCheckLabel htmlFor="invalidCheck">无效的复选框</FormCheckLabel>
-          <div className="invalid-feedback">必须勾选此复选框。</div>
+          <FormFeedback type="invalid">必须勾选此复选框。</FormFeedback>
         </FormCheck>
         <p className="mb-0 mt-3 text-muted small">
-          通过 isValid / isInvalid 属性应用 is-valid / is-invalid 校验样式，配合校验反馈文本使用
+          通过 isValid / isInvalid 属性应用 is-valid / is-invalid 校验样式，配合 FormFeedback
+          提供有效/无效反馈文本
         </p>
       </DemoSection>
 

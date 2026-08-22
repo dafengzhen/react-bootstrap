@@ -85,6 +85,10 @@
       "import": "./dist/components/form-control/index.js",
       "types": "./dist/components/form-control/index.d.ts"
     },
+    "./form-feedback": {
+      "import": "./dist/components/form-feedback/index.js",
+      "types": "./dist/components/form-feedback/index.d.ts"
+    },
     "./form-range": {
       "import": "./dist/components/form-range/index.js",
       "types": "./dist/components/form-range/index.d.ts"
@@ -96,6 +100,10 @@
     "./input-group": {
       "import": "./dist/components/input-group/index.js",
       "types": "./dist/components/input-group/index.d.ts"
+    },
+    "./layout": {
+      "import": "./dist/components/layout/index.js",
+      "types": "./dist/components/layout/index.d.ts"
     },
     "./list-group": {
       "import": "./dist/components/list-group/index.js",
@@ -212,6 +220,7 @@
     "@types/node": "^26.2.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
+    "@vercel/analytics": "^2.0.1",
     "@vitejs/plugin-react": "^6.1.0",
     "babel-plugin-react-compiler": "^1.0.0",
     "bootstrap": "^5.3.8",

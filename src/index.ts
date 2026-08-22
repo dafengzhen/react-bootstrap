@@ -138,6 +138,9 @@ export type {
   FormTextProps,
 } from './components/form-control';
 
+export { FormFeedback } from './components/form-feedback';
+export type { FormFeedbackProps, FormFeedbackType } from './components/form-feedback';
+
 export { FormRange } from './components/form-range';
 export type { FormRangeProps } from './components/form-range';
 
@@ -157,6 +160,19 @@ export type {
   InputGroupSize,
   InputGroupTextProps,
 } from './components/input-group';
+
+export { Col, FormLabel, Row } from './components/layout';
+export type {
+  ColOrder,
+  ColProps,
+  ColSize,
+  ColSizeObject,
+  ColSpan,
+  FormLabelColumn,
+  FormLabelProps,
+  RowCols,
+  RowProps,
+} from './components/layout';
 
 export { ListGroup, ListGroupItem } from './components/list-group';
 export type {

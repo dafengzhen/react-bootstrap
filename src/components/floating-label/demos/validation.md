@@ -9,7 +9,7 @@
         type="email"
       />
     </FloatingLabel>
-    <div className="valid-feedback">看起来不错！</div>
+    <FormFeedback type="valid">看起来不错！</FormFeedback>
   </div>
   <div>
     <FloatingLabel controlId="floatingInputInvalid" label="无效的输入框">
@@ -20,7 +20,7 @@
         type="email"
       />
     </FloatingLabel>
-    <div className="invalid-feedback">请输入有效的邮箱地址。</div>
+    <FormFeedback type="invalid">请输入有效的邮箱地址。</FormFeedback>
   </div>
 </div>
 ```

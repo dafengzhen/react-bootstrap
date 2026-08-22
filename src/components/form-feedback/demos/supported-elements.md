@@ -9,13 +9,13 @@
     <FormFeedback type="valid">看起来不错！</FormFeedback>
   </div>
   <div>
-    <FormSelect aria-label="无效的下拉选择框示例" defaultValue="" isInvalid>
-      <option value="">请选择一个选项</option>
-      <option value="1">选项 1</option>
-      <option value="2">选项 2</option>
-      <option value="3">选项 3</option>
-    </FormSelect>
-    <FormFeedback type="invalid">请选择一个选项。</FormFeedback>
+    <FormRange aria-label="无效的范围示例" defaultValue={10} isInvalid />
+    <FormFeedback type="invalid">请选择一个值。</FormFeedback>
   </div>
+  <FormCheck>
+    <FormCheckInput id="supportedCheck" isInvalid />
+    <FormCheckLabel htmlFor="supportedCheck">无效的复选框</FormCheckLabel>
+    <FormFeedback type="invalid">必须勾选此复选框。</FormFeedback>
+  </FormCheck>
 </div>
 ```

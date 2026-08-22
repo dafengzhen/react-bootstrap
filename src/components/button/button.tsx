@@ -37,7 +37,12 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
     const isLink = Tag === 'a';
 
     const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-      if (toggle && active === undefined && !isDisabled) {
+      if (isDisabled) {
+        event.preventDefault();
+        return;
+      }
+
+      if (toggle && active === undefined) {
         setPressed((prev) => !prev);
       }
       onClick?.(event);

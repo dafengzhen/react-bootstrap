@@ -1,4 +1,4 @@
-import type { ColSize } from './types';
+import type { ColProps, ColSize } from './types';
 
 export const getColSizeClasses = (infix: string, size: ColSize | null | undefined): string[] => {
   if (size === null || size === undefined || size === false) {
@@ -23,3 +23,14 @@ export const getColSizeClasses = (infix: string, size: ColSize | null | undefine
 
   return classes;
 };
+
+export const getColClasses = (
+  sizes: Pick<ColProps, 'lg' | 'md' | 'sm' | 'xl' | 'xs' | 'xxl'>,
+): string[] => [
+  ...getColSizeClasses('', sizes.xs),
+  ...getColSizeClasses('-sm', sizes.sm),
+  ...getColSizeClasses('-md', sizes.md),
+  ...getColSizeClasses('-lg', sizes.lg),
+  ...getColSizeClasses('-xl', sizes.xl),
+  ...getColSizeClasses('-xxl', sizes.xxl),
+];

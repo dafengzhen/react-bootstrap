@@ -3,21 +3,12 @@ import { forwardRef } from 'react';
 
 import type { ColProps } from './types';
 
-import { getColSizeClasses } from './utils';
+import { getColClasses } from './utils';
 
 export const Col = forwardRef<HTMLElement, ColProps>(
   ({ as: Component = 'div', className, lg, md, sm, xl, xs, xxl, ...rest }, ref) => (
     <Component
-      className={clsx(
-        'col',
-        ...getColSizeClasses('', xs),
-        ...getColSizeClasses('-sm', sm),
-        ...getColSizeClasses('-md', md),
-        ...getColSizeClasses('-lg', lg),
-        ...getColSizeClasses('-xl', xl),
-        ...getColSizeClasses('-xxl', xxl),
-        className,
-      )}
+      className={clsx('col', ...getColClasses({ lg, md, sm, xl, xs, xxl }), className)}
       ref={ref}
       {...rest}
     />

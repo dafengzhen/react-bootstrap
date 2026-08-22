@@ -1,47 +1,52 @@
+import { type ComponentType, lazy, Suspense } from 'react';
 import { Link, Outlet, type RouteObject, useLocation } from 'react-router';
 
 import type { RenderLink } from './components/doc-template';
 
-import AlertDoc from './components/alert/alert.doc';
-import BadgeDoc from './components/badge/badge.doc';
-import BreadcrumbDoc from './components/breadcrumb/breadcrumb.doc';
-import ButtonGroupDoc from './components/button-group/button-group.doc';
-import ButtonDoc from './components/button/button.doc';
-import CardDoc from './components/card/card.doc';
-import CarouselDoc from './components/carousel/carousel.doc';
-import CloseButtonDoc from './components/close-button/close-button.doc';
-import CollapseDoc from './components/collapse/collapse.doc';
-import CodeBlockDoc from './components/doc-template/code-block.doc';
-import DemoSectionDoc from './components/doc-template/demo-section.doc';
-import DocTemplateDoc from './components/doc-template/doc-template.doc';
-import NameColorBadgeDoc from './components/doc-template/name-badge.doc';
-import TableOfContentsDoc from './components/doc-template/table-of-contents.doc';
 import { type DocConfig, DocsHome, DocsLayout } from './components/docs';
-import DocsHomeDoc from './components/docs/docs-home.doc';
-import DocsLayoutDoc from './components/docs/docs-layout.doc';
-import DropdownDoc from './components/dropdown/dropdown.doc';
-import FloatingLabelDoc from './components/floating-label/floating-label.doc';
-import FormCheckDoc from './components/form-check/form-check.doc';
-import FormControlDoc from './components/form-control/form-control.doc';
-import FormFeedbackDoc from './components/form-feedback/form-feedback.doc';
-import FormRangeDoc from './components/form-range/form-range.doc';
-import FormSelectDoc from './components/form-select/form-select.doc';
-import InputGroupDoc from './components/input-group/input-group.doc';
-import LayoutDoc from './components/layout/layout.doc';
-import ListGroupDoc from './components/list-group/list-group.doc';
-import ModalDoc from './components/modal/modal.doc';
-import NavbarDoc from './components/navbar/navbar.doc';
-import OffcanvasDoc from './components/offcanvas/offcanvas.doc';
-import PaginationDoc from './components/pagination/pagination.doc';
-import PlaceholderDoc from './components/placeholder/placeholder.doc';
-import PopoverDoc from './components/popover/popover.doc';
-import ProgressDoc from './components/progress/progress.doc';
-import ScrollSpyDoc from './components/scrollspy/scrollspy.doc';
-import SpinnerDoc from './components/spinner/spinner.doc';
-import TableDoc from './components/table/table.doc';
-import TabsDoc from './components/tabs/tabs.doc';
-import ToastDoc from './components/toast/toast.doc';
-import TooltipDoc from './components/tooltip/tooltip.doc';
+import { Spinner } from './components/spinner';
+
+const lazyDoc = (loader: () => Promise<{ default: ComponentType }>) => lazy(loader);
+
+const AlertDoc = lazyDoc(() => import('./components/alert/alert.doc'));
+const BadgeDoc = lazyDoc(() => import('./components/badge/badge.doc'));
+const BreadcrumbDoc = lazyDoc(() => import('./components/breadcrumb/breadcrumb.doc'));
+const ButtonDoc = lazyDoc(() => import('./components/button/button.doc'));
+const ButtonGroupDoc = lazyDoc(() => import('./components/button-group/button-group.doc'));
+const CardDoc = lazyDoc(() => import('./components/card/card.doc'));
+const CarouselDoc = lazyDoc(() => import('./components/carousel/carousel.doc'));
+const CloseButtonDoc = lazyDoc(() => import('./components/close-button/close-button.doc'));
+const CodeBlockDoc = lazyDoc(() => import('./components/doc-template/code-block.doc'));
+const CollapseDoc = lazyDoc(() => import('./components/collapse/collapse.doc'));
+const DemoSectionDoc = lazyDoc(() => import('./components/doc-template/demo-section.doc'));
+const DocTemplateDoc = lazyDoc(() => import('./components/doc-template/doc-template.doc'));
+const DocsHomeDoc = lazyDoc(() => import('./components/docs/docs-home.doc'));
+const DocsLayoutDoc = lazyDoc(() => import('./components/docs/docs-layout.doc'));
+const DropdownDoc = lazyDoc(() => import('./components/dropdown/dropdown.doc'));
+const FloatingLabelDoc = lazyDoc(() => import('./components/floating-label/floating-label.doc'));
+const FormCheckDoc = lazyDoc(() => import('./components/form-check/form-check.doc'));
+const FormControlDoc = lazyDoc(() => import('./components/form-control/form-control.doc'));
+const FormFeedbackDoc = lazyDoc(() => import('./components/form-feedback/form-feedback.doc'));
+const FormRangeDoc = lazyDoc(() => import('./components/form-range/form-range.doc'));
+const FormSelectDoc = lazyDoc(() => import('./components/form-select/form-select.doc'));
+const InputGroupDoc = lazyDoc(() => import('./components/input-group/input-group.doc'));
+const LayoutDoc = lazyDoc(() => import('./components/layout/layout.doc'));
+const ListGroupDoc = lazyDoc(() => import('./components/list-group/list-group.doc'));
+const ModalDoc = lazyDoc(() => import('./components/modal/modal.doc'));
+const NameColorBadgeDoc = lazyDoc(() => import('./components/doc-template/name-badge.doc'));
+const NavbarDoc = lazyDoc(() => import('./components/navbar/navbar.doc'));
+const OffcanvasDoc = lazyDoc(() => import('./components/offcanvas/offcanvas.doc'));
+const PaginationDoc = lazyDoc(() => import('./components/pagination/pagination.doc'));
+const PlaceholderDoc = lazyDoc(() => import('./components/placeholder/placeholder.doc'));
+const PopoverDoc = lazyDoc(() => import('./components/popover/popover.doc'));
+const ProgressDoc = lazyDoc(() => import('./components/progress/progress.doc'));
+const ScrollSpyDoc = lazyDoc(() => import('./components/scrollspy/scrollspy.doc'));
+const SpinnerDoc = lazyDoc(() => import('./components/spinner/spinner.doc'));
+const TableDoc = lazyDoc(() => import('./components/table/table.doc'));
+const TableOfContentsDoc = lazyDoc(() => import('./components/doc-template/table-of-contents.doc'));
+const TabsDoc = lazyDoc(() => import('./components/tabs/tabs.doc'));
+const ToastDoc = lazyDoc(() => import('./components/toast/toast.doc'));
+const TooltipDoc = lazyDoc(() => import('./components/tooltip/tooltip.doc'));
 
 const GITHUB_URL = 'https://github.com/dafengzhen/react-bootstrap';
 
@@ -401,6 +406,12 @@ const renderLink: RenderLink = ({ children, className, to }) => (
   </Link>
 );
 
+const PageFallback = () => (
+  <div className="d-flex justify-content-center py-5">
+    <Spinner />
+  </div>
+);
+
 const DocsRoute = () => {
   const { pathname } = useLocation();
 
@@ -430,7 +441,10 @@ const appRoutes: RouteObject[] = [
         ),
         index: true,
       },
-      ...docsConfig.map((doc): RouteObject => ({ element: doc.element, path: doc.path.slice(1) })),
+      ...docsConfig.map((doc): RouteObject => ({
+        element: <Suspense fallback={<PageFallback />}>{doc.element}</Suspense>,
+        path: doc.path.slice(1),
+      })),
     ],
     element: <DocsRoute />,
     path: '/',

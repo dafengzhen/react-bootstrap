@@ -237,7 +237,7 @@ export const parseRootMargin = (rootMargin: string): RootMarginValues => {
     }
 
     case 3: {
-      const [top, bottom] = parts;
+      const [top, , bottom] = parts;
 
       return {
         bottom,
@@ -246,7 +246,7 @@ export const parseRootMargin = (rootMargin: string): RootMarginValues => {
     }
 
     default: {
-      const [top, bottom] = parts;
+      const [top, , bottom] = parts;
 
       return {
         bottom,

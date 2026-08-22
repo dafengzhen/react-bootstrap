@@ -9,11 +9,11 @@ export const useTableEditing = <Key>({
 }: UseTableEditingOptions<Key> = {}): UseTableEditingResult<Key> => {
   const [internalKey, setInternalKey] = useState<Key | null>(defaultEditingKey);
 
-  const currentKey = editingKey != null ? editingKey : internalKey;
+  const currentKey = editingKey !== undefined ? editingKey : internalKey;
 
   const cancelEdit = useCallback(() => {
     onEditingKeyChange?.(null);
-    if (editingKey == null) {
+    if (editingKey === undefined) {
       setInternalKey(null);
     }
   }, [editingKey, onEditingKeyChange]);
@@ -26,7 +26,7 @@ export const useTableEditing = <Key>({
   const startEdit = useCallback(
     (key: Key) => {
       onEditingKeyChange?.(key);
-      if (editingKey == null) {
+      if (editingKey === undefined) {
         setInternalKey(key);
       }
     },

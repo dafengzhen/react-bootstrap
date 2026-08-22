@@ -19,10 +19,10 @@ export const lockBodyScroll = () => {
 };
 
 export const unlockBodyScroll = () => {
-  if (typeof document === 'undefined') {
+  if (typeof document === 'undefined' || bodyLockCount === 0) {
     return;
   }
-  bodyLockCount = Math.max(0, bodyLockCount - 1);
+  bodyLockCount -= 1;
   if (bodyLockCount === 0) {
     document.body.style.overflow = originalBodyOverflow;
   }

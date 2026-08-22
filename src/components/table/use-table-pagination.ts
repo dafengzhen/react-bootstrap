@@ -34,11 +34,11 @@ export const useTablePagination = ({
   }, []);
 
   const nextPage = useCallback(() => {
-    setPageState((previous) => clampPage(previous + 1, totalPages));
+    setPageState((previous) => clampPage(clampPage(previous, totalPages) + 1, totalPages));
   }, [totalPages]);
 
   const previousPage = useCallback(() => {
-    setPageState((previous) => clampPage(previous - 1, totalPages));
+    setPageState((previous) => clampPage(clampPage(previous, totalPages) - 1, totalPages));
   }, [totalPages]);
 
   const firstPage = useCallback(() => {

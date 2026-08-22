@@ -46,9 +46,6 @@ export function transitionReducer(
       return { mounted: true, status: 'opened' };
 
     case 'OPEN':
-      if (state.mounted && state.status !== 'closed') {
-        return { ...state, status: 'closed' };
-      }
       return { mounted: true, status: 'closed' };
 
     case 'UNMOUNT':

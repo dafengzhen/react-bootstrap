@@ -1,4 +1,3 @@
-import hljs from 'highlight.js';
 import { useState } from 'react';
 
 import type { ApiProp } from './types.ts';
@@ -68,10 +67,7 @@ export const CodeBlockDoc = () => {
         <CodeBlock code="const total = 1 + 2;" showCopyButton={false} />
       </DemoSection>
       <DemoSection code={highlightElementCode} title="外部注入高亮">
-        <CodeBlock
-          code="const answer = 42;"
-          highlightElement={(element) => hljs.highlightElement(element)}
-        />
+        <CodeBlock code="const answer = 42;" />
       </DemoSection>
       <DemoSection code={liveHighlightCode} title="实时高亮">
         <textarea

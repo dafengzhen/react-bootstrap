@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import type { FormLabelProps } from './types';
 
-import { getColSizeClasses } from './utils';
+import { getColClasses } from './utils';
 
 export const FormLabel = forwardRef<HTMLElement, FormLabelProps>(
   (
@@ -29,15 +29,7 @@ export const FormLabel = forwardRef<HTMLElement, FormLabelProps>(
         column ? 'col-form-label' : 'form-label',
         typeof column === 'string' && `col-form-label-${column}`,
         visuallyHidden && 'visually-hidden',
-        column &&
-          clsx(
-            ...getColSizeClasses('', xs),
-            ...getColSizeClasses('-sm', sm),
-            ...getColSizeClasses('-md', md),
-            ...getColSizeClasses('-lg', lg),
-            ...getColSizeClasses('-xl', xl),
-            ...getColSizeClasses('-xxl', xxl),
-          ),
+        column && clsx(...getColClasses({ lg, md, sm, xl, xs, xxl })),
         className,
       )}
       htmlFor={htmlFor}

@@ -23,5 +23,22 @@ export default defineConfig({
     },
     sourcemap: false,
   },
+  optimizeDeps: {
+    include: [
+      'highlight.js/lib/core',
+      'highlight.js/lib/languages/typescript',
+      'highlight.js/lib/languages/xml',
+      'highlight.js/lib/languages/python',
+      'highlight.js/lib/languages/java',
+      'highlight.js/lib/languages/go',
+      'highlight.js/lib/languages/rust',
+      'highlight.js/lib/languages/cpp',
+      'highlight.js/lib/languages/css',
+      'highlight.js/lib/languages/json',
+      'highlight.js/lib/languages/yaml',
+      'highlight.js/lib/languages/bash',
+      'highlight.js/lib/languages/sql',
+    ],
+  },
   plugins: [react(), bundleAnalyzerPlugin()],
 });

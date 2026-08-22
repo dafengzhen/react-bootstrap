@@ -1,7 +1,7 @@
 import type { ExportTableCsvOptions } from './types';
 
 const escapeCsvCell = (value: string): string => {
-  if (/[",\n]/.test(value)) {
+  if (/[",\r\n]/.test(value)) {
     return `"${value.replaceAll('"', '""')}"`;
   }
   return value;
@@ -32,8 +32,10 @@ export const exportTableCsv = <Row>({
   const link = document.createElement('a');
   link.download = filename;
   link.href = url;
+  document.body.append(link);
   link.click();
-  URL.revokeObjectURL(url);
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 0);
 };
 
 export default exportTableCsv;

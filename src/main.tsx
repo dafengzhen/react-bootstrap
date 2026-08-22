@@ -1,17 +1,91 @@
+import type Hljs from 'highlight.js';
+
+import 'bootstrap/dist/css/bootstrap.css';
 import { Analytics } from '@vercel/analytics/react';
-import hljs from 'highlight.js';
+import 'highlight.js/styles/github-dark.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'highlight.js/styles/github-dark.css';
 
 import './main.css';
 import { CodeBlockHighlightContext } from './components/doc-template';
 import appRoutes from './routes';
 
-const highlightElement = (element: HTMLElement) => hljs.highlightElement(element);
+type HighlightJsModule = { default: typeof Hljs };
+
+let highlightJsPromise: null | Promise<HighlightJsModule> = null;
+let isLanguagesRegistered = false;
+
+const loadHighlightJs = (): Promise<HighlightJsModule> => {
+  highlightJsPromise ??= import('highlight.js/lib/core');
+  return highlightJsPromise;
+};
+
+const registerLanguages = async (hljs: typeof Hljs): Promise<void> => {
+  if (isLanguagesRegistered) {
+    return;
+  }
+
+  const [
+    { default: typescript },
+    { default: xml },
+    { default: python },
+    { default: java },
+    { default: go },
+    { default: rust },
+    { default: cpp },
+    { default: css },
+    { default: json },
+    { default: yaml },
+    { default: bash },
+    { default: sql },
+  ] = await Promise.all([
+    import('highlight.js/lib/languages/typescript'),
+    import('highlight.js/lib/languages/xml'),
+    import('highlight.js/lib/languages/python'),
+    import('highlight.js/lib/languages/java'),
+    import('highlight.js/lib/languages/go'),
+    import('highlight.js/lib/languages/rust'),
+    import('highlight.js/lib/languages/cpp'),
+    import('highlight.js/lib/languages/css'),
+    import('highlight.js/lib/languages/json'),
+    import('highlight.js/lib/languages/yaml'),
+    import('highlight.js/lib/languages/bash'),
+    import('highlight.js/lib/languages/sql'),
+  ]);
+
+  hljs.registerLanguage('typescript', typescript);
+  hljs.registerLanguage('ts', typescript);
+  hljs.registerLanguage('tsx', typescript);
+  hljs.registerLanguage('xml', xml);
+  hljs.registerLanguage('html', xml);
+  hljs.registerLanguage('python', python);
+  hljs.registerLanguage('py', python);
+  hljs.registerLanguage('java', java);
+  hljs.registerLanguage('go', go);
+  hljs.registerLanguage('rust', rust);
+  hljs.registerLanguage('rs', rust);
+  hljs.registerLanguage('cpp', cpp);
+  hljs.registerLanguage('c', cpp);
+  hljs.registerLanguage('css', css);
+  hljs.registerLanguage('json', json);
+  hljs.registerLanguage('yaml', yaml);
+  hljs.registerLanguage('yml', yaml);
+  hljs.registerLanguage('bash', bash);
+  hljs.registerLanguage('sh', bash);
+  hljs.registerLanguage('shell', bash);
+  hljs.registerLanguage('sql', sql);
+
+  isLanguagesRegistered = true;
+};
+
+const highlightElement = (element: HTMLElement): void => {
+  void loadHighlightJs().then(async ({ default: hljs }) => {
+    await registerLanguages(hljs);
+    hljs.highlightElement(element);
+  });
+};
 
 const router = createBrowserRouter(appRoutes);
 

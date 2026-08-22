@@ -224,7 +224,7 @@ export const positionElement = (
     },
   });
 
-  const offsetParent = floating.offsetParent as HTMLElement | null;
+  const offsetParent = floating.offsetParent;
   const originLeft = offsetParent
     ? offsetParent.getBoundingClientRect().left + offsetParent.clientLeft
     : -window.scrollX;

@@ -2,7 +2,7 @@ import { forwardRef, type SyntheticEvent, useCallback, useMemo, useState } from 
 
 import type { EventKey, TabContainerProps, TabsContextValue } from './types';
 
-import { TabsContext } from './context';
+import { TabsContext } from './tabs-context';
 
 export const TabContainer = forwardRef<HTMLElement, TabContainerProps>(
   (

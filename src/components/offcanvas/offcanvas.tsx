@@ -22,8 +22,8 @@ import type {
 import { useReducedMotion } from '../../hooks';
 import { transitionReducer } from '../../stores';
 import { getFocusableElements, lockBodyScroll, unlockBodyScroll } from '../../utils';
-import { DEFAULT_DURATION, TRANSITION_END_BUFFER } from './constants';
-import { OffcanvasContext } from './context';
+import { DEFAULT_DURATION, TRANSITION_END_BUFFER } from './offcanvas-constants';
+import { OffcanvasContext } from './offcanvas-context';
 import styles from './offcanvas.module.css';
 
 const PLACEMENT_CLASSES: Record<OffcanvasPlacement, string> = {

@@ -3,7 +3,7 @@ import { forwardRef, useCallback } from 'react';
 
 import type { ModalContentProps, ModalDirection, ModalPlacement } from './types';
 
-import { useModal } from './context';
+import { useModal } from './modal-context';
 import styles from './modal.module.css';
 
 const PLACEMENT_CONTENT_CLASSES: Partial<Record<ModalPlacement, string>> = {

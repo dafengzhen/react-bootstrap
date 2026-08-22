@@ -4,7 +4,7 @@ import type { ApiProp } from './types.ts';
 
 import { DemoSection } from './demo-section.tsx';
 import { DocTemplate } from './doc-template.tsx';
-import { NameColorBadge } from './name-badge.tsx';
+import { NameColorBadge } from './name-color-badge.tsx';
 
 const basicCode = '<NameColorBadge name="Button" />';
 const sizeCode =

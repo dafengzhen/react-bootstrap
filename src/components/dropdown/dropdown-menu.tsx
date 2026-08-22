@@ -11,8 +11,8 @@ import {
 import type { DropdownMenuProps } from './types';
 
 import { positionElement, resetPosition } from '../../utils';
-import { useDropdown } from './context';
-import { getAlignClassNames, getBaseAlign, getDropdownPlacement } from './utils';
+import { useDropdown } from './dropdown-context';
+import { getAlignClassNames, getBaseAlign, getDropdownPlacement } from './dropdown-utils';
 
 const DEFAULT_OFFSET: readonly [number, number] = [0, 2];
 

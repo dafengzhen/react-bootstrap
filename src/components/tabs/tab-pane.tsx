@@ -3,8 +3,8 @@ import { forwardRef, useEffect, useState } from 'react';
 
 import type { TabPaneProps } from './types';
 
-import { useTabs } from './context';
-import { isSameKey } from './utils';
+import { useTabs } from './tabs-context';
+import { isSameKey } from './tabs-utils';
 
 export const TabPane = forwardRef<HTMLElement, TabPaneProps>(
   (

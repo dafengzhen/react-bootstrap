@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import type { NavItemProps } from './types';
 
-import { useNav } from './context';
+import { useNav } from './tabs-context';
 
 export const NavItem = forwardRef<HTMLElement, NavItemProps>(
   ({ as: Component = 'li', children, className, role, ...rest }, ref) => {

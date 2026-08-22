@@ -3,8 +3,8 @@ import { forwardRef, type TransitionEvent, useCallback, useEffect, useMemo } fro
 
 import type { CarouselItemProps, CarouselItemRole } from './types';
 
+import { useCarousel, useCarouselItemIndex } from './carousel-context';
 import styles from './carousel.module.css';
-import { useCarousel, useCarouselItemIndex } from './context';
 
 export const CarouselItem = forwardRef<HTMLDivElement, CarouselItemProps>(
   (

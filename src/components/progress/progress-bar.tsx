@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import type { ProgressBarProps } from './types';
 
-import { mergeProgressStyle, resolveProgressWidth } from './utils';
+import { mergeProgressStyle, resolveProgressWidth } from './progress-utils';
 
 export const ProgressBar = forwardRef<HTMLElement, ProgressBarProps>(
   (

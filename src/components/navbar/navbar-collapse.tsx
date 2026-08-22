@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import type { NavbarCollapseProps } from './types';
 
-import { useNavbar } from './context';
+import { useNavbar } from './navbar-context';
 
 export const NavbarCollapse = forwardRef<HTMLDivElement, NavbarCollapseProps>(
   ({ children, className, ...rest }, ref) => {

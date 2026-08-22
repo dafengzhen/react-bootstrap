@@ -14,9 +14,9 @@ import {
 import type { DemoSectionProps, TocLevel } from './types.ts';
 
 import { CodeBlock } from './code-block.tsx';
+import { sanitizeUseId, slugify } from './doc-template-utils.ts';
 import styles from './doc-template.module.css';
 import { extractFencedCode } from './markdown.ts';
-import { sanitizeUseId, slugify } from './utils.ts';
 
 export interface DemoSectionMeta {
   id?: string;

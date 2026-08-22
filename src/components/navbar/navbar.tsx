@@ -4,7 +4,7 @@ import { forwardRef, type SyntheticEvent, useCallback, useMemo, useState } from 
 import type { EventKey } from '../tabs';
 import type { NavbarContextValue, NavbarProps } from './types';
 
-import { NavbarContext } from './context';
+import { NavbarContext } from './navbar-context';
 
 export const Navbar = forwardRef<HTMLElement, NavbarProps>(
   (

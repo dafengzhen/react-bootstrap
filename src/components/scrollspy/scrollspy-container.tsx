@@ -3,7 +3,7 @@ import { forwardRef, useCallback, useLayoutEffect, useRef } from 'react';
 
 import type { ScrollSpyContainerProps } from './types';
 
-import { useScrollSpy } from './context';
+import { useScrollSpy } from './scrollspy-context';
 import styles from './scrollspy.module.css';
 
 export const ScrollSpyContainer = forwardRef<HTMLElement, ScrollSpyContainerProps>(

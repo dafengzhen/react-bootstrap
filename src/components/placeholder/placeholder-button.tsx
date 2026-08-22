@@ -3,7 +3,7 @@ import { type ForwardedRef, forwardRef } from 'react';
 import type { PlaceholderButtonProps } from './types';
 
 import { Button } from '../button';
-import { resolvePlaceholderClassName } from './utils';
+import { resolvePlaceholderClassName } from './placeholder-utils';
 
 export const PlaceholderButton = forwardRef<HTMLButtonElement, PlaceholderButtonProps>(
   ({ animation, bg, children, className, size, variant, xs, ...rest }, ref) => (

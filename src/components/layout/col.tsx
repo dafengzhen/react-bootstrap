@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import type { ColProps } from './types';
 
-import { getColClasses } from './utils';
+import { getColClasses } from './layout-utils';
 
 export const Col = forwardRef<HTMLElement, ColProps>(
   ({ as: Component = 'div', className, lg, md, sm, xl, xs, xxl, ...rest }, ref) => (

@@ -3,7 +3,7 @@ import { forwardRef, type MouseEvent } from 'react';
 
 import type { NavbarToggleProps } from './types';
 
-import { useNavbar } from './context';
+import { useNavbar } from './navbar-context';
 
 export const NavbarToggle = forwardRef<HTMLElement, NavbarToggleProps>(
   (

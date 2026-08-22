@@ -3,8 +3,8 @@ import { type FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import type { CodeBlockProps } from './types.ts';
 
+import { useCodeBlockHighlight } from './code-block-highlight-context.ts';
 import styles from './doc-template.module.css';
-import { useCodeBlockHighlight } from './highlight-context.ts';
 
 const COPY_FEEDBACK_DURATION = 2000;
 

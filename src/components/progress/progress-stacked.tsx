@@ -3,8 +3,8 @@ import { forwardRef, useMemo } from 'react';
 
 import type { ProgressStackedContextValue, ProgressStackedProps } from './types';
 
-import { ProgressStackedContext } from './context';
-import { mergeProgressStyle } from './utils';
+import { ProgressStackedContext } from './progress-stacked-context';
+import { mergeProgressStyle } from './progress-utils';
 
 export const ProgressStacked = forwardRef<HTMLElement, ProgressStackedProps>(
   ({ as: Component = 'div', children, className, height, style, ...rest }, ref) => {

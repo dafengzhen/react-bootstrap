@@ -3,8 +3,8 @@ import { forwardRef, type MouseEvent, useCallback } from 'react';
 
 import type { CarouselIndicatorProps } from './types';
 
+import { useCarousel } from './carousel-context';
 import styles from './carousel.module.css';
-import { useCarousel } from './context';
 
 export const CarouselIndicator = forwardRef<HTMLButtonElement, CarouselIndicatorProps>(
   (

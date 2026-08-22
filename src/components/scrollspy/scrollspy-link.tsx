@@ -4,8 +4,8 @@ import { forwardRef, type MouseEvent, useCallback, useEffect } from 'react';
 import type { ScrollSpyLinkProps } from './types';
 
 import { useReducedMotion } from '../../hooks';
-import { useScrollSpy } from './context';
-import { getHashTargetId } from './utils';
+import { useScrollSpy } from './scrollspy-context';
+import { getHashTargetId } from './scrollspy-utils';
 
 export const ScrollSpyLink = forwardRef<HTMLElement, ScrollSpyLinkProps>(
   (

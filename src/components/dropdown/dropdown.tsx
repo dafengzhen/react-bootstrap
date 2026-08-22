@@ -9,8 +9,8 @@ import type {
   ToggleCallback,
 } from './types';
 
-import { DropdownContext } from './context';
-import { DROP_CLASSES } from './utils';
+import { DropdownContext } from './dropdown-context';
+import { DROP_CLASSES } from './dropdown-utils';
 
 export const Dropdown = forwardRef<HTMLElement, DropdownProps>(
   (

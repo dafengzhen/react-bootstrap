@@ -3,8 +3,8 @@ import { forwardRef } from 'react';
 
 import type { ToastHeaderProps } from './types';
 
-import { useToast } from './context';
 import { ToastClose } from './toast-close';
+import { useToast } from './toast-context';
 
 export const ToastHeader = forwardRef<HTMLDivElement, ToastHeaderProps>(
   ({ children, className, closeButton = true, closeLabel = 'Close', ...rest }, ref) => {

@@ -4,7 +4,7 @@ import { type CSSProperties, forwardRef } from 'react';
 import type { TooltipProps } from './types';
 
 import { getBasePlacement } from '../../utils';
-import { DEFAULT_PLACEMENT } from './constants';
+import { DEFAULT_PLACEMENT } from './tooltip-constants';
 
 const getArrowStyle = (placement: TooltipProps['placement']): CSSProperties => {
   const basePlacement = getBasePlacement(placement ?? DEFAULT_PLACEMENT);

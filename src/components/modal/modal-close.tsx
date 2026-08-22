@@ -5,7 +5,7 @@ import { forwardRef, useCallback } from 'react';
 
 import type { ModalCloseProps } from './types';
 
-import { useModal } from './context';
+import { useModal } from './modal-context';
 import styles from './modal.module.css';
 
 export const ModalClose = forwardRef<HTMLButtonElement, ModalCloseProps>(

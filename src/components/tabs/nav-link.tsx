@@ -3,8 +3,8 @@ import { forwardRef, type MouseEvent } from 'react';
 
 import type { NavLinkProps } from './types';
 
-import { useNav, useTabs } from './context';
-import { isSameKey } from './utils';
+import { useNav, useTabs } from './tabs-context';
+import { isSameKey } from './tabs-utils';
 
 export const NavLink = forwardRef<HTMLElement, NavLinkProps>(
   (

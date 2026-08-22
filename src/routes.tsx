@@ -33,7 +33,7 @@ const InputGroupDoc = lazyDoc(() => import('./components/input-group/input-group
 const LayoutDoc = lazyDoc(() => import('./components/layout/layout.doc'));
 const ListGroupDoc = lazyDoc(() => import('./components/list-group/list-group.doc'));
 const ModalDoc = lazyDoc(() => import('./components/modal/modal.doc'));
-const NameColorBadgeDoc = lazyDoc(() => import('./components/doc-template/name-badge.doc'));
+const NameColorBadgeDoc = lazyDoc(() => import('./components/doc-template/name-color-badge.doc'));
 const NavbarDoc = lazyDoc(() => import('./components/navbar/navbar.doc'));
 const OffcanvasDoc = lazyDoc(() => import('./components/offcanvas/offcanvas.doc'));
 const PaginationDoc = lazyDoc(() => import('./components/pagination/pagination.doc'));

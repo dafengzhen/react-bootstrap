@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import type { OffcanvasTitleProps } from './types';
 
-import { useOffcanvas } from './context';
+import { useOffcanvas } from './offcanvas-context';
 
 export const OffcanvasTitle = forwardRef<HTMLElement, OffcanvasTitleProps>(
   ({ as: Component = 'h5', children, className, id, ...rest }, ref) => {

@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import type { ModalDescriptionProps } from './types';
 
-import { useModal } from './context';
+import { useModal } from './modal-context';
 import styles from './modal.module.css';
 
 export const ModalDescription = forwardRef<HTMLElement, ModalDescriptionProps>(

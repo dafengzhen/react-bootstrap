@@ -1,11 +1,11 @@
 export { Carousel } from './carousel';
 export { CarouselCaption } from './carousel-caption';
+export { useCarousel } from './carousel-context';
 export { CarouselControl } from './carousel-control';
 export { CarouselIndicator } from './carousel-indicator';
 export { CarouselIndicators } from './carousel-indicators';
 export { CarouselInner } from './carousel-inner';
 export { CarouselItem } from './carousel-item';
-export { useCarousel } from './context';
 export type {
   CarouselAnimationStatus,
   CarouselCaptionProps,

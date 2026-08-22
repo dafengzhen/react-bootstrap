@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import type { ModalTitleProps } from './types';
 
-import { useModal } from './context';
+import { useModal } from './modal-context';
 
 export const ModalTitle = forwardRef<HTMLElement, ModalTitleProps>(
   ({ as: Component = 'h5', children, className, id, ...rest }, ref) => {

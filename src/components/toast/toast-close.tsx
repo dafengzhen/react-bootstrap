@@ -3,7 +3,7 @@ import { forwardRef, type MouseEvent, useCallback } from 'react';
 import type { ToastCloseProps } from './types';
 
 import { CloseButton } from '../close-button';
-import { useToast } from './context';
+import { useToast } from './toast-context';
 
 export const ToastClose = forwardRef<HTMLButtonElement, ToastCloseProps>(
   (

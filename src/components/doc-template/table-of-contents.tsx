@@ -3,8 +3,8 @@ import { type FC, type MouseEvent as ReactMouseEvent, useCallback, useMemo, useS
 
 import type { TableOfContentsProps, TocItem } from './types.ts';
 
+import { scrollToSection, updateHash } from './doc-template-utils.ts';
 import styles from './doc-template.module.css';
-import { scrollToSection, updateHash } from './utils.ts';
 
 interface TocNode {
   children: TocNode[];

@@ -1,7 +1,7 @@
-export { useNavbar } from './context';
 export { Navbar } from './navbar';
 export { NavbarBrand } from './navbar-brand';
 export { NavbarCollapse } from './navbar-collapse';
+export { useNavbar } from './navbar-context';
 export { NavbarOffcanvas } from './navbar-offcanvas';
 export { NavbarText } from './navbar-text';
 export { NavbarToggle } from './navbar-toggle';

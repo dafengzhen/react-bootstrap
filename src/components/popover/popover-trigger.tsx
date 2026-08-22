@@ -23,6 +23,7 @@ import type { PopoverTriggerProps, PopoverTriggerType } from './types';
 import { useReducedMotion } from '../../hooks';
 import { transitionReducer } from '../../stores';
 import { type Placement, positionElement, resetPosition } from '../../utils';
+import { Popover } from './popover';
 import {
   DEFAULT_OFFSET,
   DEFAULT_PADDING,
@@ -31,8 +32,7 @@ import {
   FADE_DURATION,
   OPEN_ANIMATION_START_FALLBACK,
   TRANSITION_END_BUFFER,
-} from './constants';
-import { Popover } from './popover';
+} from './popover-constants';
 
 const POPOVER_ARROW_SELECTOR = '.popover-arrow';
 

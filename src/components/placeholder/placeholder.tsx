@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 
 import type { PlaceholderProps } from './types';
 
-import { resolvePlaceholderClassName } from './utils';
+import { resolvePlaceholderClassName } from './placeholder-utils';
 
 export const Placeholder = forwardRef<HTMLElement, PlaceholderProps>(
   ({ animation, as: Component = 'span', bg, children, className, size, xs, ...rest }, ref) => (

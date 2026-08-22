@@ -3,7 +3,7 @@ import { forwardRef, type MouseEvent, useCallback } from 'react';
 
 import type { OffcanvasCloseProps } from './types';
 
-import { useOffcanvas } from './context';
+import { useOffcanvas } from './offcanvas-context';
 
 export const OffcanvasClose = forwardRef<HTMLButtonElement, OffcanvasCloseProps>(
   (

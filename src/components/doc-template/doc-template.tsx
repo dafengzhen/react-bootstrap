@@ -16,12 +16,12 @@ import {
   type DemoSectionsContextValue,
 } from './demo-section.tsx';
 import { useDocSidebar } from './doc-sidebar-context.ts';
+import { scrollToSection, slugify, updateHash, useIdPrefix } from './doc-template-utils.ts';
 import styles from './doc-template.module.css';
-import { NameColorBadge } from './name-badge.tsx';
+import { NameColorBadge } from './name-color-badge.tsx';
 import { PropsTable } from './props-table.tsx';
 import { TableOfContents } from './table-of-contents.tsx';
 import { TypeDefinitions } from './type-definitions.tsx';
-import { scrollToSection, slugify, updateHash, useIdPrefix } from './utils.ts';
 
 const TYPE_HIGHLIGHT_DURATION = 2000;
 

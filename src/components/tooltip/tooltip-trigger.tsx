@@ -23,6 +23,7 @@ import type { TooltipTriggerProps, TooltipTriggerType } from './types';
 import { useReducedMotion } from '../../hooks';
 import { transitionReducer } from '../../stores';
 import { type Placement, positionElement, resetPosition } from '../../utils';
+import { Tooltip } from './tooltip';
 import {
   DEFAULT_OFFSET,
   DEFAULT_PADDING,
@@ -31,8 +32,7 @@ import {
   FADE_DURATION,
   OPEN_ANIMATION_START_FALLBACK,
   TRANSITION_END_BUFFER,
-} from './constants';
-import { Tooltip } from './tooltip';
+} from './tooltip-constants';
 
 type TooltipChildProps = HTMLAttributes<HTMLElement> & RefAttributes<HTMLElement>;
 

@@ -1,6 +1,6 @@
-export { useDropdown } from './context';
 export { Dropdown } from './dropdown';
 export { DropdownButton } from './dropdown-button';
+export { useDropdown } from './dropdown-context';
 export { DropdownDivider } from './dropdown-divider';
 export { DropdownHeader } from './dropdown-header';
 export { DropdownItem } from './dropdown-item';

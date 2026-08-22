@@ -14,8 +14,8 @@ import type { ToastContextValue, ToastCssProperties, ToastProps } from './types'
 
 import { useReducedMotion } from '../../hooks';
 import { transitionReducer } from '../../stores';
-import { DEFAULT_AUTOHIDE_DELAY, DEFAULT_DURATION, TRANSITION_END_BUFFER } from './constants';
-import { ToastContext } from './context';
+import { DEFAULT_AUTOHIDE_DELAY, DEFAULT_DURATION, TRANSITION_END_BUFFER } from './toast-constants';
+import { ToastContext } from './toast-context';
 import styles from './toast.module.css';
 
 export const Toast = forwardRef<HTMLDivElement, ToastProps>(

@@ -3,7 +3,7 @@ import { forwardRef, type MouseEvent } from 'react';
 
 import type { DropdownItemProps, EventKey } from './types';
 
-import { useDropdown } from './context';
+import { useDropdown } from './dropdown-context';
 
 export const DropdownItem = forwardRef<HTMLElement, DropdownItemProps>(
   (

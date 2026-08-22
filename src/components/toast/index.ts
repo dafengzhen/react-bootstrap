@@ -1,8 +1,8 @@
-export { useToast } from './context';
 export { Toast } from './toast';
 export { ToastBody } from './toast-body';
 export { ToastClose } from './toast-close';
 export { ToastContainer } from './toast-container';
+export { useToast } from './toast-context';
 export { ToastHeader } from './toast-header';
 export type {
   ToastAnimationStatus,

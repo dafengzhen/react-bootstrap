@@ -10,7 +10,7 @@ import {
 
 import type { CarouselInnerProps } from './types';
 
-import { CarouselItemIndexContext, useCarousel } from './context';
+import { CarouselItemIndexContext, useCarousel } from './carousel-context';
 
 const getItemKey = (child: ReactNode, index: number) => {
   if (isValidElement(child) && child.key !== null) {

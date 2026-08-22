@@ -4,7 +4,7 @@ import { forwardRef, type MouseEvent } from 'react';
 import type { DropdownToggleProps } from './types';
 
 import { Button } from '../button';
-import { useDropdown } from './context';
+import { useDropdown } from './dropdown-context';
 
 const DEFAULT_TOGGLE_LABEL = 'Toggle dropdown';
 

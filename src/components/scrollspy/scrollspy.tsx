@@ -2,7 +2,7 @@ import { type FC, useCallback, useEffect, useMemo, useRef, useState } from 'reac
 
 import type { ScrollSpyContextValue, ScrollSpyProps } from './types';
 
-import { ScrollSpyContext } from './context';
+import { ScrollSpyContext } from './scrollspy-context';
 import {
   computeActiveId,
   getHashTargetId,
@@ -11,7 +11,7 @@ import {
   parseRootMargin,
   type RootMarginValue,
   type ScrollSpySectionRect,
-} from './utils';
+} from './scrollspy-utils';
 
 const DEFAULT_ROOT_MARGIN = '0px 0px -25%';
 const DEFAULT_THRESHOLD: number[] = [0.1, 0.5, 1];

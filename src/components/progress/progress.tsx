@@ -3,9 +3,9 @@ import { forwardRef } from 'react';
 
 import type { ProgressProps } from './types';
 
-import { useProgressStacked } from './context';
 import { ProgressBar } from './progress-bar';
-import { mergeProgressStyle, resolveProgressWidth } from './utils';
+import { useProgressStacked } from './progress-stacked-context';
+import { mergeProgressStyle, resolveProgressWidth } from './progress-utils';
 
 export const Progress = forwardRef<HTMLElement, ProgressProps>(
   (

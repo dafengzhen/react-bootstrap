@@ -15,8 +15,8 @@ import type { CollapseCssProperties, CollapseProps } from './types';
 
 import { useReducedMotion } from '../../hooks';
 import { transitionReducer } from '../../stores';
+import { DEFAULT_DURATION, TRANSITION_END_BUFFER } from './collapse-constants';
 import styles from './collapse.module.css';
-import { DEFAULT_DURATION, TRANSITION_END_BUFFER } from './constants';
 
 export const Collapse = forwardRef<HTMLDivElement, CollapseProps>(
   (

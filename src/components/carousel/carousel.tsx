@@ -22,14 +22,14 @@ import type {
 
 import { useReducedMotion } from '../../hooks';
 import { carouselTransitionReducer } from '../../stores';
-import styles from './carousel.module.css';
 import {
   DEFAULT_DURATION,
   DEFAULT_INTERVAL,
   SWIPE_THRESHOLD,
   TRANSITION_END_BUFFER,
-} from './constants';
-import { CarouselContext } from './context';
+} from './carousel-constants';
+import { CarouselContext } from './carousel-context';
+import styles from './carousel.module.css';
 
 const isFormField = (target: EventTarget | null) => {
   if (!(target instanceof HTMLElement)) {

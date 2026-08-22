@@ -2,6 +2,12 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import type { TableColumnPreference, UseTableColumnsOptions, UseTableColumnsResult } from './types';
 
+interface StoredColumnPreference {
+  key: string;
+  visible?: boolean;
+  width?: number;
+}
+
 const readStoredColumns = (
   initialColumns: readonly TableColumnPreference[],
   storageKey: string | undefined,
@@ -14,12 +20,29 @@ const readStoredColumns = (
     if (!raw) {
       return undefined;
     }
-    const parsed = JSON.parse(raw) as Partial<TableColumnPreference>[];
+    const parsed: unknown = JSON.parse(raw);
     if (!Array.isArray(parsed)) {
       return undefined;
     }
+
+    const storedColumns = new Map<string, StoredColumnPreference>();
+    for (const value of parsed) {
+      if (value === null || typeof value !== 'object') {
+        continue;
+      }
+      const { key, visible, width } = value as Partial<StoredColumnPreference>;
+      if (typeof key !== 'string') {
+        continue;
+      }
+      storedColumns.set(key, {
+        key,
+        ...(typeof visible === 'boolean' ? { visible } : {}),
+        ...(typeof width === 'number' && Number.isFinite(width) ? { width } : {}),
+      });
+    }
+
     return initialColumns.map((column) => {
-      const stored = parsed.find((item) => item.key === column.key);
+      const stored = storedColumns.get(column.key);
       if (!stored) {
         return column;
       }
@@ -46,7 +69,11 @@ export const useTableColumns = ({
     if (typeof window === 'undefined' || !storageKey) {
       return;
     }
-    window.localStorage.setItem(storageKey, JSON.stringify(columns));
+    try {
+      window.localStorage.setItem(storageKey, JSON.stringify(columns));
+    } catch {
+      // Storage can be unavailable (for example, in private browsing mode).
+    }
   }, [columns, storageKey]);
 
   const getColumn = useCallback(

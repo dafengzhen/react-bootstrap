@@ -3,6 +3,7 @@ import {
   type ChangeEvent,
   forwardRef,
   type KeyboardEvent,
+  type MouseEvent,
   useCallback,
   useEffect,
   useRef,
@@ -133,7 +134,10 @@ const EditContent = ({
           inputProps?.className,
         )}
         disabled={disabled}
-        onChange={(event) => handleDraftChange(event.target.value)}
+        onChange={(event) => {
+          const value = event.target.valueAsNumber;
+          handleDraftChange(Number.isNaN(value) ? '' : value);
+        }}
         onKeyDown={(event) => {
           handleKeyDown(event);
           inputProps?.onKeyDown?.(event);
@@ -186,6 +190,7 @@ export const TableEditCell = forwardRef<HTMLTableCellElement, TableEditCellProps
       editing,
       inputProps,
       onCancel,
+      onDoubleClick,
       onEditingChange,
       onSave,
       options,
@@ -210,6 +215,16 @@ export const TableEditCell = forwardRef<HTMLTableCellElement, TableEditCellProps
         setInternalEditing(true);
       }
     }, [editing, onEditingChange]);
+
+    const handleDoubleClick = useCallback(
+      (event: MouseEvent<HTMLElement>) => {
+        onDoubleClick?.(event);
+        if (!event.defaultPrevented && !disabled) {
+          handleStartEdit();
+        }
+      },
+      [disabled, handleStartEdit, onDoubleClick],
+    );
 
     const handleEditingChange = useCallback(
       (next: boolean) => {
@@ -240,12 +255,7 @@ export const TableEditCell = forwardRef<HTMLTableCellElement, TableEditCellProps
 
     if (!isEditing) {
       return (
-        <Component
-          className={cellClassName}
-          onDoubleClick={disabled ? undefined : handleStartEdit}
-          ref={ref}
-          {...rest}
-        >
+        <Component className={cellClassName} onDoubleClick={handleDoubleClick} ref={ref} {...rest}>
           {children ?? String(value ?? defaultValue)}
         </Component>
       );

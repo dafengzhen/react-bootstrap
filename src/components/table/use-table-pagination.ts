@@ -4,8 +4,16 @@ import type { UseTablePaginationOptions, UseTablePaginationResult } from './type
 
 const DEFAULT_PAGE_SIZE_OPTIONS = [10, 20, 50, 100] as const;
 
-const clampPage = (page: number, totalPages: number): number =>
-  Math.min(Math.max(Math.trunc(page), 1), Math.max(totalPages, 1));
+const normalizePositiveInteger = (value: number, fallback: number): number =>
+  Number.isFinite(value) ? Math.max(Math.trunc(value), 1) : fallback;
+
+const normalizeTotalCount = (value: number): number =>
+  Number.isFinite(value) ? Math.max(Math.trunc(value), 0) : 0;
+
+const clampPage = (page: number, totalPages: number): number => {
+  const safePage = normalizePositiveInteger(page, 1);
+  return Math.min(safePage, normalizePositiveInteger(totalPages, 1));
+};
 
 export const useTablePagination = ({
   initialPage = 1,
@@ -13,10 +21,12 @@ export const useTablePagination = ({
   pageSizeOptions = DEFAULT_PAGE_SIZE_OPTIONS,
   totalCount = 0,
 }: UseTablePaginationOptions = {}): UseTablePaginationResult => {
-  const [page, setPageState] = useState(initialPage);
-  const [pageSize, setPageSizeState] = useState(initialPageSize);
+  const [page, setPageState] = useState(() => normalizePositiveInteger(initialPage, 1));
+  const [pageSize, setPageSizeState] = useState(() =>
+    normalizePositiveInteger(initialPageSize, 10),
+  );
 
-  const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
+  const totalPages = Math.max(1, Math.ceil(normalizeTotalCount(totalCount) / pageSize));
   const currentPage = clampPage(page, totalPages);
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
@@ -29,7 +39,7 @@ export const useTablePagination = ({
   );
 
   const setPageSize = useCallback((next: number) => {
-    setPageSizeState(Math.max(Math.trunc(next), 1));
+    setPageSizeState(normalizePositiveInteger(next, 1));
     setPageState(1);
   }, []);
 

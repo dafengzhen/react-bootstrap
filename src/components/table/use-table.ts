@@ -2,6 +2,13 @@ import { useCallback, useMemo, useState } from 'react';
 
 import type { UseTableOptions, UseTableResult } from './types';
 
+const normalizeInsertionIndex = (index: number, length: number): number => {
+  if (!Number.isFinite(index)) {
+    return length;
+  }
+  return Math.min(Math.max(Math.trunc(index), 0), length);
+};
+
 export const useTable = <Row, Key>({
   getRowKey,
   initialRows = [],
@@ -15,7 +22,8 @@ export const useTable = <Row, Key>({
       if (index === undefined) {
         return [...previous, row];
       }
-      return [...previous.slice(0, index), row, ...previous.slice(index)];
+      const insertionIndex = normalizeInsertionIndex(index, previous.length);
+      return [...previous.slice(0, insertionIndex), row, ...previous.slice(insertionIndex)];
     });
   }, []);
 

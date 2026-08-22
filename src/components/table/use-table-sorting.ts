@@ -68,9 +68,10 @@ export const useTableSorting = ({
         return rows;
       }
       const factor = direction === 'ascending' ? 1 : -1;
-      return [...rows].sort(
-        (left, right) => compareValues(getValue(left, key), getValue(right, key)) * factor,
-      );
+      return rows
+        .map((row) => ({ row, value: getValue(row, key) }))
+        .sort((left, right) => compareValues(left.value, right.value) * factor)
+        .map(({ row }) => row);
     },
     [sort],
   );

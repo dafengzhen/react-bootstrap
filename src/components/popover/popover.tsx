@@ -3,9 +3,9 @@ import { type CSSProperties, forwardRef } from 'react';
 
 import type { PopoverProps } from './types';
 
+import { getBasePlacement } from '../../utils';
 import { DEFAULT_PLACEMENT } from './constants';
 import styles from './popover.module.css';
-import { getBasePlacement } from './utils';
 
 const getArrowStyle = (placement: PopoverProps['placement']): CSSProperties => {
   const basePlacement = getBasePlacement(placement ?? DEFAULT_PLACEMENT);

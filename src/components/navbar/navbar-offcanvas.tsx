@@ -15,9 +15,9 @@ import type { NavbarOffcanvasCssProperties, NavbarOffcanvasProps } from './types
 
 import { useReducedMotion } from '../../hooks';
 import { transitionReducer } from '../../stores';
+import { getFocusableElements, lockBodyScroll, unlockBodyScroll } from '../../utils';
 import { DEFAULT_DURATION, TRANSITION_END_BUFFER } from './constants';
 import { useNavbar } from './context';
-import { getFocusableElements, lockBodyScroll, unlockBodyScroll } from './utils';
 
 export const NavbarOffcanvas = forwardRef<HTMLDivElement, NavbarOffcanvasProps>(
   (

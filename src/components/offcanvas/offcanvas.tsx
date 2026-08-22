@@ -21,10 +21,10 @@ import type {
 
 import { useReducedMotion } from '../../hooks';
 import { transitionReducer } from '../../stores';
+import { getFocusableElements, lockBodyScroll, unlockBodyScroll } from '../../utils';
 import { DEFAULT_DURATION, TRANSITION_END_BUFFER } from './constants';
 import { OffcanvasContext } from './context';
 import styles from './offcanvas.module.css';
-import { getFocusableElements, lockBodyScroll, unlockBodyScroll } from './utils';
 
 const PLACEMENT_CLASSES: Record<OffcanvasPlacement, string> = {
   bottom: styles.offcanvasPlacementBottom,

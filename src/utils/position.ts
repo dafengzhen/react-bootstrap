@@ -72,7 +72,7 @@ const FALLBACK_PLACEMENTS: Partial<Record<Placement, Placement[]>> = {
 const clamp = (value: number, min: number, max: number): number =>
   Math.min(Math.max(value, min), max);
 
-const getBasePlacement = (placement: Placement): BasePlacement =>
+export const getBasePlacement = (placement: Placement): BasePlacement =>
   placement.split('-')[0] as BasePlacement;
 
 const getVariation = (placement: Placement): PlacementVariation | undefined => {

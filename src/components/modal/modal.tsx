@@ -19,12 +19,13 @@ import type { ModalContextValue, ModalCssProperties, ModalPlacement, ModalProps 
 
 import { useReducedMotion } from '../../hooks';
 import { transitionReducer } from '../../stores';
+import { getFocusableElements, lockBodyScroll, unlockBodyScroll } from '../../utils';
 import { DEFAULT_DURATION, TRANSITION_END_BUFFER } from './constants';
 import { ModalContext } from './context';
 import { ModalContent } from './modal-content';
 import { ModalDialog } from './modal-dialog';
 import styles from './modal.module.css';
-import { getFocusableElements, lockBodyScroll, toCssSize, unlockBodyScroll } from './utils';
+import { toCssSize } from './utils';
 
 const PLACEMENT_ROOT_CLASSES: Partial<Record<ModalPlacement, string>> = {
   bottom: styles.modalPlacementBottom,

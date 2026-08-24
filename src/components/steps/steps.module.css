@@ -1,0 +1,260 @@
+:root {
+  --rbs-steps-dot-size: 10px;
+  --rbs-steps-gap: 12px;
+  --rbs-steps-icon-size: 32px;
+  --rbs-steps-line-width: 2px;
+  --rbs-steps-title-line-height: 22px;
+  --rbs-steps-transition-duration: 150ms;
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.horizontal {
+  display: flex;
+}
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  --rbs-steps-indicator-size: var(--rbs-steps-icon-size, 32px);
+
+  position: relative;
+}
+
+.horizontal .item {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.dots .item {
+  --rbs-steps-indicator-size: var(--rbs-steps-dot-size, 10px);
+}
+
+.item:not(:last-child)::after {
+  background-color: var(--rbs-steps-line-color, var(--bs-border-color, #dee2e6));
+  content: '';
+  position: absolute;
+  transition: background-color var(--rbs-steps-transition-duration, 150ms) ease;
+}
+
+.horizontal .item:not(:last-child)::after {
+  height: var(--rbs-steps-line-width, 2px);
+  left: calc(var(--rbs-steps-indicator-size) + var(--rbs-steps-gap, 12px));
+  right: var(--rbs-steps-gap, 12px);
+  top: calc(var(--rbs-steps-indicator-size) / 2);
+  transform: translateY(-50%);
+}
+
+.vertical .item:not(:last-child)::after {
+  bottom: var(--rbs-steps-gap, 12px);
+  left: calc(var(--rbs-steps-indicator-size) / 2);
+  top: calc(var(--rbs-steps-indicator-size) + var(--rbs-steps-gap, 12px));
+  transform: translateX(-50%);
+  width: var(--rbs-steps-line-width, 2px);
+}
+
+.vertical .item:not(:last-child) {
+  padding-bottom: var(--rbs-steps-gap, 12px);
+}
+
+.item[data-status='finish']:not(:last-child)::after {
+  background-color: var(--bs-primary, #0d6efd);
+}
+
+.inner {
+  align-items: flex-start;
+  background: none;
+  border: 0;
+  border-radius: 0.25rem;
+  color: inherit;
+  display: flex;
+  font: inherit;
+  gap: var(--rbs-steps-gap, 12px);
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.horizontal .inner {
+  flex-direction: column;
+}
+
+.horizontal.center .inner {
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.horizontal.center .content {
+  align-items: center;
+}
+
+.horizontal.center .title,
+.horizontal.center .description {
+  text-align: center;
+}
+
+.horizontal.center .item:not(:first-child)::before,
+.horizontal.center .item:not(:last-child)::after {
+  background-color: var(--rbs-steps-line-color, var(--bs-border-color, #dee2e6));
+  content: '';
+  height: var(--rbs-steps-line-width, 2px);
+  position: absolute;
+  top: calc(var(--rbs-steps-indicator-size) / 2);
+  transform: translateY(-50%);
+  transition: background-color var(--rbs-steps-transition-duration, 150ms) ease;
+}
+
+.horizontal.center .item:not(:first-child)::before {
+  left: -50%;
+  right: 50%;
+}
+
+.horizontal.center .item:not(:last-child)::after {
+  left: 50%;
+  right: -50%;
+}
+
+.horizontal.center .item[data-status='finish']:not(:first-child)::before {
+  background-color: var(--bs-primary, #0d6efd);
+}
+
+.inner:disabled {
+  cursor: default;
+}
+
+.clickable .inner:not(:disabled) {
+  cursor: pointer;
+}
+
+.clickable .inner:focus-visible {
+  outline: 2px solid var(--bs-primary, #0d6efd);
+  outline-offset: 2px;
+}
+
+.clickable .inner:not(:disabled):hover .title {
+  color: var(--bs-primary, #0d6efd);
+}
+
+.indicator {
+  align-items: center;
+  background-color: var(--rbs-steps-indicator-bg, var(--bs-body-bg, #fff));
+  border: var(--rbs-steps-line-width, 2px) solid
+    var(--rbs-steps-line-color, var(--bs-border-color, #dee2e6));
+  border-radius: 50%;
+  box-sizing: border-box;
+  color: var(--rbs-steps-indicator-color, var(--bs-secondary-color, #6c757d));
+  display: flex;
+  flex: none;
+  font-size: calc(var(--rbs-steps-indicator-size) * 0.44);
+  font-weight: 600;
+  height: var(--rbs-steps-indicator-size);
+  justify-content: center;
+  line-height: 1;
+  transition:
+    background-color var(--rbs-steps-transition-duration, 150ms) ease,
+    border-color var(--rbs-steps-transition-duration, 150ms) ease,
+    box-shadow var(--rbs-steps-transition-duration, 150ms) ease,
+    color var(--rbs-steps-transition-duration, 150ms) ease;
+  width: var(--rbs-steps-indicator-size);
+}
+
+.indicator svg {
+  height: calc(var(--rbs-steps-indicator-size) * 0.42);
+  width: calc(var(--rbs-steps-indicator-size) * 0.42);
+}
+
+.item[data-status='finish'] .indicator {
+  background-color: var(--bs-primary, #0d6efd);
+  border-color: var(--bs-primary, #0d6efd);
+  color: #fff;
+}
+
+.item[data-status='process'] .indicator {
+  border-color: var(--bs-primary, #0d6efd);
+  color: var(--bs-primary, #0d6efd);
+}
+
+.item[data-status='error'] .indicator {
+  border-color: var(--bs-danger, #dc3545);
+  color: var(--bs-danger, #dc3545);
+}
+
+.dots .indicator {
+  background-color: var(--rbs-steps-line-color, var(--bs-border-color, #dee2e6));
+  border: 0;
+}
+
+.dots .item[data-status='finish'] .indicator,
+.dots .item[data-status='process'] .indicator {
+  background-color: var(--bs-primary, #0d6efd);
+}
+
+.dots .item[data-status='process'] .indicator {
+  box-shadow:
+    0 0 0 3px rgba(13, 110, 253, 0.25),
+    0 0 0 3px color-mix(in srgb, var(--bs-primary, #0d6efd) 25%, transparent);
+}
+
+.dots .item[data-status='error'] .indicator {
+  background-color: var(--bs-danger, #dc3545);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.vertical .content {
+  padding-top: calc(
+    (var(--rbs-steps-indicator-size) - var(--rbs-steps-title-line-height, 22px)) / 2
+  );
+}
+
+.title {
+  color: var(--bs-body-color, #212529);
+  font-weight: 500;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.description {
+  color: var(--bs-secondary-color, #6c757d);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.item[data-status='process'] .title {
+  color: var(--bs-primary, #0d6efd);
+}
+
+.item[data-status='wait'] .title {
+  color: var(--bs-secondary-color, #6c757d);
+}
+
+.item[data-status='error'] .title {
+  color: var(--bs-danger, #dc3545);
+}
+
+.disabled {
+  opacity: 0.65;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicator,
+  .item::before,
+  .item:not(:last-child)::after {
+    transition: none !important;
+  }
+}

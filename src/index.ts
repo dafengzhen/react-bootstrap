@@ -354,6 +354,16 @@ export type {
   SpinnerVariant,
 } from './components/spinner';
 
+export { Steps, StepsItem, useSteps } from './components/steps';
+export type {
+  StepsContextValue,
+  StepsDirection,
+  StepsItemProps,
+  StepsProps,
+  StepsStatus,
+  StepsVariant,
+} from './components/steps';
+
 export {
   exportTableCsv,
   Table,

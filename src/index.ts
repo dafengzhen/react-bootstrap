@@ -1,3 +1,28 @@
+export {
+  Accordion,
+  AccordionBody,
+  AccordionButton,
+  AccordionCollapse,
+  AccordionHeader,
+  AccordionItem,
+  useAccordion,
+  useAccordionButton,
+  useAccordionItem,
+} from './components/accordion';
+export type {
+  AccordionBodyProps,
+  AccordionButtonHandleProps,
+  AccordionButtonProps,
+  AccordionCollapseProps,
+  AccordionContextValue,
+  AccordionEventKey,
+  AccordionHeaderProps,
+  AccordionItemContextValue,
+  AccordionItemProps,
+  AccordionProps,
+  AccordionSelectCallback,
+} from './components/accordion';
+
 export { Alert, AlertHeading, AlertLink } from './components/alert';
 export type {
   AlertHeadingProps,

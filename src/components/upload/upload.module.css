@@ -1,0 +1,242 @@
+:root {
+  --rbs-upload-border-color: var(--bs-border-color, #dee2e6);
+  --rbs-upload-border-radius: var(--bs-border-radius-lg, 0.5rem);
+  --rbs-upload-border-width: var(--bs-border-width, 1px);
+  --rbs-upload-dragging-bg: color-mix(in srgb, var(--bs-primary, #0d6efd) 8%, transparent);
+  --rbs-upload-dropzone-bg: var(--bs-tertiary-bg, #f8f9fa);
+  --rbs-upload-icon-size: 40px;
+  --rbs-upload-item-bg: var(--bs-body-bg, #fff);
+  --rbs-upload-item-gap: 12px;
+  --rbs-upload-list-gap: 8px;
+  --rbs-upload-padding: 1.5rem;
+  --rbs-upload-progress-bg: var(--bs-tertiary-bg, #f8f9fa);
+  --rbs-upload-progress-height: 6px;
+  --rbs-upload-transition-duration: 150ms;
+}
+
+.upload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rbs-upload-list-gap, 8px);
+  max-width: 100%;
+}
+
+.upload.disabled {
+  opacity: 0.65;
+}
+
+.input {
+  display: none;
+}
+
+.trigger {
+  cursor: pointer;
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--bs-primary, #0d6efd);
+  outline-offset: 2px;
+}
+
+.disabled .trigger {
+  cursor: not-allowed;
+}
+
+.triggerContent {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
+.triggerIcon {
+  height: 1em;
+  width: 1em;
+}
+
+.triggerButton {
+  background-color: var(--bs-primary, #0d6efd);
+  border-radius: var(--bs-border-radius, 0.375rem);
+  color: #fff;
+  padding: 0.375rem 0.75rem;
+  transition: filter var(--rbs-upload-transition-duration, 150ms) ease;
+}
+
+.triggerButton:hover {
+  filter: brightness(0.95);
+}
+
+.dropzone {
+  align-items: center;
+  background-color: var(--rbs-upload-dropzone-bg, var(--bs-tertiary-bg, #f8f9fa));
+  border: 2px dashed var(--rbs-upload-border-color, var(--bs-border-color, #dee2e6));
+  border-radius: var(--rbs-upload-border-radius, 0.5rem);
+  display: flex;
+  justify-content: center;
+  min-height: 160px;
+  padding: var(--rbs-upload-padding, 1.5rem);
+  text-align: center;
+  transition:
+    background-color var(--rbs-upload-transition-duration, 150ms) ease,
+    border-color var(--rbs-upload-transition-duration, 150ms) ease;
+}
+
+.dragging {
+  background-color: var(--rbs-upload-dragging-bg);
+  border-color: var(--bs-primary, #0d6efd);
+}
+
+.dropzoneContent {
+  color: var(--bs-secondary-color, #6c757d);
+  flex-direction: column;
+  font-size: 0.875rem;
+  gap: 0.75rem;
+}
+
+.dropzoneContent .triggerIcon {
+  height: var(--rbs-upload-icon-size, 40px);
+  width: var(--rbs-upload-icon-size, 40px);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rbs-upload-list-gap, 8px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  align-items: center;
+  background-color: var(--rbs-upload-item-bg, var(--bs-body-bg, #fff));
+  border: var(--rbs-upload-border-width, 1px) solid
+    var(--rbs-upload-border-color, var(--bs-border-color, #dee2e6));
+  border-radius: var(--bs-border-radius, 0.375rem);
+  display: flex;
+  gap: var(--rbs-upload-item-gap, 12px);
+  padding: 0.5rem 0.75rem;
+}
+
+.icon {
+  align-items: center;
+  color: var(--bs-secondary-color, #6c757d);
+  display: flex;
+  flex: none;
+  height: var(--rbs-upload-icon-size, 40px);
+  justify-content: center;
+  width: var(--rbs-upload-icon-size, 40px);
+}
+
+.icon svg {
+  height: 55%;
+  width: 55%;
+}
+
+.item[data-status='success'] .icon {
+  color: var(--bs-success, #198754);
+}
+
+.item[data-status='error'] .icon {
+  color: var(--bs-danger, #dc3545);
+}
+
+.item[data-status='uploading'] .icon {
+  color: var(--bs-primary, #0d6efd);
+}
+
+.spinner {
+  animation: upload-spin 750ms linear infinite;
+  border: 0.2em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  height: 55%;
+  width: 55%;
+}
+
+@keyframes upload-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.info {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.name {
+  font-size: 0.875rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link {
+  color: var(--bs-primary, #0d6efd);
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.meta {
+  color: var(--bs-secondary-color, #6c757d);
+  font-size: 0.75rem;
+}
+
+.error {
+  color: var(--bs-danger, #dc3545);
+  font-size: 0.75rem;
+}
+
+.progress {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.progressTrack {
+  background-color: var(--rbs-upload-progress-bg, var(--bs-tertiary-bg, #f8f9fa));
+  border-radius: 999px;
+  flex: 1 1 auto;
+  height: var(--rbs-upload-progress-height, 6px);
+  overflow: hidden;
+}
+
+.progressBar {
+  background-color: var(--bs-primary, #0d6efd);
+  border-radius: inherit;
+  height: 100%;
+  transition: width var(--rbs-upload-transition-duration, 150ms) ease;
+}
+
+.percent {
+  color: var(--bs-secondary-color, #6c757d);
+  flex: none;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  min-width: 3.5ch;
+  text-align: right;
+}
+
+.remove {
+  flex: none;
+  font-size: 0.8rem;
+  padding: 0.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dropzone,
+  .progressBar,
+  .triggerButton {
+    transition: none !important;
+  }
+
+  .spinner {
+    animation: none;
+  }
+}

@@ -49,6 +49,7 @@ const TableOfContentsDoc = lazyDoc(() => import('./components/doc-template/table
 const TabsDoc = lazyDoc(() => import('./components/tabs/tabs.doc'));
 const ToastDoc = lazyDoc(() => import('./components/toast/toast.doc'));
 const TooltipDoc = lazyDoc(() => import('./components/tooltip/tooltip.doc'));
+const UploadDoc = lazyDoc(() => import('./components/upload/upload.doc'));
 
 const GITHUB_URL = 'https://github.com/dafengzhen/react-bootstrap';
 
@@ -351,10 +352,19 @@ const docsConfig: DocConfig[] = [
   },
   {
     description:
+      'Upload component that collects files for submission, supporting click and drag-and-drop selection, multiple files and accept filtering, disabled state, max count and max size limits, per-file beforeUpload validation, controlled file lists, custom triggers and lists, plus UploadItem/UploadList/useUpload for flexible composition.',
+    element: <UploadDoc />,
+    name: 'Upload',
+    order: 34,
+    path: '/components/upload',
+    tags: ['Basic', 'Forms'],
+  },
+  {
+    description:
       'Table component that displays tabular data with Bootstrap styles, providing structural helpers for head/body/footer, rows, cells and captions, supporting contextual variants, striped rows/columns, hover and active states, bordered/borderless styles, small sizing, group dividers, vertical alignment, nesting, top captions, responsive scroll wrappers, plus selection cells, inline editable cells, loading/empty rows and useTable/useTableSelection/useTableEditing hooks for full CRUD interactions.',
     element: <TableDoc />,
     name: 'Table',
-    order: 34,
+    order: 35,
     path: '/components/table',
     tags: ['Basic', 'Layout'],
   },
@@ -362,7 +372,7 @@ const docsConfig: DocConfig[] = [
     description: 'Code block component with syntax highlighting and copy-to-clipboard support.',
     element: <CodeBlockDoc />,
     name: 'CodeBlock',
-    order: 35,
+    order: 36,
     path: '/components/code-block',
     tags: ['Documentation'],
   },
@@ -370,7 +380,7 @@ const docsConfig: DocConfig[] = [
     description: 'Demo section component for showcasing runnable examples with source code.',
     element: <DemoSectionDoc />,
     name: 'DemoSection',
-    order: 36,
+    order: 37,
     path: '/components/demo-section',
     tags: ['Documentation'],
   },
@@ -378,7 +388,7 @@ const docsConfig: DocConfig[] = [
     description: 'Documentation template that composes a single component API reference page.',
     element: <DocTemplateDoc />,
     name: 'DocTemplate',
-    order: 37,
+    order: 38,
     path: '/components/doc-template',
     tags: ['Documentation'],
   },
@@ -386,7 +396,7 @@ const docsConfig: DocConfig[] = [
     description: 'Color badge component that derives a stable background color from a name.',
     element: <NameColorBadgeDoc />,
     name: 'NameColorBadge',
-    order: 38,
+    order: 39,
     path: '/components/name-badge',
     tags: ['Documentation'],
   },
@@ -394,7 +404,7 @@ const docsConfig: DocConfig[] = [
     description: 'Collapsible table of contents for documentation navigation.',
     element: <TableOfContentsDoc />,
     name: 'TableOfContents',
-    order: 39,
+    order: 40,
     path: '/components/table-of-contents',
     tags: ['Documentation'],
   },
@@ -402,7 +412,7 @@ const docsConfig: DocConfig[] = [
     description: 'Documentation home component that renders component entries as a card grid.',
     element: <DocsHomeDoc />,
     name: 'DocsHome',
-    order: 40,
+    order: 41,
     path: '/components/docs-home',
     tags: ['Documentation', 'Layout'],
   },
@@ -410,7 +420,7 @@ const docsConfig: DocConfig[] = [
     description: 'Documentation layout component with sidebar navigation and footer.',
     element: <DocsLayoutDoc />,
     name: 'DocsLayout',
-    order: 41,
+    order: 42,
     path: '/components/docs-layout',
     tags: ['Documentation', 'Layout'],
   },

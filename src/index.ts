@@ -497,4 +497,15 @@ export type {
   TooltipTriggerProps,
   TooltipTriggerType,
 } from './components/tooltip';
+
+export { Upload, UploadItem, UploadList, useUpload } from './components/upload';
+export type {
+  UploadBeforeUpload,
+  UploadContextValue,
+  UploadFile,
+  UploadItemProps,
+  UploadListProps,
+  UploadProps,
+  UploadStatus,
+} from './components/upload';
 export { useReducedMotion } from './hooks';

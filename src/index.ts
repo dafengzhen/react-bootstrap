@@ -356,6 +356,16 @@ export type {
   SpinnerVariant,
 } from './components/spinner';
 
+export { Splitter, SplitterPanel, useSplitter } from './components/splitter';
+export type {
+  SplitterBarRenderProps,
+  SplitterContextValue,
+  SplitterLayout,
+  SplitterPanelProps,
+  SplitterProps,
+  SplitterSize,
+} from './components/splitter';
+
 export { Steps, StepsItem, useSteps } from './components/steps';
 export type {
   StepsContextValue,

@@ -43,6 +43,7 @@ const PopoverDoc = lazyDoc(() => import('./components/popover/popover.doc'));
 const ProgressDoc = lazyDoc(() => import('./components/progress/progress.doc'));
 const ScrollSpyDoc = lazyDoc(() => import('./components/scrollspy/scrollspy.doc'));
 const SpinnerDoc = lazyDoc(() => import('./components/spinner/spinner.doc'));
+const SplitterDoc = lazyDoc(() => import('./components/splitter/splitter.doc'));
 const StepsDoc = lazyDoc(() => import('./components/steps/steps.doc'));
 const TableDoc = lazyDoc(() => import('./components/table/table.doc'));
 const TableOfContentsDoc = lazyDoc(() => import('./components/doc-template/table-of-contents.doc'));
@@ -423,6 +424,15 @@ const docsConfig: DocConfig[] = [
     order: 42,
     path: '/components/docs-layout',
     tags: ['Documentation', 'Layout'],
+  },
+  {
+    description:
+      'Splitter component that divides content into resizable panels, supporting horizontal/vertical layouts, pixel/percentage/auto sizes, min/max constraints, collapsible panels, keyboard resizing, custom bars and controlled/uncontrolled modes.',
+    element: <SplitterDoc />,
+    name: 'Splitter',
+    order: 43,
+    path: '/components/splitter',
+    tags: ['Basic', 'Layout'],
   },
 ];
 

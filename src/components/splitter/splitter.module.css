@@ -1,0 +1,136 @@
+:root {
+  --rbs-splitter-bar-size: 8px;
+  --rbs-splitter-grip-length: 48px;
+  --rbs-splitter-grip-size: 4px;
+  --rbs-splitter-transition-duration: 150ms;
+}
+
+.splitter {
+  display: flex;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.horizontal {
+  flex-direction: row;
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+.panel {
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.bar {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  display: flex;
+  flex: none;
+  justify-content: center;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  position: relative;
+  touch-action: none;
+  z-index: 1;
+}
+
+.barHorizontal {
+  cursor: col-resize;
+  width: var(--rbs-splitter-bar-size, 8px);
+}
+
+.barVertical {
+  cursor: row-resize;
+  height: var(--rbs-splitter-bar-size, 8px);
+}
+
+.bar::before {
+  background-color: transparent;
+  content: '';
+  position: absolute;
+  transition: background-color var(--rbs-splitter-transition-duration, 150ms) ease;
+}
+
+.barHorizontal::before {
+  bottom: 0;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 2px;
+}
+
+.barVertical::before {
+  height: 2px;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.bar:not(.barDisabled):hover::before,
+.bar.dragging::before,
+.bar:focus-visible::before {
+  background-color: var(--bs-primary, #0d6efd);
+}
+
+.grip {
+  background-color: var(--rbs-splitter-grip-color, var(--bs-border-color, #dee2e6));
+  border-radius: 999px;
+  position: relative;
+  transition: background-color var(--rbs-splitter-transition-duration, 150ms) ease;
+}
+
+.barHorizontal .grip {
+  height: min(var(--rbs-splitter-grip-length, 48px), 60%);
+  width: var(--rbs-splitter-grip-size, 4px);
+}
+
+.barVertical .grip {
+  height: var(--rbs-splitter-grip-size, 4px);
+  width: min(var(--rbs-splitter-grip-length, 48px), 60%);
+}
+
+.bar:not(.barDisabled):hover .grip,
+.bar.dragging .grip,
+.bar:focus-visible .grip {
+  background-color: var(--bs-primary, #0d6efd);
+}
+
+.barDisabled {
+  cursor: default;
+}
+
+.barDisabled .grip {
+  opacity: 0.4;
+}
+
+.resizing {
+  user-select: none;
+}
+
+.horizontal.resizing {
+  cursor: col-resize;
+}
+
+.vertical.resizing {
+  cursor: row-resize;
+}
+
+.resizing iframe {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar::before,
+  .grip {
+    transition: none;
+  }
+}

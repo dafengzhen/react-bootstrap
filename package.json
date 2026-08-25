@@ -157,6 +157,10 @@
       "import": "./dist/components/spinner/index.js",
       "types": "./dist/components/spinner/index.d.ts"
     },
+    "./splitter": {
+      "import": "./dist/components/splitter/index.js",
+      "types": "./dist/components/splitter/index.d.ts"
+    },
     "./steps": {
       "import": "./dist/components/steps/index.js",
       "types": "./dist/components/steps/index.d.ts"
@@ -191,6 +195,7 @@
     "./offcanvas/style": "./dist/components/offcanvas/offcanvas.css",
     "./popover/style": "./dist/components/popover/popover.css",
     "./scrollspy/style": "./dist/components/scrollspy/scrollspy.css",
+    "./splitter/style": "./dist/components/splitter/splitter.css",
     "./steps/style": "./dist/components/steps/steps.css",
     "./toast/style": "./dist/components/toast/toast.css",
     "./upload/style": "./dist/components/upload/upload.css",
@@ -223,6 +228,9 @@
     },
     "./scrollspy/cssmodule": {
       "import": "./dist/components/scrollspy/scrollspy.module.css.js"
+    },
+    "./splitter/cssmodule": {
+      "import": "./dist/components/splitter/splitter.module.css.js"
     },
     "./steps/cssmodule": {
       "import": "./dist/components/steps/steps.module.css.js"

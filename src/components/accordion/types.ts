@@ -1,11 +1,17 @@
-import type { ElementType, HTMLAttributes, MouseEvent, ReactNode, SyntheticEvent } from 'react';
+import type {
+  CSSProperties,
+  ElementType,
+  HTMLAttributes,
+  MouseEvent,
+  ReactNode,
+  SyntheticEvent,
+} from 'react';
 
-import type { CollapseProps } from '../collapse';
+export type AccordionAnimationStatus = 'closed' | 'closing' | 'opened' | 'opening';
 
-export interface AccordionBodyProps extends Omit<CollapseProps, 'children' | 'in'> {
+export interface AccordionBodyProps extends Omit<AccordionCollapseProps, 'children' | 'eventKey'> {
   as?: ElementType;
   children?: ReactNode;
-  className?: string;
 }
 
 export interface AccordionButtonHandleProps {
@@ -23,8 +29,20 @@ export interface AccordionButtonProps extends Omit<HTMLAttributes<HTMLElement>, 
   type?: 'button' | 'reset' | 'submit';
 }
 
-export interface AccordionCollapseProps extends Omit<CollapseProps, 'in'> {
+export type AccordionCollapseDimension = 'height' | 'width';
+
+export interface AccordionCollapseProps extends HTMLAttributes<HTMLDivElement> {
+  children?: ReactNode;
+  className?: string;
+  dimension?: AccordionCollapseDimension;
+  duration?: number;
   eventKey?: AccordionEventKey;
+  onEnter?: () => void;
+  onEntered?: () => void;
+  onEntering?: () => void;
+  onExit?: () => void;
+  onExited?: () => void;
+  onExiting?: () => void;
 }
 
 export interface AccordionContextValue {
@@ -33,6 +51,10 @@ export interface AccordionContextValue {
   id?: string;
   onSelect: AccordionSelectCallback;
 }
+
+export type AccordionCssProperties = {
+  '--rbs-accordion-duration'?: string;
+} & CSSProperties;
 
 export type AccordionEventKey = null | number | string;
 

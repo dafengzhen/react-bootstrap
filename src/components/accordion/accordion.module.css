@@ -1,0 +1,34 @@
+:root {
+  --rbs-accordion-duration: 300ms;
+  --rbs-accordion-easing: ease;
+}
+
+.accordionCollapse {
+  overflow: hidden;
+}
+
+.accordionCollapse[data-dimension='height'][data-status='closing'],
+.accordionCollapse[data-dimension='height'][data-status='opening'] {
+  transition: height var(--rbs-accordion-duration, 300ms) var(--rbs-accordion-easing, ease);
+  will-change: height;
+}
+
+.accordionCollapse[data-dimension='width'][data-status='closing'],
+.accordionCollapse[data-dimension='width'][data-status='opening'] {
+  transition: width var(--rbs-accordion-duration, 300ms) var(--rbs-accordion-easing, ease);
+  will-change: width;
+}
+
+.accordionCollapse[data-status='opened'] {
+  overflow: visible;
+}
+
+.accordionCollapseReducedMotion {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accordionCollapse {
+    transition: none !important;
+  }
+}

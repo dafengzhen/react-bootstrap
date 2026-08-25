@@ -15,9 +15,11 @@ import {
   AccordionItem,
   useAccordionButton,
 } from './index';
+import accordionAnimationStatusTypeCode from './types/accordion-animation-status.md?raw';
 import accordionBodyPropsTypeCode from './types/accordion-body-props.md?raw';
 import accordionButtonHandlePropsTypeCode from './types/accordion-button-handle-props.md?raw';
 import accordionButtonPropsTypeCode from './types/accordion-button-props.md?raw';
+import accordionCollapseDimensionTypeCode from './types/accordion-collapse-dimension.md?raw';
 import accordionCollapsePropsTypeCode from './types/accordion-collapse-props.md?raw';
 import accordionContextValueTypeCode from './types/accordion-context-value.md?raw';
 import accordionEventKeyTypeCode from './types/accordion-event-key.md?raw';
@@ -146,17 +148,68 @@ const accordionProps: ApiProp[] = [
   },
   {
     component: 'AccordionCollapse',
-    defaultValue: '-',
-    description: '折叠面板内容，外层渲染 `accordion-collapse` 类并透传 Collapse 组件属性',
-    name: 'children',
-    type: 'ReactNode',
+    defaultValue: "'height'",
+    description:
+      "折叠维度，'height' 为垂直折叠（高度过渡），'width' 为水平折叠（宽度过渡，对应 Bootstrap 的 collapse-horizontal）",
+    name: 'dimension',
+    type: 'AccordionCollapseDimension',
+  },
+  {
+    component: 'AccordionCollapse',
+    defaultValue: '300',
+    description: '展开与折叠过渡动画时长（毫秒），系统开启减少动态效果时自动为 0',
+    name: 'duration',
+    type: 'number',
   },
   {
     component: 'AccordionCollapse',
     defaultValue: '-',
-    description: '透传 Collapse 组件属性（如 dimension、duration、onEnter、onExited 等）',
-    name: '...rest',
-    type: 'CollapseProps',
+    description: '展开开始（show）时触发，此时元素即将挂载并开始测量内容尺寸',
+    name: 'onEnter',
+    type: '() => void',
+  },
+  {
+    component: 'AccordionCollapse',
+    defaultValue: '-',
+    description: '展开过渡开始（元素已挂载并完成尺寸测量，高度/宽度开始过渡）时触发',
+    name: 'onEntering',
+    type: '() => void',
+  },
+  {
+    component: 'AccordionCollapse',
+    defaultValue: '-',
+    description: '展开过渡完成（shown）时触发，此时元素尺寸恢复为 auto，内容可自然撑开',
+    name: 'onEntered',
+    type: '() => void',
+  },
+  {
+    component: 'AccordionCollapse',
+    defaultValue: '-',
+    description: '折叠开始（hide）时触发，此时会先测量并冻结当前尺寸再开始收缩',
+    name: 'onExit',
+    type: '() => void',
+  },
+  {
+    component: 'AccordionCollapse',
+    defaultValue: '-',
+    description: '折叠过渡开始（尺寸开始向 0 收缩）时触发',
+    name: 'onExiting',
+    type: '() => void',
+  },
+  {
+    component: 'AccordionCollapse',
+    defaultValue: '-',
+    description: '折叠过渡完成（hidden）时触发，此时元素已卸载',
+    name: 'onExited',
+    type: '() => void',
+  },
+  {
+    component: 'AccordionCollapse',
+    defaultValue: '-',
+    description:
+      '折叠面板内容，渲染 `div.accordion-collapse`，过渡状态由 useReducer 驱动并渲染为 data-status 属性',
+    name: 'children',
+    type: 'ReactNode',
   },
   {
     component: 'AccordionBody',
@@ -175,9 +228,9 @@ const accordionProps: ApiProp[] = [
   {
     component: 'AccordionBody',
     defaultValue: '-',
-    description: '透传 Collapse 组件属性（如 dimension、duration、onEnter、onExited 等）',
+    description: '透传 AccordionCollapse 属性（如 dimension、duration、onEnter、onExited 等）',
     name: '...rest',
-    type: 'CollapseProps',
+    type: 'AccordionCollapseProps',
   },
   {
     component: 'useAccordionButton',
@@ -266,6 +319,16 @@ const accordionTypeDefinitions: ApiTypeDefinition[] = [
     code: accordionButtonHandlePropsTypeCode,
     description: 'useAccordionButton 返回的按钮属性接口',
     name: 'AccordionButtonHandleProps',
+  },
+  {
+    code: accordionAnimationStatusTypeCode,
+    description: 'AccordionCollapse 过渡动画状态类型，由 useReducer 统一驱动',
+    name: 'AccordionAnimationStatus',
+  },
+  {
+    code: accordionCollapseDimensionTypeCode,
+    description: 'AccordionCollapse 折叠维度类型',
+    name: 'AccordionCollapseDimension',
   },
   {
     code: accordionCollapsePropsTypeCode,
@@ -471,7 +534,7 @@ export const AccordionDoc = () => {
 
   return (
     <DocTemplate
-      componentDescription="基于 Bootstrap 5 的 Accordion 手风琴组件，通过上下文将 Accordion、AccordionItem、AccordionHeader、AccordionButton、AccordionCollapse 与 AccordionBody 按 eventKey 关联，支持单个/多个条目同时展开、去边框样式、受控与非受控模式、自定义触发器与完整的 ARIA 无障碍属性，折叠动画复用 Collapse 组件实现"
+      componentDescription="基于 Bootstrap 5 的 Accordion 手风琴组件，通过上下文将 Accordion、AccordionItem、AccordionHeader、AccordionButton、AccordionCollapse 与 AccordionBody 按 eventKey 关联，支持单个/多个条目同时展开、去边框样式、受控与非受控模式、自定义触发器与完整的 ARIA 无障碍属性；折叠过渡由 useReducer 状态机统一驱动，双重 requestAnimationFrame 保证首次挂载动画生效，并自适应 prefers-reduced-motion 偏好，自定义过渡变量统一使用 --rbs-accordion-* 前缀"
       componentName="Accordion"
       componentTags={['基础', '布局']}
       demoContent={demoContent}

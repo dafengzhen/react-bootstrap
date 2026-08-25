@@ -6,9 +6,11 @@ export { useAccordion, useAccordionItem } from './accordion-context';
 export { AccordionHeader } from './accordion-header';
 export { AccordionItem } from './accordion-item';
 export type {
+  AccordionAnimationStatus,
   AccordionBodyProps,
   AccordionButtonHandleProps,
   AccordionButtonProps,
+  AccordionCollapseDimension,
   AccordionCollapseProps,
   AccordionContextValue,
   AccordionEventKey,

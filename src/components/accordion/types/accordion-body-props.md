@@ -1,7 +1,6 @@
 ```typescript
-export interface AccordionBodyProps extends Omit<CollapseProps, 'children' | 'in'> {
+export interface AccordionBodyProps extends Omit<AccordionCollapseProps, 'children' | 'eventKey'> {
   as?: ElementType;
   children?: ReactNode;
-  className?: string;
 }
 ```

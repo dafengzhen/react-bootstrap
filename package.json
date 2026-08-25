@@ -177,6 +177,7 @@
       "import": "./dist/components/tooltip/index.js",
       "types": "./dist/components/tooltip/index.d.ts"
     },
+    "./accordion/style": "./dist/components/accordion/accordion.css",
     "./button/style": "./dist/components/button/button.css",
     "./carousel/style": "./dist/components/carousel/carousel.css",
     "./collapse/style": "./dist/components/collapse/collapse.css",
@@ -188,6 +189,9 @@
     "./scrollspy/style": "./dist/components/scrollspy/scrollspy.css",
     "./steps/style": "./dist/components/steps/steps.css",
     "./toast/style": "./dist/components/toast/toast.css",
+    "./accordion/cssmodule": {
+      "import": "./dist/components/accordion/accordion.module.css.js"
+    },
     "./button/cssmodule": {
       "import": "./dist/components/button/button.module.css.js"
     },

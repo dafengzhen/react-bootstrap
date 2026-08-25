@@ -10,9 +10,11 @@ export {
   useAccordionItem,
 } from './components/accordion';
 export type {
+  AccordionAnimationStatus,
   AccordionBodyProps,
   AccordionButtonHandleProps,
   AccordionButtonProps,
+  AccordionCollapseDimension,
   AccordionCollapseProps,
   AccordionContextValue,
   AccordionEventKey,

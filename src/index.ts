@@ -497,6 +497,15 @@ export type {
   TabsProps,
 } from './components/tabs';
 
+export { Timeline, TimelineItem, useTimeline } from './components/timeline';
+export type {
+  TimelineAlign,
+  TimelineColor,
+  TimelineContextValue,
+  TimelineItemProps,
+  TimelineProps,
+} from './components/timeline';
+
 export {
   Toast,
   ToastBody,

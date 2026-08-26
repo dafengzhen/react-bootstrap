@@ -181,6 +181,10 @@
       "import": "./dist/components/tabs/index.js",
       "types": "./dist/components/tabs/index.d.ts"
     },
+    "./timeline": {
+      "import": "./dist/components/timeline/index.js",
+      "types": "./dist/components/timeline/index.d.ts"
+    },
     "./toast": {
       "import": "./dist/components/toast/index.js",
       "types": "./dist/components/toast/index.d.ts"
@@ -207,6 +211,7 @@
     "./scrollspy/style": "./dist/components/scrollspy/scrollspy.css",
     "./splitter/style": "./dist/components/splitter/splitter.css",
     "./steps/style": "./dist/components/steps/steps.css",
+    "./timeline/style": "./dist/components/timeline/timeline.css",
     "./toast/style": "./dist/components/toast/toast.css",
     "./upload/style": "./dist/components/upload/upload.css",
     "./accordion/cssmodule": {
@@ -250,6 +255,9 @@
     },
     "./steps/cssmodule": {
       "import": "./dist/components/steps/steps.module.css.js"
+    },
+    "./timeline/cssmodule": {
+      "import": "./dist/components/timeline/timeline.module.css.js"
     },
     "./toast/cssmodule": {
       "import": "./dist/components/toast/toast.module.css.js"

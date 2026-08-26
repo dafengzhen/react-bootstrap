@@ -50,6 +50,7 @@ const StepsDoc = lazyDoc(() => import('./components/steps/steps.doc'));
 const TableDoc = lazyDoc(() => import('./components/table/table.doc'));
 const TableOfContentsDoc = lazyDoc(() => import('./components/doc-template/table-of-contents.doc'));
 const TabsDoc = lazyDoc(() => import('./components/tabs/tabs.doc'));
+const TimelineDoc = lazyDoc(() => import('./components/timeline/timeline.doc'));
 const ToastDoc = lazyDoc(() => import('./components/toast/toast.doc'));
 const TooltipDoc = lazyDoc(() => import('./components/tooltip/tooltip.doc'));
 const UploadDoc = lazyDoc(() => import('./components/upload/upload.doc'));
@@ -452,6 +453,15 @@ const docsConfig: DocConfig[] = [
     name: 'Empty',
     order: 45,
     path: '/components/empty',
+    tags: ['Basic', 'Feedback'],
+  },
+  {
+    description:
+      'Timeline component that displays events in chronological order along a vertical line, supporting left/right/alternate alignments, contextual node colors, custom dots, timestamps and rich item content, with the alternate layout collapsing to left alignment on narrow screens.',
+    element: <TimelineDoc />,
+    name: 'Timeline',
+    order: 46,
+    path: '/components/timeline',
     tags: ['Basic', 'Feedback'],
   },
 ];

@@ -41,6 +41,10 @@
       "import": "./dist/components/alert/index.js",
       "types": "./dist/components/alert/index.d.ts"
     },
+    "./avatar": {
+      "import": "./dist/components/avatar/index.js",
+      "types": "./dist/components/avatar/index.d.ts"
+    },
     "./badge": {
       "import": "./dist/components/badge/index.js",
       "types": "./dist/components/badge/index.d.ts"
@@ -186,6 +190,7 @@
       "types": "./dist/components/upload/index.d.ts"
     },
     "./accordion/style": "./dist/components/accordion/accordion.css",
+    "./avatar/style": "./dist/components/avatar/avatar.css",
     "./button/style": "./dist/components/button/button.css",
     "./carousel/style": "./dist/components/carousel/carousel.css",
     "./collapse/style": "./dist/components/collapse/collapse.css",
@@ -201,6 +206,9 @@
     "./upload/style": "./dist/components/upload/upload.css",
     "./accordion/cssmodule": {
       "import": "./dist/components/accordion/accordion.module.css.js"
+    },
+    "./avatar/cssmodule": {
+      "import": "./dist/components/avatar/avatar.module.css.js"
     },
     "./button/cssmodule": {
       "import": "./dist/components/button/button.module.css.js"

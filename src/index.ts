@@ -33,6 +33,16 @@ export type {
   AlertVariant,
 } from './components/alert';
 
+export { Avatar, AvatarGroup, useAvatarGroup } from './components/avatar';
+export type {
+  AvatarBg,
+  AvatarGroupContextValue,
+  AvatarGroupProps,
+  AvatarProps,
+  AvatarShape,
+  AvatarSize,
+} from './components/avatar';
+
 export { Badge } from './components/badge';
 export type { BadgeBg, BadgeProps, BadgeText } from './components/badge';
 

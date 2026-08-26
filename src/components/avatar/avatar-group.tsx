@@ -37,7 +37,9 @@ export const AvatarGroup = forwardRef<HTMLElement, AvatarGroupProps>(
     const groupStyle: CSSProperties | undefined =
       overlap === DEFAULT_OVERLAP
         ? undefined
-        : ({ '--rbs-avatar-group-overlap': typeof overlap === 'number' ? `${overlap}px` : overlap } as CSSProperties);
+        : ({
+            '--rbs-avatar-group-overlap': typeof overlap === 'number' ? `${overlap}px` : overlap,
+          } as CSSProperties);
 
     return (
       <AvatarGroupContext.Provider value={contextValue}>

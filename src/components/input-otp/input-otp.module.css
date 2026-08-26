@@ -1,0 +1,34 @@
+:root {
+  --rbs-input-otp-gap: 0.5rem;
+  --rbs-input-otp-slot-size: 2.75rem;
+  --rbs-input-otp-slot-size-lg: 3.25rem;
+  --rbs-input-otp-slot-size-sm: 2.25rem;
+}
+
+.otp {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--rbs-input-otp-gap, 0.5rem);
+}
+
+.slot {
+  flex: 0 0 auto;
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
+  width: var(--rbs-input-otp-slot-size, 2.75rem);
+}
+
+.slot:global(.form-control.is-valid),
+.slot:global(.form-control.is-invalid) {
+  background-image: none;
+  padding-right: 0;
+}
+
+.sm {
+  width: var(--rbs-input-otp-slot-size-sm, 2.25rem);
+}
+
+.lg {
+  width: var(--rbs-input-otp-slot-size-lg, 3.25rem);
+}

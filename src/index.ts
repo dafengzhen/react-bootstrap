@@ -229,6 +229,14 @@ export type {
   InputGroupTextProps,
 } from './components/input-group';
 
+export { InputOtp, InputOtpSlot, useInputOtp } from './components/input-otp';
+export type {
+  InputOtpContextValue,
+  InputOtpProps,
+  InputOtpSize,
+  InputOtpSlotProps,
+} from './components/input-otp';
+
 export { Col, FormLabel, Row } from './components/layout';
 export type {
   ColOrder,

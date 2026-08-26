@@ -33,6 +33,7 @@ const FormFeedbackDoc = lazyDoc(() => import('./components/form-feedback/form-fe
 const FormRangeDoc = lazyDoc(() => import('./components/form-range/form-range.doc'));
 const FormSelectDoc = lazyDoc(() => import('./components/form-select/form-select.doc'));
 const InputGroupDoc = lazyDoc(() => import('./components/input-group/input-group.doc'));
+const InputOtpDoc = lazyDoc(() => import('./components/input-otp/input-otp.doc'));
 const LayoutDoc = lazyDoc(() => import('./components/layout/layout.doc'));
 const ListGroupDoc = lazyDoc(() => import('./components/list-group/list-group.doc'));
 const ModalDoc = lazyDoc(() => import('./components/modal/modal.doc'));
@@ -374,10 +375,19 @@ const docsConfig: DocConfig[] = [
   },
   {
     description:
+      'Input OTP component that captures one-time verification codes in single-character slots, supporting auto-advance, backspace and arrow key navigation, paste distribution, per-character patterns, password masking, separators, validation states, completion callbacks, controlled mode, hidden-field form submission, plus InputOtpSlot/useInputOtp for custom slot composition.',
+    element: <InputOtpDoc />,
+    name: 'InputOtp',
+    order: 36,
+    path: '/components/input-otp',
+    tags: ['Basic', 'Forms'],
+  },
+  {
+    description:
       'Table component that displays tabular data with Bootstrap styles, providing structural helpers for head/body/footer, rows, cells and captions, supporting contextual variants, striped rows/columns, hover and active states, bordered/borderless styles, small sizing, group dividers, vertical alignment, nesting, top captions, responsive scroll wrappers, plus selection cells, inline editable cells, loading/empty rows and useTable/useTableSelection/useTableEditing hooks for full CRUD interactions.',
     element: <TableDoc />,
     name: 'Table',
-    order: 36,
+    order: 37,
     path: '/components/table',
     tags: ['Basic', 'Layout'],
   },
@@ -385,7 +395,7 @@ const docsConfig: DocConfig[] = [
     description: 'Code block component with syntax highlighting and copy-to-clipboard support.',
     element: <CodeBlockDoc />,
     name: 'CodeBlock',
-    order: 37,
+    order: 38,
     path: '/components/code-block',
     tags: ['Documentation'],
   },
@@ -393,7 +403,7 @@ const docsConfig: DocConfig[] = [
     description: 'Demo section component for showcasing runnable examples with source code.',
     element: <DemoSectionDoc />,
     name: 'DemoSection',
-    order: 38,
+    order: 39,
     path: '/components/demo-section',
     tags: ['Documentation'],
   },
@@ -401,7 +411,7 @@ const docsConfig: DocConfig[] = [
     description: 'Documentation template that composes a single component API reference page.',
     element: <DocTemplateDoc />,
     name: 'DocTemplate',
-    order: 39,
+    order: 40,
     path: '/components/doc-template',
     tags: ['Documentation'],
   },
@@ -409,7 +419,7 @@ const docsConfig: DocConfig[] = [
     description: 'Color badge component that derives a stable background color from a name.',
     element: <NameColorBadgeDoc />,
     name: 'NameColorBadge',
-    order: 40,
+    order: 41,
     path: '/components/name-badge',
     tags: ['Documentation'],
   },
@@ -417,7 +427,7 @@ const docsConfig: DocConfig[] = [
     description: 'Collapsible table of contents for documentation navigation.',
     element: <TableOfContentsDoc />,
     name: 'TableOfContents',
-    order: 41,
+    order: 42,
     path: '/components/table-of-contents',
     tags: ['Documentation'],
   },
@@ -425,7 +435,7 @@ const docsConfig: DocConfig[] = [
     description: 'Documentation home component that renders component entries as a card grid.',
     element: <DocsHomeDoc />,
     name: 'DocsHome',
-    order: 42,
+    order: 43,
     path: '/components/docs-home',
     tags: ['Documentation', 'Layout'],
   },
@@ -433,7 +443,7 @@ const docsConfig: DocConfig[] = [
     description: 'Documentation layout component with sidebar navigation and footer.',
     element: <DocsLayoutDoc />,
     name: 'DocsLayout',
-    order: 43,
+    order: 44,
     path: '/components/docs-layout',
     tags: ['Documentation', 'Layout'],
   },
@@ -442,7 +452,7 @@ const docsConfig: DocConfig[] = [
       'Splitter component that divides content into resizable panels, supporting horizontal/vertical layouts, pixel/percentage/auto sizes, min/max constraints, collapsible panels, keyboard resizing, custom bars and controlled/uncontrolled modes.',
     element: <SplitterDoc />,
     name: 'Splitter',
-    order: 44,
+    order: 45,
     path: '/components/splitter',
     tags: ['Basic', 'Layout'],
   },
@@ -451,7 +461,7 @@ const docsConfig: DocConfig[] = [
       'Empty component that displays placeholder states for empty content areas, composing image, title, description and action buttons, with an EmptyImage placeholder supporting Lorem Picsum image URLs, solid color fallbacks when images fail to load, color variants, shapes and sizes.',
     element: <EmptyDoc />,
     name: 'Empty',
-    order: 45,
+    order: 46,
     path: '/components/empty',
     tags: ['Basic', 'Feedback'],
   },
@@ -460,7 +470,7 @@ const docsConfig: DocConfig[] = [
       'Timeline component that displays events in chronological order along a vertical line, supporting left/right/alternate alignments, contextual node colors, custom dots, timestamps and rich item content, with the alternate layout collapsing to left alignment on narrow screens.',
     element: <TimelineDoc />,
     name: 'Timeline',
-    order: 46,
+    order: 47,
     path: '/components/timeline',
     tags: ['Basic', 'Feedback'],
   },

@@ -89,6 +89,10 @@
       "import": "./dist/components/dropdown/index.js",
       "types": "./dist/components/dropdown/index.d.ts"
     },
+    "./empty": {
+      "import": "./dist/components/empty/index.js",
+      "types": "./dist/components/empty/index.d.ts"
+    },
     "./form-check": {
       "import": "./dist/components/form-check/index.js",
       "types": "./dist/components/form-check/index.d.ts"
@@ -196,6 +200,7 @@
     "./collapse/style": "./dist/components/collapse/collapse.css",
     "./doc-template/style": "./dist/components/doc-template/doc-template.css",
     "./docs/style": "./dist/components/docs/docs.css",
+    "./empty/style": "./dist/components/empty/empty.css",
     "./modal/style": "./dist/components/modal/modal.css",
     "./offcanvas/style": "./dist/components/offcanvas/offcanvas.css",
     "./popover/style": "./dist/components/popover/popover.css",
@@ -224,6 +229,9 @@
     },
     "./docs/cssmodule": {
       "import": "./dist/components/docs/docs.module.css.js"
+    },
+    "./empty/cssmodule": {
+      "import": "./dist/components/empty/empty.module.css.js"
     },
     "./modal/cssmodule": {
       "import": "./dist/components/modal/modal.module.css.js"

@@ -178,6 +178,15 @@ export type {
   ToggleCallback,
 } from './components/dropdown';
 
+export { Empty, EmptyImage } from './components/empty';
+export type {
+  EmptyBg,
+  EmptyImageProps,
+  EmptyImageShape,
+  EmptyProps,
+  EmptySize,
+} from './components/empty';
+
 export { FloatingLabel } from './components/floating-label';
 export type { FloatingLabelProps } from './components/floating-label';
 

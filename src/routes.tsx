@@ -25,6 +25,7 @@ const DocTemplateDoc = lazyDoc(() => import('./components/doc-template/doc-templ
 const DocsHomeDoc = lazyDoc(() => import('./components/docs/docs-home.doc'));
 const DocsLayoutDoc = lazyDoc(() => import('./components/docs/docs-layout.doc'));
 const DropdownDoc = lazyDoc(() => import('./components/dropdown/dropdown.doc'));
+const EmptyDoc = lazyDoc(() => import('./components/empty/empty.doc'));
 const FloatingLabelDoc = lazyDoc(() => import('./components/floating-label/floating-label.doc'));
 const FormCheckDoc = lazyDoc(() => import('./components/form-check/form-check.doc'));
 const FormControlDoc = lazyDoc(() => import('./components/form-control/form-control.doc'));
@@ -443,6 +444,15 @@ const docsConfig: DocConfig[] = [
     order: 44,
     path: '/components/splitter',
     tags: ['Basic', 'Layout'],
+  },
+  {
+    description:
+      'Empty component that displays placeholder states for empty content areas, composing image, title, description and action buttons, with an EmptyImage placeholder supporting Lorem Picsum image URLs, solid color fallbacks when images fail to load, color variants, shapes and sizes.',
+    element: <EmptyDoc />,
+    name: 'Empty',
+    order: 45,
+    path: '/components/empty',
+    tags: ['Basic', 'Feedback'],
   },
 ];
 

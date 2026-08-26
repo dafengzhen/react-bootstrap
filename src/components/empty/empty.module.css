@@ -1,0 +1,95 @@
+:root {
+  --rbs-empty-image-height: 160px;
+  --rbs-empty-image-width: 240px;
+}
+
+.empty {
+  --rbs-empty-title-font-size: 1.25rem;
+  --rbs-empty-vertical-padding: 3rem;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: var(--rbs-empty-vertical-padding);
+  text-align: center;
+  width: 100%;
+}
+
+.image {
+  margin-bottom: 1rem;
+}
+
+.title {
+  color: var(--bs-body-color);
+  font-size: var(--rbs-empty-title-font-size);
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.description {
+  color: var(--bs-secondary-color);
+  font-size: 0.9375rem;
+  margin-bottom: 1rem;
+  max-width: 36rem;
+}
+
+.actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.sm {
+  --rbs-empty-title-font-size: 1rem;
+  --rbs-empty-vertical-padding: 1.5rem;
+}
+
+.md {
+  --rbs-empty-title-font-size: 1.25rem;
+  --rbs-empty-vertical-padding: 3rem;
+}
+
+.lg {
+  --rbs-empty-title-font-size: 1.5rem;
+  --rbs-empty-vertical-padding: 4.5rem;
+}
+
+.emptyImage {
+  align-items: center;
+  display: inline-flex;
+  height: var(--rbs-empty-image-height);
+  justify-content: center;
+  max-width: 100%;
+  overflow: hidden;
+  position: relative;
+  width: var(--rbs-empty-image-width);
+}
+
+.emptyImageImg {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.emptyImageFallback {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  padding: 0.5em;
+  user-select: none;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.rounded {
+  border-radius: var(--bs-border-radius, 0.375rem);
+}
+
+.square {
+  border-radius: 0;
+}

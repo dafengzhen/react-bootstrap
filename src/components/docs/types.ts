@@ -23,7 +23,15 @@ export interface DocsLayoutProps {
   docs: DocConfig[];
   embedded?: boolean;
   githubUrl?: string;
+  navItems?: DocsNavItem[];
+  navTitle?: string;
   pathname?: string;
   renderLink?: RenderLink;
+  rightSidebarTitle?: string;
   sidebarTitle?: string;
+}
+
+export interface DocsNavItem {
+  label: string;
+  to: string;
 }

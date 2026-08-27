@@ -1,9 +1,11 @@
 import { type ComponentType, lazy, Suspense } from 'react';
-import { Link, Outlet, type RouteObject, useLocation } from 'react-router';
+import { Link, Navigate, Outlet, type RouteObject, useLocation } from 'react-router';
 
 import type { RenderLink } from './components/doc-template';
 
-import { type DocConfig, DocsHome, DocsLayout } from './components/docs';
+import { type DocConfig, DocsHome, DocsLayout, type DocsNavItem } from './components/docs';
+import { Blog } from './components/docs/blog.tsx';
+import { GettingStarted } from './components/docs/getting-started.tsx';
 import { Spinner } from './components/spinner';
 
 const lazyDoc = (loader: () => Promise<{ default: ComponentType }>) => lazy(loader);
@@ -58,6 +60,12 @@ const TooltipDoc = lazyDoc(() => import('./components/tooltip/tooltip.doc'));
 const UploadDoc = lazyDoc(() => import('./components/upload/upload.doc'));
 
 const GITHUB_URL = 'https://github.com/dafengzhen/react-bootstrap';
+
+const NAV_ITEMS: DocsNavItem[] = [
+  { label: 'Getting Started', to: '/getting-started' },
+  { label: 'Components', to: '/components' },
+  { label: 'Blog', to: '/blog' },
+];
 
 const docsConfig: DocConfig[] = [
   {
@@ -509,6 +517,8 @@ const DocsRoute = () => {
     <DocsLayout
       docs={docsConfig}
       githubUrl={GITHUB_URL}
+      navItems={NAV_ITEMS}
+      navTitle="React Bootstrap"
       pathname={pathname}
       renderLink={renderLink}
     >
@@ -521,6 +531,14 @@ const appRoutes: RouteObject[] = [
   {
     children: [
       {
+        element: <Navigate replace to="/getting-started" />,
+        index: true,
+      },
+      {
+        element: <GettingStarted />,
+        path: 'getting-started',
+      },
+      {
         element: (
           <DocsHome
             description={HOME_DESCRIPTION}
@@ -529,7 +547,11 @@ const appRoutes: RouteObject[] = [
             title={HOME_TITLE}
           />
         ),
-        index: true,
+        path: 'components',
+      },
+      {
+        element: <Blog />,
+        path: 'blog',
       },
       ...docsConfig.map((doc): RouteObject => ({
         element: <Suspense fallback={<PageFallback />}>{doc.element}</Suspense>,

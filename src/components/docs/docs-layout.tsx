@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { type FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { type FC, Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 
 import type { DocsLayoutProps } from './types.ts';
 
@@ -9,21 +9,23 @@ import styles from './docs.module.css';
 
 const UNORDERED_INDEX = Number.MAX_SAFE_INTEGER;
 
-const HOME_TOC_ID = 'docs-home';
-
 export const DocsLayout: FC<DocsLayoutProps> = ({
   children,
   docs,
   embedded = false,
   githubUrl = 'https://github.com/dafengzhen/react-bootstrap',
+  navItems = [],
+  navTitle,
   pathname,
   renderLink,
-  sidebarTitle = 'Component Documentation',
+  rightSidebarTitle = 'On This Page',
+  sidebarTitle = 'Components',
 }) => {
   const [pageSections, setPageSections] = useState<TocItem[]>([]);
   const [sidebarOpenAt, setSidebarOpenAt] = useState<null | string>(null);
 
   const sidebarOpen = sidebarOpenAt !== null && sidebarOpenAt === pathname;
+  const showNav = !embedded && navItems.length > 0;
 
   const sortedDocs = useMemo(
     () => [...docs].sort((a, b) => (a.order ?? UNORDERED_INDEX) - (b.order ?? UNORDERED_INDEX)),
@@ -42,26 +44,16 @@ export const DocsLayout: FC<DocsLayoutProps> = ({
     [],
   );
 
-  const activeDoc = useMemo(
-    () => sortedDocs.find((doc) => doc.path === pathname),
-    [pathname, sortedDocs],
-  );
-
-  const tocItems = useMemo<TocItem[]>(() => {
-    const items: TocItem[] = [{ id: HOME_TOC_ID, level: 1, title: 'Documentation Home', to: '/' }];
-    for (const doc of sortedDocs) {
-      items.push({
+  const sidebarItems = useMemo<TocItem[]>(
+    () =>
+      sortedDocs.map((doc) => ({
         id: `doc-${slugify(doc.name) || doc.path}`,
         level: 1,
         title: doc.name,
         to: doc.path,
-      });
-      if (activeDoc === doc) {
-        items.push(...pageSections);
-      }
-    }
-    return items;
-  }, [activeDoc, pageSections, sortedDocs]);
+      })),
+    [sortedDocs],
+  );
 
   const handleClose = useCallback(() => {
     setSidebarOpenAt(null);
@@ -81,9 +73,77 @@ export const DocsLayout: FC<DocsLayoutProps> = ({
     }
   }, [pathname]);
 
+  const isNavItemActive = (to: string): boolean =>
+    pathname === to || (to !== '/' && pathname?.startsWith(`${to}/`) === true);
+
   return (
     <DocSidebarContext.Provider value={sidebarContext}>
-      <div className={clsx(styles.docsLayout, embedded && styles.docsLayoutEmbedded)}>
+      <div
+        className={clsx(
+          styles.docsLayout,
+          embedded && styles.docsLayoutEmbedded,
+          showNav && styles.docsLayoutWithNav,
+        )}
+      >
+        {showNav && (
+          <header className={styles.docsNavbar}>
+            {navTitle && (
+              <Fragment>
+                {renderLink ? (
+                  renderLink({
+                    children: (
+                      <>
+                        <img
+                          alt={`${navTitle} logo`}
+                          className={styles.docsNavbarLogo}
+                          height={24}
+                          src="/android-chrome-192x192.png"
+                          width={24}
+                        />
+                        <span>{navTitle}</span>
+                      </>
+                    ),
+                    className: styles.docsNavbarBrand,
+                    to: '/',
+                  })
+                ) : (
+                  // oxlint-disable-next-line nextjs/no-html-link-for-pages
+                  <a className={styles.docsNavbarBrand} href="/">
+                    <img
+                      alt={`${navTitle} logo`}
+                      className={styles.docsNavbarLogo}
+                      height={24}
+                      src="/android-chrome-192x192.png"
+                      width={24}
+                    />
+                    <span>{navTitle}</span>
+                  </a>
+                )}
+              </Fragment>
+            )}
+            <nav aria-label="主导航" className={styles.docsNavbarLinks}>
+              {navItems.map((item) => {
+                const isActive = isNavItemActive(item.to);
+                const linkClassName = clsx(
+                  styles.docsNavbarLink,
+                  isActive && styles.docsNavbarLinkActive,
+                );
+                return (
+                  <Fragment key={item.to}>
+                    {renderLink ? (
+                      renderLink({ children: item.label, className: linkClassName, to: item.to })
+                    ) : (
+                      <a className={linkClassName} href={item.to}>
+                        {item.label}
+                      </a>
+                    )}
+                  </Fragment>
+                );
+              })}
+            </nav>
+          </header>
+        )}
+
         {!embedded && (
           <button
             aria-controls="docs-sidebar"
@@ -120,7 +180,7 @@ export const DocsLayout: FC<DocsLayoutProps> = ({
           >
             <TableOfContents
               activeTo={pathname}
-              items={tocItems}
+              items={sidebarItems}
               onNavigate={handleClose}
               renderLink={renderLink}
               title={sidebarTitle}
@@ -128,6 +188,16 @@ export const DocsLayout: FC<DocsLayoutProps> = ({
           </aside>
 
           <main className={styles.docsMain}>{children}</main>
+
+          {!embedded && pageSections.length > 0 && (
+            <aside
+              aria-label={rightSidebarTitle}
+              className={styles.docsRightSidebar}
+              id="docs-right-sidebar"
+            >
+              <TableOfContents items={pageSections} title={rightSidebarTitle} />
+            </aside>
+          )}
         </div>
 
         <DocsFooter githubUrl={githubUrl} />

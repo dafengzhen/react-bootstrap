@@ -141,7 +141,7 @@ export type {
 } from './components/doc-template';
 
 export { DocsHome, DocsLayout } from './components/docs';
-export type { DocConfig, DocsHomeProps, DocsLayoutProps } from './components/docs';
+export type { DocConfig, DocsHomeProps, DocsLayoutProps, DocsNavItem } from './components/docs';
 
 export {
   Dropdown,

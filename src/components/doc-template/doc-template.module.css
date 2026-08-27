@@ -16,6 +16,7 @@
   --rbs-code-comment: #8b949e;
   --rbs-code-inline-fg: #ffa657;
   --rbs-code-font: 'JetBrains Mono', 'Fira Code', 'Consolas', 'SF Mono', monospace;
+  --docs-nav-height: 4rem;
   --toc-panel-offset: 1rem;
   --toc-panel-width: clamp(15rem, 20vw, 20rem);
 }
@@ -90,7 +91,7 @@
 
 .demoSection {
   margin-bottom: clamp(1.5rem, 2vw, 2.5rem);
-  scroll-margin-top: 1rem;
+  scroll-margin-top: calc(var(--docs-nav-height, 0px) + 1rem);
 }
 
 .demoSectionHeading {
@@ -187,7 +188,7 @@
 }
 
 .apiSection {
-  scroll-margin-top: 1rem;
+  scroll-margin-top: calc(var(--docs-nav-height, 0px) + 1rem);
 }
 
 .apiSection:not(:last-child) {
@@ -298,7 +299,7 @@
 }
 
 .typeDef {
-  scroll-margin-top: 1rem;
+  scroll-margin-top: calc(var(--docs-nav-height, 0px) + 1rem);
   margin-bottom: 1rem;
   padding: 0.75rem 0.75rem 0.5rem;
   border-radius: 0.75rem;
@@ -329,9 +330,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--rbs-border);
-  margin-bottom: 0.5rem;
+  padding-bottom: 0.25rem;
+  margin-bottom: 0.75rem;
 }
 
 .tocTitle {
@@ -442,8 +442,6 @@
 
 .tocLevel1:not(:first-child) {
   margin-top: 0.25rem;
-  border-top: 1px solid var(--rbs-border);
-  padding-top: 0.25rem;
 }
 
 .tocLevel2 a,

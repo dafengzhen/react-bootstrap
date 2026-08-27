@@ -16,6 +16,7 @@
   --rbs-code-comment: #8b949e;
   --rbs-code-inline-fg: #ffa657;
   --rbs-code-font: 'JetBrains Mono', 'Fira Code', 'Consolas', 'SF Mono', monospace;
+  --docs-nav-height: 4rem;
   --toc-panel-offset: 1rem;
   --toc-panel-width: clamp(15rem, 20vw, 20rem);
 }

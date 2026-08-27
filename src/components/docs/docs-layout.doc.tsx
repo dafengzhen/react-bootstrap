@@ -7,9 +7,9 @@ import { DemoSection, DocTemplate } from '../doc-template';
 import { DocsLayout } from './docs-layout.tsx';
 
 const usageCode =
-  '<DocsLayout docs={docs} pathname={pathname} renderLink={renderLink}>\n  {content}\n</DocsLayout>';
+  '<DocsLayout\n  docs={docs}\n  navItems={navItems}\n  navTitle="React Bootstrap"\n  pathname={pathname}\n  renderLink={renderLink}\n>\n  {content}\n</DocsLayout>';
 const sidebarTitleCode =
-  '<DocsLayout docs={docs} sidebarTitle="组件文档">\n  {content}\n</DocsLayout>';
+  '<DocsLayout docs={docs} sidebarTitle="组件" rightSidebarTitle="本页目录">\n  {content}\n</DocsLayout>';
 const embeddedCode =
   '<DocsLayout docs={docs} embedded pathname="/button" renderLink={renderLink}>\n  {content}\n</DocsLayout>';
 const controlledCode =
@@ -41,7 +41,7 @@ const docsLayoutProps: ApiProp[] = [
   },
   {
     defaultValue: 'false',
-    description: '是否以内嵌模式渲染（非全屏高度，侧边栏不固定）',
+    description: '是否以内嵌模式渲染（不显示顶部导航与右侧目录，侧边栏不固定）',
     name: 'embedded',
     type: 'boolean',
   },
@@ -52,8 +52,20 @@ const docsLayoutProps: ApiProp[] = [
     type: 'string',
   },
   {
+    defaultValue: '[]',
+    description: '顶部导航项列表，非空时显示顶部导航栏',
+    name: 'navItems',
+    type: 'DocsNavItem[]',
+  },
+  {
     defaultValue: '-',
-    description: '当前路由地址，用于高亮目录项',
+    description: '顶部导航栏品牌标题，传入后在导航栏左侧渲染品牌链接',
+    name: 'navTitle',
+    type: 'string',
+  },
+  {
+    defaultValue: '-',
+    description: '当前路由地址，用于高亮目录项与导航项',
     name: 'pathname',
     type: 'string',
   },
@@ -64,8 +76,14 @@ const docsLayoutProps: ApiProp[] = [
     type: 'RenderLink',
   },
   {
-    defaultValue: "'Component Documentation'",
-    description: '侧边栏标题',
+    defaultValue: "'On This Page'",
+    description: '右侧页面目录标题（当前文档页的组件选项）',
+    name: 'rightSidebarTitle',
+    type: 'string',
+  },
+  {
+    defaultValue: "'Components'",
+    description: '左侧组件目录标题',
     name: 'sidebarTitle',
     type: 'string',
   },
@@ -78,12 +96,13 @@ export const DocsLayoutDoc = () => {
     <>
       <DemoSection code={usageCode} title="用法">
         <p className="mb-0">
-          DocsLayout 提供侧边栏目录、主内容区与页脚的统一布局，通过 children 与 pathname
-          传入当前页面内容与地址。
+          DocsLayout
+          提供顶部导航栏、左侧组件目录、主内容区、右侧页面目录（当前文档页的组件选项）与页脚的统一布局，通过
+          children 与 pathname 传入当前页面内容与地址。
         </p>
       </DemoSection>
-      <DemoSection code={sidebarTitleCode} title="自定义侧边栏标题">
-        <p className="mb-0">通过 sidebarTitle 自定义侧边栏目录标题。</p>
+      <DemoSection code={sidebarTitleCode} title="自定义目录标题">
+        <p className="mb-0">通过 sidebarTitle 与 rightSidebarTitle 自定义左右目录标题。</p>
       </DemoSection>
       <DemoSection code={embeddedCode} title="内嵌布局">
         <DocsLayout
@@ -93,7 +112,9 @@ export const DocsLayoutDoc = () => {
           renderLink={renderLink}
           sidebarTitle="组件"
         >
-          <p className="mb-0">这是内嵌在容器中的布局内容，侧边栏不再固定为全屏高度。</p>
+          <p className="mb-0">
+            这是内嵌在容器中的布局内容，不显示顶部导航与右侧目录，侧边栏不再固定为全屏高度。
+          </p>
         </DocsLayout>
       </DemoSection>
       <DemoSection code={controlledCode} title="受控路由切换">
@@ -128,7 +149,7 @@ export const DocsLayoutDoc = () => {
 
   return (
     <DocTemplate
-      componentDescription="文档站点布局组件，组合侧边栏目录、主内容区与页脚，不依赖特定路由库，并支持内嵌模式"
+      componentDescription="文档站点布局组件，组合顶部导航、左侧组件目录、主内容区、右侧页面目录与页脚，不依赖特定路由库，并支持内嵌模式"
       componentName="DocsLayout"
       componentTags={['文档', '布局']}
       demoContent={demoContent}

@@ -16,6 +16,8 @@
   --rbs-code-comment: #8b949e;
   --rbs-code-inline-fg: #ffa657;
   --rbs-code-font: 'JetBrains Mono', 'Fira Code', 'Consolas', 'SF Mono', monospace;
+  --docs-content-max-width: 90rem;
+  --docs-nav-height: 4rem;
   --toc-panel-offset: 1rem;
   --toc-panel-width: clamp(15rem, 20vw, 20rem);
 }
@@ -24,12 +26,94 @@
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
+  background-color: #f8f9fa;
 }
 
 .docsBody {
   display: flex;
   align-items: flex-start;
   flex: 1;
+}
+
+.docsNavbar {
+  position: sticky;
+  top: 0;
+  z-index: 1045;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.5rem 1.5rem;
+  height: var(--docs-nav-height);
+  overflow-x: auto;
+  padding: 0 clamp(1.25rem, 1.5rem + 1vw, 2rem);
+  background-color: #f8f9fa;
+  box-shadow: 0 0.0625rem 0.125rem rgba(33, 37, 41, 0.06);
+}
+
+.docsNavbarBrand {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 0.5rem;
+  color: var(--rbs-text);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.docsNavbarBrand:hover {
+  color: var(--rbs-primary);
+}
+
+.docsNavbarBrand:focus-visible {
+  outline: 2px solid var(--rbs-primary);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+.docsNavbarLogo {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.25rem;
+}
+
+.docsNavbarLinks {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+
+.docsNavbarLink {
+  display: inline-block;
+  flex-shrink: 0;
+  padding: 0.4375rem 0.875rem;
+  border-radius: 0.375rem;
+  color: var(--rbs-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.docsNavbarLink:hover {
+  background-color: var(--rbs-hover-bg);
+  color: var(--rbs-primary);
+}
+
+.docsNavbarLink:focus-visible {
+  outline: 2px solid var(--rbs-primary);
+  outline-offset: 2px;
+}
+
+.docsNavbarLinkActive,
+.docsNavbarLinkActive:hover {
+  background-color: var(--rbs-primary-bg);
+  color: var(--rbs-primary);
 }
 
 .docsSidebar {
@@ -41,15 +125,40 @@
   height: 100dvh;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 1.25rem 1rem 2rem;
-  background-color: #fff;
-  border-right: 1px solid var(--rbs-border);
+  padding: 1.5rem 1.25rem 2rem;
+  background-color: #f8f9fa;
+}
+
+.docsLayoutWithNav .docsSidebar {
+  top: var(--docs-nav-height);
+  height: calc(100dvh - var(--docs-nav-height));
+}
+
+.docsRightSidebar {
+  position: sticky;
+  top: var(--toc-panel-offset);
+  flex-shrink: 0;
+  width: clamp(13rem, 17vw, 17rem);
+  max-height: calc(100dvh - 2 * var(--toc-panel-offset));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.5rem 1.25rem 2rem;
+  background-color: #f8f9fa;
+}
+
+.docsLayoutWithNav .docsRightSidebar {
+  top: calc(var(--docs-nav-height) + var(--toc-panel-offset));
+  max-height: calc(100dvh - var(--docs-nav-height) - 2 * var(--toc-panel-offset));
 }
 
 .docsMain {
   flex: 1;
   min-width: 0;
-  padding: clamp(1.25rem, 1.5rem + 1vw, 2.5rem) clamp(1.25rem, 1.5rem + 2vw, 3rem) 4rem;
+  margin: 1.25rem;
+  padding: clamp(1.5rem, 2rem + 1vw, 3rem) clamp(1.5rem, 1.5rem + 1vw, 2.5rem) 4rem;
+  background-color: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.0625rem 0.125rem rgba(33, 37, 41, 0.06);
 }
 
 .docsMain :global(.dropdown-menu) {
@@ -154,14 +263,80 @@
   word-break: break-word;
 }
 
+.docsPage {
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.docsPageHeader {
+  margin-bottom: 2rem;
+}
+
+.docsPageTitle {
+  font-size: clamp(1.75rem, 1.5rem + 1.25vw, 2.5rem);
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.docsPageDescription {
+  max-width: 65ch;
+  margin: 0;
+}
+
+.docsPageSection {
+  scroll-margin-top: calc(var(--docs-nav-height, 0px) + 1rem);
+}
+
+.docsPageSection:not(:last-child) {
+  margin-bottom: clamp(1.5rem, 2vw, 2.5rem);
+}
+
+.docsPageSectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.blogGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+.blogCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--rbs-border);
+  border-radius: 0.75rem;
+  background-color: #fff;
+}
+
+.blogCardTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.blogCardDate {
+  color: var(--rbs-text-muted);
+  font-size: 0.8125rem;
+}
+
+.blogCardExcerpt {
+  color: var(--rbs-text-secondary);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
 .docsFooter {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem 1.25rem;
-  padding: 1.25rem clamp(1rem, 1.5rem + 1vw, 2rem) 1.5rem;
-  border-top: 1px solid var(--rbs-border);
+  padding: 0 1.5rem 2rem;
   color: var(--rbs-text-muted);
   font-size: 0.8125rem;
 }
@@ -186,9 +361,37 @@
   border-radius: 0.25rem;
 }
 
+@media (min-width: 90rem) {
+  .docsLayout:not(.docsLayoutEmbedded) .docsNavbar,
+  .docsLayout:not(.docsLayoutEmbedded) .docsBody,
+  .docsLayout:not(.docsLayoutEmbedded) .docsFooter {
+    width: 100%;
+    max-width: var(--docs-content-max-width);
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 992px) {
+  .docsRightSidebar {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
+  :root {
+    --docs-nav-height: 3.5rem;
+  }
+
   .docsBody {
     display: block;
+  }
+
+  .docsNavbar {
+    gap: 0.5rem 0.75rem;
+  }
+
+  .docsNavbarLinks {
+    margin-left: 0;
   }
 
   .docsSidebar {
@@ -198,6 +401,7 @@
     left: 0;
     height: auto;
     width: min(var(--toc-panel-width), 85vw);
+    background-color: #fff;
     visibility: hidden;
     transform: translateX(-100%);
     box-shadow: 0 0 1.5rem rgba(33, 37, 41, 0.2);
@@ -206,13 +410,20 @@
       visibility 0.25s ease;
   }
 
+  .docsLayoutWithNav .docsSidebar {
+    top: var(--docs-nav-height);
+    bottom: 0;
+    height: auto;
+  }
+
   .docsSidebar.docsSidebarOpen {
     visibility: visible;
     transform: none;
   }
 
   .docsMain {
-    padding: 1.25rem 1rem 5.5rem;
+    margin: 0.75rem;
+    padding: 1.5rem 1rem 5.5rem;
   }
 
   .docsSidebarFab {
@@ -276,6 +487,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .docsCard,
+  .docsNavbarLink,
   .docsSidebar,
   .docsSidebarFab {
     transition: none;

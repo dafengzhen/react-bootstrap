@@ -3,6 +3,7 @@ import { forwardRef } from 'react';
 
 import type { FormLabelProps } from './types';
 
+import { useFormContext } from '../../internal/form-context';
 import { getColClasses } from './layout-utils';
 
 export const FormLabel = forwardRef<HTMLElement, FormLabelProps>(
@@ -23,22 +24,26 @@ export const FormLabel = forwardRef<HTMLElement, FormLabelProps>(
       ...rest
     },
     ref,
-  ) => (
-    <Component
-      className={clsx(
-        column ? 'col-form-label' : 'form-label',
-        typeof column === 'string' && `col-form-label-${column}`,
-        visuallyHidden && 'visually-hidden',
-        column && clsx(...getColClasses({ lg, md, sm, xl, xs, xxl })),
-        className,
-      )}
-      htmlFor={htmlFor}
-      ref={ref}
-      {...rest}
-    >
-      {children}
-    </Component>
-  ),
+  ) => {
+    const formContext = useFormContext();
+
+    return (
+      <Component
+        className={clsx(
+          column ? 'col-form-label' : 'form-label',
+          typeof column === 'string' && `col-form-label-${column}`,
+          visuallyHidden && 'visually-hidden',
+          column && clsx(...getColClasses({ lg, md, sm, xl, xs, xxl })),
+          className,
+        )}
+        htmlFor={htmlFor ?? formContext?.controlId}
+        ref={ref}
+        {...rest}
+      >
+        {children}
+      </Component>
+    );
+  },
 );
 
 FormLabel.displayName = 'FormLabel';

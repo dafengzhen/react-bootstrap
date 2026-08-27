@@ -190,6 +190,9 @@ export type {
 export { FloatingLabel } from './components/floating-label';
 export type { FloatingLabelProps } from './components/floating-label';
 
+export { Form, FormGroup, useFormContext } from './components/form';
+export type { FormContextValue, FormGroupProps, FormProps } from './components/form';
+
 export { FormCheck, FormCheckInput, FormCheckLabel } from './components/form-check';
 export type {
   FormCheckInputProps,

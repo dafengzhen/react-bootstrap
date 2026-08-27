@@ -3,12 +3,15 @@ import { forwardRef } from 'react';
 
 import type { FormControlElement, FormControlProps } from './types';
 
+import { useFormContext } from '../../internal/form-context';
+
 export const FormControl = forwardRef<FormControlElement, FormControlProps>(
   (
     {
       as: Component = 'input',
       className,
       htmlSize,
+      id,
       isInvalid = false,
       isValid = false,
       plaintext = false,
@@ -17,22 +20,27 @@ export const FormControl = forwardRef<FormControlElement, FormControlProps>(
       ...rest
     },
     ref,
-  ) => (
-    <Component
-      className={clsx(
-        plaintext ? 'form-control-plaintext' : 'form-control',
-        size && `form-control-${size}`,
-        type === 'color' && 'form-control-color',
-        isValid && 'is-valid',
-        isInvalid && 'is-invalid',
-        className,
-      )}
-      ref={ref}
-      size={htmlSize}
-      type={type}
-      {...rest}
-    />
-  ),
+  ) => {
+    const formContext = useFormContext();
+
+    return (
+      <Component
+        className={clsx(
+          plaintext ? 'form-control-plaintext' : 'form-control',
+          size && `form-control-${size}`,
+          type === 'color' && 'form-control-color',
+          isValid && 'is-valid',
+          isInvalid && 'is-invalid',
+          className,
+        )}
+        id={id ?? formContext?.controlId}
+        ref={ref}
+        size={htmlSize}
+        type={type}
+        {...rest}
+      />
+    );
+  },
 );
 
 FormControl.displayName = 'FormControl';

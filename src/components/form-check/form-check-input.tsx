@@ -3,10 +3,13 @@ import { forwardRef, useCallback } from 'react';
 
 import type { FormCheckInputProps } from './types';
 
+import { useFormContext } from '../../internal/form-context';
+
 export const FormCheckInput = forwardRef<HTMLInputElement, FormCheckInputProps>(
   (
     {
       className,
+      id,
       indeterminate = false,
       isInvalid = false,
       isValid = false,
@@ -15,6 +18,7 @@ export const FormCheckInput = forwardRef<HTMLInputElement, FormCheckInputProps>(
     },
     ref,
   ) => {
+    const formContext = useFormContext();
     const handleRef = useCallback(
       (node: HTMLInputElement | null) => {
         if (node) {
@@ -37,6 +41,7 @@ export const FormCheckInput = forwardRef<HTMLInputElement, FormCheckInputProps>(
           isInvalid && 'is-invalid',
           className,
         )}
+        id={id ?? formContext?.controlId}
         ref={handleRef}
         type={type}
         {...rest}

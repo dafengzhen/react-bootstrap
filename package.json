@@ -93,6 +93,10 @@
       "import": "./dist/components/empty/index.js",
       "types": "./dist/components/empty/index.d.ts"
     },
+    "./form": {
+      "import": "./dist/components/form/index.js",
+      "types": "./dist/components/form/index.d.ts"
+    },
     "./form-check": {
       "import": "./dist/components/form-check/index.js",
       "types": "./dist/components/form-check/index.d.ts"

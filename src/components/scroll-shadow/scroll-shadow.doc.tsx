@@ -176,14 +176,14 @@ const scrollShadowProps: ApiProp[] = [
   },
   {
     component: 'ScrollShadow',
-    defaultValue: '24',
+    defaultValue: '16',
     description: '阴影层厚度（像素）：vertical 时为阴影高度，horizontal 时为阴影宽度',
     name: 'shadowSize',
     type: 'number',
   },
   {
     component: 'ScrollShadow',
-    defaultValue: 'var(--bs-body-bg, #fff)',
+    defaultValue: 'rgba(0, 0, 0, 0.1)',
     description:
       '阴影渐变颜色，默认使用 10% 半透明黑色，呈现柔和的边缘阴影，在深浅背景上都自然可见；也可覆盖 CSS 变量 --rbs-scroll-shadow-color 全局调整',
     name: 'shadowColor',

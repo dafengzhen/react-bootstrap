@@ -569,4 +569,14 @@ export type {
   UploadProps,
   UploadStatus,
 } from './components/upload';
+
+export { useWatermark, Watermark } from './components/watermark';
+export type {
+  UseWatermarkOptions,
+  UseWatermarkResult,
+  WatermarkFontOptions,
+  WatermarkProps,
+  WatermarkTextAlign,
+} from './components/watermark';
+
 export { useReducedMotion } from './hooks';

@@ -60,6 +60,7 @@ const TimelineDoc = lazyDoc(() => import('./components/timeline/timeline.doc'));
 const ToastDoc = lazyDoc(() => import('./components/toast/toast.doc'));
 const TooltipDoc = lazyDoc(() => import('./components/tooltip/tooltip.doc'));
 const UploadDoc = lazyDoc(() => import('./components/upload/upload.doc'));
+const WatermarkDoc = lazyDoc(() => import('./components/watermark/watermark.doc'));
 
 const GITHUB_URL = 'https://github.com/dafengzhen/react-bootstrap';
 
@@ -510,6 +511,15 @@ const docsConfig: DocConfig[] = [
     name: 'ScrollShadow',
     order: 50,
     path: '/components/scroll-shadow',
+    tags: ['Basic', 'Layout'],
+  },
+  {
+    description:
+      'Watermark component that overlays tiled text or image watermarks on content, supporting multiline text, image watermarks, rotation, gap, offset, opacity and z-index customization, fullscreen portal mode, plus a useWatermark hook for custom composition.',
+    element: <WatermarkDoc />,
+    name: 'Watermark',
+    order: 51,
+    path: '/components/watermark',
     tags: ['Basic', 'Layout'],
   },
 ];

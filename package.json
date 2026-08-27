@@ -213,6 +213,10 @@
       "import": "./dist/components/upload/index.js",
       "types": "./dist/components/upload/index.d.ts"
     },
+    "./watermark": {
+      "import": "./dist/components/watermark/index.js",
+      "types": "./dist/components/watermark/index.d.ts"
+    },
     "./accordion/style": "./dist/components/accordion/accordion.css",
     "./avatar/style": "./dist/components/avatar/avatar.css",
     "./button/style": "./dist/components/button/button.css",
@@ -233,6 +237,7 @@
     "./timeline/style": "./dist/components/timeline/timeline.css",
     "./toast/style": "./dist/components/toast/toast.css",
     "./upload/style": "./dist/components/upload/upload.css",
+    "./watermark/style": "./dist/components/watermark/watermark.css",
     "./accordion/cssmodule": {
       "import": "./dist/components/accordion/accordion.module.css.js"
     },
@@ -292,6 +297,9 @@
     },
     "./upload/cssmodule": {
       "import": "./dist/components/upload/upload.module.css.js"
+    },
+    "./watermark/cssmodule": {
+      "import": "./dist/components/watermark/watermark.module.css.js"
     }
   },
   "scripts": {

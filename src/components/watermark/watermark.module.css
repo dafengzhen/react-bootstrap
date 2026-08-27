@@ -1,0 +1,14 @@
+.container {
+  position: relative;
+}
+
+.watermark {
+  background-repeat: repeat;
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.watermarkFullscreen {
+  position: fixed;
+}

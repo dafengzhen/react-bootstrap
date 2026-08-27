@@ -41,4 +41,18 @@ export default defineConfig({
     ],
   },
   plugins: [react(), bundleAnalyzerPlugin()],
+  server: {
+    watch: {
+      ignored: [
+        '**/.git/**',
+        '**/node_modules/**',
+        '**/playwright-report/**',
+        '**/test-results/**',
+        '**/vitest-report/**',
+        // 文件工具的原子写入临时目录：监视器 watch 到它时它可能已被删除，会触发 Windows 下 chokidar 的 EBUSY 崩溃
+        '**/*.tmpdir',
+        '**/*.tmpdir/**',
+      ],
+    },
+  },
 });

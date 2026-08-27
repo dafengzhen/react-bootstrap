@@ -37,6 +37,7 @@ const FormRangeDoc = lazyDoc(() => import('./components/form-range/form-range.do
 const FormSelectDoc = lazyDoc(() => import('./components/form-select/form-select.doc'));
 const InputGroupDoc = lazyDoc(() => import('./components/input-group/input-group.doc'));
 const InputOtpDoc = lazyDoc(() => import('./components/input-otp/input-otp.doc'));
+const KbdDoc = lazyDoc(() => import('./components/kbd/kbd.doc'));
 const LayoutDoc = lazyDoc(() => import('./components/layout/layout.doc'));
 const ListGroupDoc = lazyDoc(() => import('./components/list-group/list-group.doc'));
 const ModalDoc = lazyDoc(() => import('./components/modal/modal.doc'));
@@ -491,6 +492,15 @@ const docsConfig: DocConfig[] = [
     order: 48,
     path: '/components/timeline',
     tags: ['Basic', 'Feedback'],
+  },
+  {
+    description:
+      'Kbd component that indicates keyboard input, rendering key caps and key combinations, supporting nested combined shortcuts, automatic scaling with the parent font size and custom element rendering.',
+    element: <KbdDoc />,
+    name: 'Kbd',
+    order: 49,
+    path: '/components/kbd',
+    tags: ['Basic', 'Typography'],
   },
 ];
 

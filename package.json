@@ -129,6 +129,10 @@
       "import": "./dist/components/input-otp/index.js",
       "types": "./dist/components/input-otp/index.d.ts"
     },
+    "./kbd": {
+      "import": "./dist/components/kbd/index.js",
+      "types": "./dist/components/kbd/index.d.ts"
+    },
     "./layout": {
       "import": "./dist/components/layout/index.js",
       "types": "./dist/components/layout/index.d.ts"
@@ -214,6 +218,7 @@
     "./docs/style": "./dist/components/docs/docs.css",
     "./empty/style": "./dist/components/empty/empty.css",
     "./input-otp/style": "./dist/components/input-otp/input-otp.css",
+    "./kbd/style": "./dist/components/kbd/kbd.css",
     "./modal/style": "./dist/components/modal/modal.css",
     "./offcanvas/style": "./dist/components/offcanvas/offcanvas.css",
     "./popover/style": "./dist/components/popover/popover.css",
@@ -249,6 +254,9 @@
     },
     "./input-otp/cssmodule": {
       "import": "./dist/components/input-otp/input-otp.module.css.js"
+    },
+    "./kbd/cssmodule": {
+      "import": "./dist/components/kbd/kbd.module.css.js"
     },
     "./modal/cssmodule": {
       "import": "./dist/components/modal/modal.module.css.js"

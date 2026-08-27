@@ -240,6 +240,9 @@ export type {
   InputOtpSlotProps,
 } from './components/input-otp';
 
+export { Kbd } from './components/kbd';
+export type { KbdProps } from './components/kbd';
+
 export { Col, FormLabel, Row } from './components/layout';
 export type {
   ColOrder,

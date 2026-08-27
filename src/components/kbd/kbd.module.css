@@ -1,0 +1,22 @@
+.kbd {
+  padding: 0.1875rem 0.375rem;
+  font-family: var(
+    --bs-font-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    'Liberation Mono',
+    'Courier New',
+    monospace
+  );
+  font-size: 0.875em;
+  color: var(--bs-body-bg, #fff);
+  background-color: var(--bs-body-color, #212529);
+  border-radius: var(--bs-border-radius-sm, 0.25rem);
+}
+
+.kbd kbd {
+  padding: 0;
+  font-size: 1em;
+}

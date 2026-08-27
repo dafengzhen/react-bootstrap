@@ -48,6 +48,7 @@ const PaginationDoc = lazyDoc(() => import('./components/pagination/pagination.d
 const PlaceholderDoc = lazyDoc(() => import('./components/placeholder/placeholder.doc'));
 const PopoverDoc = lazyDoc(() => import('./components/popover/popover.doc'));
 const ProgressDoc = lazyDoc(() => import('./components/progress/progress.doc'));
+const ScrollShadowDoc = lazyDoc(() => import('./components/scroll-shadow/scroll-shadow.doc'));
 const ScrollSpyDoc = lazyDoc(() => import('./components/scrollspy/scrollspy.doc'));
 const SpinnerDoc = lazyDoc(() => import('./components/spinner/spinner.doc'));
 const SplitterDoc = lazyDoc(() => import('./components/splitter/splitter.doc'));
@@ -501,6 +502,15 @@ const docsConfig: DocConfig[] = [
     order: 49,
     path: '/components/kbd',
     tags: ['Basic', 'Typography'],
+  },
+  {
+    description:
+      'ScrollShadow component that adds gradient scroll shadows to the edges of a scrollable container, supporting vertical, horizontal and bidirectional scrolling, custom shadow size and color, visibility change callbacks, RTL layouts and a useScrollShadow hook for custom composition.',
+    element: <ScrollShadowDoc />,
+    name: 'ScrollShadow',
+    order: 50,
+    path: '/components/scroll-shadow',
+    tags: ['Basic', 'Layout'],
   },
 ];
 

@@ -373,6 +373,15 @@ export type {
   ProgressVariant,
 } from './components/progress';
 
+export { ScrollShadow, useScrollShadow } from './components/scroll-shadow';
+export type {
+  ScrollShadowDirection,
+  ScrollShadowProps,
+  ScrollShadowVisibility,
+  UseScrollShadowOptions,
+  UseScrollShadowResult,
+} from './components/scroll-shadow';
+
 export { ScrollSpy, ScrollSpyContainer, ScrollSpyLink, useScrollSpy } from './components/scrollspy';
 export type {
   ScrollSpyContainerProps,

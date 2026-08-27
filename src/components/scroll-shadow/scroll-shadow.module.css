@@ -1,0 +1,94 @@
+:root {
+  --rbs-scroll-shadow-color: var(--bs-body-bg, #fff);
+  --rbs-scroll-shadow-size: 24px;
+  --rbs-scroll-shadow-transition-duration: 150ms;
+}
+
+.scrollShadow {
+  position: relative;
+}
+
+.viewport {
+  height: 100%;
+  width: 100%;
+}
+
+.viewportVertical {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.viewportHorizontal {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.viewportBoth {
+  overflow: auto;
+}
+
+.shadow {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity var(--rbs-scroll-shadow-transition-duration, 150ms) ease;
+  z-index: 1;
+}
+
+.shadowVisible {
+  opacity: 1;
+}
+
+.shadowTop {
+  background: linear-gradient(
+    to bottom,
+    var(--rbs-scroll-shadow-color, var(--bs-body-bg, #fff)),
+    transparent
+  );
+  height: var(--rbs-scroll-shadow-size, 24px);
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.shadowBottom {
+  background: linear-gradient(
+    to top,
+    var(--rbs-scroll-shadow-color, var(--bs-body-bg, #fff)),
+    transparent
+  );
+  bottom: 0;
+  height: var(--rbs-scroll-shadow-size, 24px);
+  left: 0;
+  right: 0;
+}
+
+.shadowLeft {
+  background: linear-gradient(
+    to right,
+    var(--rbs-scroll-shadow-color, var(--bs-body-bg, #fff)),
+    transparent
+  );
+  bottom: 0;
+  left: 0;
+  top: 0;
+  width: var(--rbs-scroll-shadow-size, 24px);
+}
+
+.shadowRight {
+  background: linear-gradient(
+    to left,
+    var(--rbs-scroll-shadow-color, var(--bs-body-bg, #fff)),
+    transparent
+  );
+  bottom: 0;
+  right: 0;
+  top: 0;
+  width: var(--rbs-scroll-shadow-size, 24px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shadow {
+    transition: none;
+  }
+}

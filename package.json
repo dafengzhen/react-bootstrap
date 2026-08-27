@@ -173,6 +173,10 @@
       "import": "./dist/components/scrollspy/index.js",
       "types": "./dist/components/scrollspy/index.d.ts"
     },
+    "./scroll-shadow": {
+      "import": "./dist/components/scroll-shadow/index.js",
+      "types": "./dist/components/scroll-shadow/index.d.ts"
+    },
     "./spinner": {
       "import": "./dist/components/spinner/index.js",
       "types": "./dist/components/spinner/index.d.ts"
@@ -222,6 +226,7 @@
     "./modal/style": "./dist/components/modal/modal.css",
     "./offcanvas/style": "./dist/components/offcanvas/offcanvas.css",
     "./popover/style": "./dist/components/popover/popover.css",
+    "./scroll-shadow/style": "./dist/components/scroll-shadow/scroll-shadow.css",
     "./scrollspy/style": "./dist/components/scrollspy/scrollspy.css",
     "./splitter/style": "./dist/components/splitter/splitter.css",
     "./steps/style": "./dist/components/steps/steps.css",
@@ -266,6 +271,9 @@
     },
     "./popover/cssmodule": {
       "import": "./dist/components/popover/popover.module.css.js"
+    },
+    "./scroll-shadow/cssmodule": {
+      "import": "./dist/components/scroll-shadow/scroll-shadow.module.css.js"
     },
     "./scrollspy/cssmodule": {
       "import": "./dist/components/scrollspy/scrollspy.module.css.js"

@@ -81,10 +81,18 @@ const registerLanguages = async (hljs: typeof Hljs): Promise<void> => {
 };
 
 const highlightElement = (element: HTMLElement): void => {
-  void loadHighlightJs().then(async ({ default: hljs }) => {
-    await registerLanguages(hljs);
-    hljs.highlightElement(element);
-  });
+  void loadHighlightJs()
+    .then(async ({ default: hljs }) => {
+      await registerLanguages(hljs);
+      if (element.children.length > 0) {
+        element.replaceChildren(element.textContent ?? '');
+      }
+      delete element.dataset.highlighted;
+      hljs.highlightElement(element);
+    })
+    .catch((error: unknown) => {
+      console.error('code highlighting failed:', error);
+    });
 };
 
 const router = createBrowserRouter(appRoutes);

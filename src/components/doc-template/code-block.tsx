@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { type FC, useCallback, useEffect, useRef, useState } from 'react';
 
-import type { CodeBlockProps } from './types.ts';
+import type { CodeBlockProps, HighlightElement } from './types.ts';
 
 import { useCodeBlockHighlight } from './code-block-highlight-context.ts';
 import styles from './doc-template.module.css';
@@ -37,10 +37,15 @@ export const CodeBlock: FC<CodeBlockProps> = ({
   title,
 }) => {
   const codeRef = useRef<HTMLElement>(null);
+  const highlightElementRef = useRef<HighlightElement | null>(null);
   const timerRef = useRef<null | number>(null);
   const [copied, setCopied] = useState(false);
   const contextHighlightElement = useCodeBlockHighlight();
   const resolvedHighlightElement = highlightElement ?? contextHighlightElement;
+
+  useEffect(() => {
+    highlightElementRef.current = resolvedHighlightElement;
+  });
 
   useEffect(() => {
     const element = codeRef.current;
@@ -49,8 +54,8 @@ export const CodeBlock: FC<CodeBlockProps> = ({
     }
     element.textContent = code;
     delete element.dataset.highlighted;
-    resolvedHighlightElement?.(element);
-  }, [code, language, resolvedHighlightElement]);
+    highlightElementRef.current?.(element);
+  }, [code, language]);
 
   useEffect(
     () => () => {

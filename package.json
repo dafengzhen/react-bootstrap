@@ -73,6 +73,10 @@
       "import": "./dist/components/close-button/index.js",
       "types": "./dist/components/close-button/index.d.ts"
     },
+    "./container": {
+      "import": "./dist/components/container/index.js",
+      "types": "./dist/components/container/index.d.ts"
+    },
     "./collapse": {
       "import": "./dist/components/collapse/index.js",
       "types": "./dist/components/collapse/index.d.ts"

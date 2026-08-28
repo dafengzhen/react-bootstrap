@@ -121,6 +121,9 @@ export type {
   CollapseProps,
 } from './components/collapse';
 
+export { Container } from './components/container';
+export type { ContainerFluid, ContainerProps } from './components/container';
+
 export {
   CodeBlock,
   DemoSection,

@@ -181,6 +181,10 @@
       "import": "./dist/components/scroll-shadow/index.js",
       "types": "./dist/components/scroll-shadow/index.d.ts"
     },
+    "./sidebar": {
+      "import": "./dist/components/sidebar/index.js",
+      "types": "./dist/components/sidebar/index.d.ts"
+    },
     "./spinner": {
       "import": "./dist/components/spinner/index.js",
       "types": "./dist/components/spinner/index.d.ts"
@@ -236,6 +240,7 @@
     "./popover/style": "./dist/components/popover/popover.css",
     "./scroll-shadow/style": "./dist/components/scroll-shadow/scroll-shadow.css",
     "./scrollspy/style": "./dist/components/scrollspy/scrollspy.css",
+    "./sidebar/style": "./dist/components/sidebar/sidebar.css",
     "./splitter/style": "./dist/components/splitter/splitter.css",
     "./steps/style": "./dist/components/steps/steps.css",
     "./timeline/style": "./dist/components/timeline/timeline.css",
@@ -286,6 +291,9 @@
     },
     "./scrollspy/cssmodule": {
       "import": "./dist/components/scrollspy/scrollspy.module.css.js"
+    },
+    "./sidebar/cssmodule": {
+      "import": "./dist/components/sidebar/sidebar.module.css.js"
     },
     "./splitter/cssmodule": {
       "import": "./dist/components/splitter/splitter.module.css.js"

@@ -393,6 +393,44 @@ export type {
   ScrollSpyProps,
 } from './components/scrollspy';
 
+export {
+  Sidebar,
+  SidebarBackdrop,
+  SidebarBody,
+  SidebarButton,
+  SidebarDivider,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarItem,
+  SidebarLink,
+  SidebarProvider,
+  SidebarTrigger,
+  useSidebar,
+} from './components/sidebar';
+export type {
+  SidebarBackdropProps,
+  SidebarBreakpoint,
+  SidebarButtonProps,
+  SidebarContextValue,
+  SidebarDividerProps,
+  SidebarGroupContentProps,
+  SidebarGroupLabelProps,
+  SidebarGroupProps,
+  SidebarItemBaseProps,
+  SidebarItemProps,
+  SidebarLinkProps,
+  SidebarPlacement,
+  SidebarProps,
+  SidebarProviderProps,
+  SidebarRegionProps,
+  SidebarStateProps,
+  SidebarTriggerProps,
+  SidebarVariant,
+} from './components/sidebar';
+
 export { Spinner } from './components/spinner';
 export type {
   SpinnerAnimation,
@@ -582,4 +620,4 @@ export type {
   WatermarkTextAlign,
 } from './components/watermark';
 
-export { useReducedMotion } from './hooks';
+export { useMediaQuery, useReducedMotion } from './hooks';

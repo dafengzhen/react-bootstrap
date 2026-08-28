@@ -51,6 +51,7 @@ const PopoverDoc = lazyDoc(() => import('./components/popover/popover.doc'));
 const ProgressDoc = lazyDoc(() => import('./components/progress/progress.doc'));
 const ScrollShadowDoc = lazyDoc(() => import('./components/scroll-shadow/scroll-shadow.doc'));
 const ScrollSpyDoc = lazyDoc(() => import('./components/scrollspy/scrollspy.doc'));
+const SidebarDoc = lazyDoc(() => import('./components/sidebar/sidebar.doc'));
 const SpinnerDoc = lazyDoc(() => import('./components/spinner/spinner.doc'));
 const SplitterDoc = lazyDoc(() => import('./components/splitter/splitter.doc'));
 const StepsDoc = lazyDoc(() => import('./components/steps/steps.doc'));
@@ -531,6 +532,15 @@ const docsConfig: DocConfig[] = [
     order: 52,
     path: '/components/watermark',
     tags: ['Basic', 'Layout'],
+  },
+  {
+    description:
+      'Sidebar component that builds application side navigation, supporting header/body/footer regions, grouped navigation items with icons, badges and active/disabled states, a collapsible icon-only rail mode, a responsive off-canvas drawer with backdrop on viewports below a configurable breakpoint, light/dark variants and start/end placements, plus SidebarProvider/useSidebar for controlled composition.',
+    element: <SidebarDoc />,
+    name: 'Sidebar',
+    order: 53,
+    path: '/components/sidebar',
+    tags: ['Basic', 'Navigation'],
   },
 ];
 

@@ -1,6 +1,6 @@
 :root {
-  --rbs-scroll-shadow-color: rgba(0, 0, 0, 0.1);
-  --rbs-scroll-shadow-size: 16px;
+  --rbs-scroll-shadow-color: rgba(0, 0, 0, 0.05);
+  --rbs-scroll-shadow-size: 24px;
   --rbs-scroll-shadow-transition-duration: 150ms;
 }
 
@@ -42,10 +42,16 @@
 .shadowTop {
   background: linear-gradient(
     to bottom,
-    var(--rbs-scroll-shadow-color, rgba(0, 0, 0, 0.1)),
+    var(--rbs-scroll-shadow-color, rgba(0, 0, 0, 0.05)),
     transparent
   );
-  height: var(--rbs-scroll-shadow-size, 16px);
+  background: linear-gradient(
+    to bottom,
+    var(--rbs-scroll-shadow-color, rgba(0, 0, 0, 0.05)),
+    color-mix(in srgb, var(--rbs-scroll-shadow-color, rgba(0, 0, 0, 0.05)) 35%, transparent) 65%,
+    transparent
+  );
+  height: var(--rbs-scroll-shadow-size, 24px);
   left: 0;
   right: 0;
   top: 0;
@@ -54,11 +60,17 @@
 .shadowBottom {
   background: linear-gradient(
     to top,
-    var(--rbs-scroll-shadow-color, rgba(0, 0, 0, 0.1)),
+    var(--rbs-scroll-shadow-color, rgba(0, 0, 0, 0.05)),
+    transparent
+  );
+  background: linear-gradient(
+    to top,
+    var(--rbs-scroll-shadow-color, rgba(0, 0, 0, 0.05)),
+    color-mix(in srgb, var(--rbs-scroll-shadow-color, rgba(0, 0, 0, 0.05)) 35%, transparent) 65%,
     transparent
   );
   bottom: 0;
-  height: var(--rbs-scroll-shadow-size, 16px);
+  height: var(--rbs-scroll-shadow-size, 24px);
   left: 0;
   right: 0;
 }
@@ -66,25 +78,37 @@
 .shadowLeft {
   background: linear-gradient(
     to right,
-    var(--rbs-scroll-shadow-color, rgba(0, 0, 0, 0.1)),
+    var(--rbs-scroll-shadow-color, rgba(0, 0, 0, 0.05)),
+    transparent
+  );
+  background: linear-gradient(
+    to right,
+    var(--rbs-scroll-shadow-color, rgba(0, 0, 0, 0.05)),
+    color-mix(in srgb, var(--rbs-scroll-shadow-color, rgba(0, 0, 0, 0.05)) 35%, transparent) 65%,
     transparent
   );
   bottom: 0;
   left: 0;
   top: 0;
-  width: var(--rbs-scroll-shadow-size, 16px);
+  width: var(--rbs-scroll-shadow-size, 24px);
 }
 
 .shadowRight {
   background: linear-gradient(
     to left,
-    var(--rbs-scroll-shadow-color, rgba(0, 0, 0, 0.1)),
+    var(--rbs-scroll-shadow-color, rgba(0, 0, 0, 0.05)),
+    transparent
+  );
+  background: linear-gradient(
+    to left,
+    var(--rbs-scroll-shadow-color, rgba(0, 0, 0, 0.05)),
+    color-mix(in srgb, var(--rbs-scroll-shadow-color, rgba(0, 0, 0, 0.05)) 35%, transparent) 65%,
     transparent
   );
   bottom: 0;
   right: 0;
   top: 0;
-  width: var(--rbs-scroll-shadow-size, 16px);
+  width: var(--rbs-scroll-shadow-size, 24px);
 }
 
 @media (prefers-reduced-motion: reduce) {

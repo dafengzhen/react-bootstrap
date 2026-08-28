@@ -7,8 +7,6 @@ import { DocSidebarContext, slugify, TableOfContents, type TocItem } from '../do
 import { DocsFooter } from './docs-footer.tsx';
 import styles from './docs.module.css';
 
-const UNORDERED_INDEX = Number.MAX_SAFE_INTEGER;
-
 export const DocsLayout: FC<DocsLayoutProps> = ({
   children,
   docs,
@@ -28,7 +26,7 @@ export const DocsLayout: FC<DocsLayoutProps> = ({
   const showNav = !embedded && navItems.length > 0;
 
   const sortedDocs = useMemo(
-    () => [...docs].sort((a, b) => (a.order ?? UNORDERED_INDEX) - (b.order ?? UNORDERED_INDEX)),
+    () => [...docs].sort((a, b) => a.name.localeCompare(b.name, 'en')),
     [docs],
   );
 

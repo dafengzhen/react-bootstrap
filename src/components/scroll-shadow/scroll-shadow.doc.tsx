@@ -176,16 +176,16 @@ const scrollShadowProps: ApiProp[] = [
   },
   {
     component: 'ScrollShadow',
-    defaultValue: '16',
+    defaultValue: '24',
     description: '阴影层厚度（像素）：vertical 时为阴影高度，horizontal 时为阴影宽度',
     name: 'shadowSize',
     type: 'number',
   },
   {
     component: 'ScrollShadow',
-    defaultValue: 'rgba(0, 0, 0, 0.1)',
+    defaultValue: 'rgba(0, 0, 0, 0.05)',
     description:
-      '阴影渐变颜色，默认使用 10% 半透明黑色，呈现柔和的边缘阴影，在深浅背景上都自然可见；也可覆盖 CSS 变量 --rbs-scroll-shadow-color 全局调整',
+      '阴影颜色，作为渐变起点自动生成“浓 → 淡 → 透明”的三段式渐变阴影，默认使用 10% 半透明黑色，在深浅背景上都自然可见；也可覆盖 CSS 变量 --rbs-scroll-shadow-color 全局调整',
     name: 'shadowColor',
     type: 'string',
   },
@@ -398,8 +398,8 @@ export const ScrollShadowDoc = () => {
       <DemoSection code={customCode} title="自定义阴影">
         <CustomDemo />
         <p className="mb-0 mt-3 text-muted small">
-          shadowSize 控制阴影层厚度，shadowColor 控制渐变颜色，disabled 可随时关闭阴影；两者通过 CSS
-          变量 --rbs-scroll-shadow-size 与 --rbs-scroll-shadow-color
+          shadowSize 控制阴影层厚度，shadowColor 控制渐变起点颜色，disabled 可随时关闭阴影；两者通过
+          CSS 变量 --rbs-scroll-shadow-size 与 --rbs-scroll-shadow-color
           生效，也可以在全局样式里统一覆盖
         </p>
       </DemoSection>

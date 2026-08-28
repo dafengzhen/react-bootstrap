@@ -173,6 +173,10 @@
       "import": "./dist/components/progress/index.js",
       "types": "./dist/components/progress/index.d.ts"
     },
+    "./ratio": {
+      "import": "./dist/components/ratio/index.js",
+      "types": "./dist/components/ratio/index.d.ts"
+    },
     "./scrollspy": {
       "import": "./dist/components/scrollspy/index.js",
       "types": "./dist/components/scrollspy/index.d.ts"

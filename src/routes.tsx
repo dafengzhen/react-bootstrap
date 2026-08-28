@@ -49,6 +49,7 @@ const PaginationDoc = lazyDoc(() => import('./components/pagination/pagination.d
 const PlaceholderDoc = lazyDoc(() => import('./components/placeholder/placeholder.doc'));
 const PopoverDoc = lazyDoc(() => import('./components/popover/popover.doc'));
 const ProgressDoc = lazyDoc(() => import('./components/progress/progress.doc'));
+const RatioDoc = lazyDoc(() => import('./components/ratio/ratio.doc'));
 const ScrollShadowDoc = lazyDoc(() => import('./components/scroll-shadow/scroll-shadow.doc'));
 const ScrollSpyDoc = lazyDoc(() => import('./components/scrollspy/scrollspy.doc'));
 const SidebarDoc = lazyDoc(() => import('./components/sidebar/sidebar.doc'));
@@ -541,6 +542,15 @@ const docsConfig: DocConfig[] = [
     order: 53,
     path: '/components/sidebar',
     tags: ['Basic', 'Navigation'],
+  },
+  {
+    description:
+      'Ratio component that creates a responsive fixed-aspect-ratio container for images, videos, iframes and other media content, supporting the 1x1/4x3/16x9/21x9 presets, custom numeric and string ratios, and custom element rendering.',
+    element: <RatioDoc />,
+    name: 'Ratio',
+    order: 54,
+    path: '/components/ratio',
+    tags: ['Basic', 'Layout'],
   },
 ];
 

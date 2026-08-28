@@ -376,6 +376,9 @@ export type {
   ProgressVariant,
 } from './components/progress';
 
+export { Ratio } from './components/ratio';
+export type { RatioAspectRatio, RatioProps } from './components/ratio';
+
 export { ScrollShadow, useScrollShadow } from './components/scroll-shadow';
 export type {
   ScrollShadowDirection,

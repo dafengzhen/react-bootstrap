@@ -498,4 +498,13 @@ export const docs: DocEntry[] = [
     path: '/components/ratio',
     tags: ['Basic', 'Layout'],
   },
+  {
+    description:
+      'Image viewer components that preview images in an immersive lightbox, featuring click-to-preview Image thumbnails with fluid/rounded/thumbnail styles, ImageGroup for grouped multi-image browsing, and a full-featured ImageViewer with zoom, rotation, drag panning, keyboard shortcuts, thumbnail navigation, fullscreen and download support, plus useImageViewer for custom composition.',
+    file: 'components/image-viewer/image-viewer.doc.tsx',
+    name: 'ImageViewer',
+    order: 55,
+    path: '/components/image-viewer',
+    tags: ['Basic', 'Feedback'],
+  },
 ];

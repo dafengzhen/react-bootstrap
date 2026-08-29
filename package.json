@@ -125,6 +125,10 @@
       "import": "./dist/components/form-select/index.js",
       "types": "./dist/components/form-select/index.d.ts"
     },
+    "./image-viewer": {
+      "import": "./dist/components/image-viewer/index.js",
+      "types": "./dist/components/image-viewer/index.d.ts"
+    },
     "./input-group": {
       "import": "./dist/components/input-group/index.js",
       "types": "./dist/components/input-group/index.d.ts"
@@ -237,6 +241,7 @@
     "./doc-template/style": "./dist/components/doc-template/doc-template.css",
     "./docs/style": "./dist/components/docs/docs.css",
     "./empty/style": "./dist/components/empty/empty.css",
+    "./image-viewer/style": "./dist/components/image-viewer/image-viewer.css",
     "./input-otp/style": "./dist/components/input-otp/input-otp.css",
     "./kbd/style": "./dist/components/kbd/kbd.css",
     "./modal/style": "./dist/components/modal/modal.css",
@@ -274,6 +279,9 @@
     },
     "./empty/cssmodule": {
       "import": "./dist/components/empty/empty.module.css.js"
+    },
+    "./image-viewer/cssmodule": {
+      "import": "./dist/components/image-viewer/image-viewer.module.css.js"
     },
     "./input-otp/cssmodule": {
       "import": "./dist/components/input-otp/input-otp.module.css.js"
@@ -355,6 +363,7 @@
     "clsx": "^2.1.1",
     "eslint-plugin-perfectionist": "^5.10.1",
     "highlight.js": "^11.12.0",
+    "lucide-react": "^1.35.0",
     "npm-run-all2": "^9.0.3",
     "oxfmt": "^0.65.0",
     "oxlint": "^1.80.0",

@@ -1,0 +1,9 @@
+```tsx
+<ImageViewer
+  defaultOpen
+  images={[
+    'https://picsum.photos/seed/rbs-transform-1/1600/1000',
+    'https://picsum.photos/seed/rbs-transform-2/1600/1000',
+  ]}
+/>
+```

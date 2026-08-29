@@ -222,6 +222,26 @@ export { FormSelect } from './components/form-select';
 export type { FormSelectProps, FormSelectSize } from './components/form-select';
 
 export {
+  Image,
+  ImageGroup,
+  ImageViewer,
+  useImageGroup,
+  useImageViewer,
+} from './components/image-viewer';
+export type {
+  ImageGroupContextValue,
+  ImageGroupProps,
+  ImageProps,
+  ImageViewerContextValue,
+  ImageViewerGroupViewerProps,
+  ImageViewerImage,
+  ImageViewerProps,
+  ImageViewerRotation,
+  ImageViewerSource,
+  ImageViewerToolbarKey,
+} from './components/image-viewer';
+
+export {
   InputGroup,
   InputGroupCheckbox,
   InputGroupRadio,

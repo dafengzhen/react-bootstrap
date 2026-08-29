@@ -1,17 +1,5 @@
 import type Hljs from 'highlight.js';
 
-import 'bootstrap/dist/css/bootstrap.css';
-import { Analytics } from '@vercel/analytics/react';
-import 'highlight.js/styles/github-dark.css';
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { createBrowserRouter } from 'react-router';
-import { RouterProvider } from 'react-router/dom';
-
-import './main.css';
-import { CodeBlockHighlightContext } from './components/doc-template';
-import appRoutes from './routes';
-
 type HighlightJsModule = { default: typeof Hljs };
 
 let highlightJsPromise: null | Promise<HighlightJsModule> = null;
@@ -80,7 +68,7 @@ const registerLanguages = async (hljs: typeof Hljs): Promise<void> => {
   isLanguagesRegistered = true;
 };
 
-const highlightElement = (element: HTMLElement): void => {
+export const highlightElement = (element: HTMLElement): void => {
   void loadHighlightJs()
     .then(async ({ default: hljs }) => {
       await registerLanguages(hljs);
@@ -94,14 +82,3 @@ const highlightElement = (element: HTMLElement): void => {
       console.error('code highlighting failed:', error);
     });
 };
-
-const router = createBrowserRouter(appRoutes);
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <CodeBlockHighlightContext.Provider value={highlightElement}>
-      <RouterProvider router={router} />
-    </CodeBlockHighlightContext.Provider>
-    <Analytics />
-  </StrictMode>,
-);

@@ -4,7 +4,7 @@ import type { RenderLink } from '../doc-template';
 
 export interface DocConfig {
   description: string;
-  element: ReactNode;
+  element?: ReactNode;
   name: string;
   order?: number;
   path: string;

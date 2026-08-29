@@ -319,10 +319,10 @@
     }
   },
   "scripts": {
-    "dev": "vite",
-    "dev:docs": "vite --config vite.config.docs.ts",
+    "dev": "react-router dev --config vite.config.docs.ts",
+    "dev:docs": "react-router dev --config vite.config.docs.ts",
     "build": "run-s typecheck build:full build:components:no-empty build:types",
-    "build:docs": "vite build --config vite.config.docs.ts",
+    "build:docs": "react-router build --config vite.config.docs.ts",
     "build:all": "run-s typecheck build:full build:components:no-empty build:types build:docs",
     "typecheck": "tsc -b",
     "build:components": "vite build --config vite.config.ts --emptyOutDir",
@@ -337,15 +337,19 @@
     "lint:fmt": "run-s lint fmt",
     "check": "run-s lint fmt"
   },
+  "dependencies": {
+    "isbot": "^5.2.2"
+  },
   "devDependencies": {
     "@babel/core": "^8.0.1",
+    "@react-router/dev": "^8.3.1",
     "@rolldown/plugin-babel": "^0.2.3",
     "@types/babel__core": "^7.20.5",
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.4.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
     "@vercel/analytics": "^2.0.1",
-    "@vitejs/plugin-react": "^6.1.0",
+    "@vitejs/plugin-react": "^6.1.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "bootstrap": "^5.3.8",
     "clsx": "^2.1.1",
@@ -356,7 +360,7 @@
     "oxlint": "^1.80.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-router": "^8.3.0",
+    "react-router": "^8.3.1",
     "typescript": "^6.0.3",
     "vite": "^8.2.2"
   },

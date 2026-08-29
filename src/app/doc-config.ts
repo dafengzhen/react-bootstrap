@@ -1,82 +1,28 @@
-import { type ComponentType, lazy, Suspense } from 'react';
-import { Link, Navigate, Outlet, type RouteObject, useLocation } from 'react-router';
+export interface DocEntry {
+  description: string;
+  file: string;
+  name: string;
+  order?: number;
+  path: string;
+  tags?: string[];
+}
 
-import type { RenderLink } from './components/doc-template';
+export const GITHUB_URL = 'https://github.com/dafengzhen/react-bootstrap';
 
-import { type DocConfig, DocsHome, DocsLayout, type DocsNavItem } from './components/docs';
-import { Blog } from './components/docs/blog.tsx';
-import { GettingStarted } from './components/docs/getting-started.tsx';
-import { Spinner } from './components/spinner';
+export const HOME_DESCRIPTION =
+  'React component library based on Bootstrap 5, with documentation and usage guides for all components below.';
+export const HOME_TITLE = 'React Bootstrap';
 
-const lazyDoc = (loader: () => Promise<{ default: ComponentType }>) => lazy(loader);
-
-const AccordionDoc = lazyDoc(() => import('./components/accordion/accordion.doc'));
-const AlertDoc = lazyDoc(() => import('./components/alert/alert.doc'));
-const AvatarDoc = lazyDoc(() => import('./components/avatar/avatar.doc'));
-const BadgeDoc = lazyDoc(() => import('./components/badge/badge.doc'));
-const BreadcrumbDoc = lazyDoc(() => import('./components/breadcrumb/breadcrumb.doc'));
-const ButtonDoc = lazyDoc(() => import('./components/button/button.doc'));
-const ButtonGroupDoc = lazyDoc(() => import('./components/button-group/button-group.doc'));
-const CardDoc = lazyDoc(() => import('./components/card/card.doc'));
-const CarouselDoc = lazyDoc(() => import('./components/carousel/carousel.doc'));
-const CloseButtonDoc = lazyDoc(() => import('./components/close-button/close-button.doc'));
-const CodeBlockDoc = lazyDoc(() => import('./components/doc-template/code-block.doc'));
-const CollapseDoc = lazyDoc(() => import('./components/collapse/collapse.doc'));
-const ContainerDoc = lazyDoc(() => import('./components/container/container.doc'));
-const DemoSectionDoc = lazyDoc(() => import('./components/doc-template/demo-section.doc'));
-const DocTemplateDoc = lazyDoc(() => import('./components/doc-template/doc-template.doc'));
-const DocsHomeDoc = lazyDoc(() => import('./components/docs/docs-home.doc'));
-const DocsLayoutDoc = lazyDoc(() => import('./components/docs/docs-layout.doc'));
-const DropdownDoc = lazyDoc(() => import('./components/dropdown/dropdown.doc'));
-const EmptyDoc = lazyDoc(() => import('./components/empty/empty.doc'));
-const FloatingLabelDoc = lazyDoc(() => import('./components/floating-label/floating-label.doc'));
-const FormCheckDoc = lazyDoc(() => import('./components/form-check/form-check.doc'));
-const FormControlDoc = lazyDoc(() => import('./components/form-control/form-control.doc'));
-const FormDoc = lazyDoc(() => import('./components/form/form.doc'));
-const FormFeedbackDoc = lazyDoc(() => import('./components/form-feedback/form-feedback.doc'));
-const FormRangeDoc = lazyDoc(() => import('./components/form-range/form-range.doc'));
-const FormSelectDoc = lazyDoc(() => import('./components/form-select/form-select.doc'));
-const InputGroupDoc = lazyDoc(() => import('./components/input-group/input-group.doc'));
-const InputOtpDoc = lazyDoc(() => import('./components/input-otp/input-otp.doc'));
-const KbdDoc = lazyDoc(() => import('./components/kbd/kbd.doc'));
-const LayoutDoc = lazyDoc(() => import('./components/layout/layout.doc'));
-const ListGroupDoc = lazyDoc(() => import('./components/list-group/list-group.doc'));
-const ModalDoc = lazyDoc(() => import('./components/modal/modal.doc'));
-const NameColorBadgeDoc = lazyDoc(() => import('./components/doc-template/name-color-badge.doc'));
-const NavbarDoc = lazyDoc(() => import('./components/navbar/navbar.doc'));
-const OffcanvasDoc = lazyDoc(() => import('./components/offcanvas/offcanvas.doc'));
-const PaginationDoc = lazyDoc(() => import('./components/pagination/pagination.doc'));
-const PlaceholderDoc = lazyDoc(() => import('./components/placeholder/placeholder.doc'));
-const PopoverDoc = lazyDoc(() => import('./components/popover/popover.doc'));
-const ProgressDoc = lazyDoc(() => import('./components/progress/progress.doc'));
-const RatioDoc = lazyDoc(() => import('./components/ratio/ratio.doc'));
-const ScrollShadowDoc = lazyDoc(() => import('./components/scroll-shadow/scroll-shadow.doc'));
-const ScrollSpyDoc = lazyDoc(() => import('./components/scrollspy/scrollspy.doc'));
-const SidebarDoc = lazyDoc(() => import('./components/sidebar/sidebar.doc'));
-const SpinnerDoc = lazyDoc(() => import('./components/spinner/spinner.doc'));
-const SplitterDoc = lazyDoc(() => import('./components/splitter/splitter.doc'));
-const StepsDoc = lazyDoc(() => import('./components/steps/steps.doc'));
-const TableDoc = lazyDoc(() => import('./components/table/table.doc'));
-const TableOfContentsDoc = lazyDoc(() => import('./components/doc-template/table-of-contents.doc'));
-const TabsDoc = lazyDoc(() => import('./components/tabs/tabs.doc'));
-const TimelineDoc = lazyDoc(() => import('./components/timeline/timeline.doc'));
-const ToastDoc = lazyDoc(() => import('./components/toast/toast.doc'));
-const TooltipDoc = lazyDoc(() => import('./components/tooltip/tooltip.doc'));
-const UploadDoc = lazyDoc(() => import('./components/upload/upload.doc'));
-const WatermarkDoc = lazyDoc(() => import('./components/watermark/watermark.doc'));
-
-const GITHUB_URL = 'https://github.com/dafengzhen/react-bootstrap';
-
-const NAV_ITEMS: DocsNavItem[] = [
+export const NAV_ITEMS = [
   { label: 'Getting Started', to: '/getting-started' },
   { label: 'Components', to: '/components' },
   { label: 'Blog', to: '/blog' },
 ];
 
-const docsConfig: DocConfig[] = [
+export const docs: DocEntry[] = [
   {
     description: 'General-purpose button component, supports multiple variants, sizes, and states.',
-    element: <ButtonDoc />,
+    file: 'components/button/button.doc.tsx',
     name: 'Button',
     order: 1,
     path: '/components/button',
@@ -85,7 +31,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Button group component that combines multiple buttons into a single unit, supporting horizontal/vertical arrangement and uniform sizing.',
-    element: <ButtonGroupDoc />,
+    file: 'components/button-group/button-group.doc.tsx',
     name: 'ButtonGroup',
     order: 2,
     path: '/components/button-group',
@@ -94,7 +40,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'List group component that displays a series of content in a flexible list container, supporting active/disabled states, links and buttons, flush and numbered styles, horizontal layout, contextual colors, badges and custom content.',
-    element: <ListGroupDoc />,
+    file: 'components/list-group/list-group.doc.tsx',
     name: 'ListGroup',
     order: 3,
     path: '/components/list-group',
@@ -103,7 +49,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Card component that provides a flexible and extensible content container, supporting header/footer, images, overlays, navigation and various color styles.',
-    element: <CardDoc />,
+    file: 'components/card/card.doc.tsx',
     name: 'Card',
     order: 4,
     path: '/components/card',
@@ -112,7 +58,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Close button component for dismissing content such as modals, alerts and toasts, with white variant and disabled state support.',
-    element: <CloseButtonDoc />,
+    file: 'components/close-button/close-button.doc.tsx',
     name: 'CloseButton',
     order: 5,
     path: '/components/close-button',
@@ -121,7 +67,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Modal component that renders content in a dialog layer above the page, supporting sizes, fullscreen, centered/scrollable layouts, placements, custom sizing, static backdrops, focus trapping and transition animations.',
-    element: <ModalDoc />,
+    file: 'components/modal/modal.doc.tsx',
     name: 'Modal',
     order: 6,
     path: '/components/modal',
@@ -130,7 +76,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Offcanvas component that renders a hidden side drawer panel above the page, supporting four placements with custom slide transitions, backdrop and keyboard options, body scroll control, focus management and reduced-motion preferences.',
-    element: <OffcanvasDoc />,
+    file: 'components/offcanvas/offcanvas.doc.tsx',
     name: 'Offcanvas',
     order: 7,
     path: '/components/offcanvas',
@@ -139,7 +85,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Dropdown component that toggles contextual overlays for displaying lists of links and actions, supporting split buttons, sizing, dark menus, six directions, menu items with active/disabled states, headers/dividers/text, forms, alignment, auto-close behavior and keyboard navigation.',
-    element: <DropdownDoc />,
+    file: 'components/dropdown/dropdown.doc.tsx',
     name: 'Dropdown',
     order: 8,
     path: '/components/dropdown',
@@ -148,7 +94,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Navbar component that builds responsive navigation headers, supporting brand, navigation links, forms and text, responsive collapse with toggler, color schemes, containers, fixed/sticky placement, scrolling navs and offcanvas drawers.',
-    element: <NavbarDoc />,
+    file: 'components/navbar/navbar.doc.tsx',
     name: 'Navbar',
     order: 9,
     path: '/components/navbar',
@@ -157,7 +103,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Alert component that provides contextual feedback messages for typical user actions, supporting eight variants, dismissible mode with fade animation, links, headings and icons.',
-    element: <AlertDoc />,
+    file: 'components/alert/alert.doc.tsx',
     name: 'Alert',
     order: 10,
     path: '/components/alert',
@@ -166,7 +112,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Badge component that displays status, counts or labels in small inline content, supporting multiple background colors, pill shape, buttons and links, scaling with the parent font size.',
-    element: <BadgeDoc />,
+    file: 'components/badge/badge.doc.tsx',
     name: 'Badge',
     order: 11,
     path: '/components/badge',
@@ -175,7 +121,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Avatar component that displays user images or name initials, supporting automatic fallback when images fail to load, multiple sizes and shapes, background color variants and borders, plus AvatarGroup for stacked display, max-count folding and group-level defaults.',
-    element: <AvatarDoc />,
+    file: 'components/avatar/avatar.doc.tsx',
     name: 'Avatar',
     order: 12,
     path: '/components/avatar',
@@ -184,7 +130,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Breadcrumb component that indicates the current page location within a navigational hierarchy, supporting links, active state, custom dividers and accessible labels.',
-    element: <BreadcrumbDoc />,
+    file: 'components/breadcrumb/breadcrumb.doc.tsx',
     name: 'Breadcrumb',
     order: 13,
     path: '/components/breadcrumb',
@@ -193,7 +139,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Pagination component that splits a set of links across multiple pages, supporting icon links, active/disabled states, sizing, alignment and accessible labels.',
-    element: <PaginationDoc />,
+    file: 'components/pagination/pagination.doc.tsx',
     name: 'Pagination',
     order: 14,
     path: '/components/pagination',
@@ -202,7 +148,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Placeholder component that renders skeleton loading placeholders for components and pages, supporting grid column widths, background colors, sizing, glow/wave animations and placeholder buttons.',
-    element: <PlaceholderDoc />,
+    file: 'components/placeholder/placeholder.doc.tsx',
     name: 'Placeholder',
     order: 15,
     path: '/components/placeholder',
@@ -211,7 +157,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Popover component that shows extended content in a floating card beside trigger elements, supporting header/body structure, four directions with alignment variations, HTML content, custom styling, delays, click/hover/focus/manual triggers, controlled mode, disabled elements and flip positioning.',
-    element: <PopoverDoc />,
+    file: 'components/popover/popover.doc.tsx',
     name: 'Popover',
     order: 16,
     path: '/components/popover',
@@ -220,7 +166,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Spinner component that indicates the loading state of a component or page, supporting border/grow animations, color variants, sizes and usage inside buttons.',
-    element: <SpinnerDoc />,
+    file: 'components/spinner/spinner.doc.tsx',
     name: 'Spinner',
     order: 17,
     path: '/components/spinner',
@@ -229,7 +175,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Tabs component that builds navigation and tabbed panels, supporting tabs/pills/underline variants, fill and justify layouts, vertical arrangement, active/disabled states and fade transitions.',
-    element: <TabsDoc />,
+    file: 'components/tabs/tabs.doc.tsx',
     name: 'Tabs',
     order: 18,
     path: '/components/tabs',
@@ -238,7 +184,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Toast component that pushes lightweight notifications to users, supporting header/body structure, stacking, nine placements, color schemes, autohide with hover pause and custom transitions.',
-    element: <ToastDoc />,
+    file: 'components/toast/toast.doc.tsx',
     name: 'Toast',
     order: 19,
     path: '/components/toast',
@@ -247,7 +193,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Tooltip component that shows contextual hints beside trigger elements, supporting four directions with alignment variations, HTML content, custom styling, delays, click/hover/focus/manual triggers, controlled mode, disabled elements and flip positioning.',
-    element: <TooltipDoc />,
+    file: 'components/tooltip/tooltip.doc.tsx',
     name: 'Tooltip',
     order: 20,
     path: '/components/tooltip',
@@ -256,7 +202,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Progress component that displays the completion state of a task or workflow, supporting labels, custom heights, color variants, striped and animated stripes, stacked segments and manual composition of multiple bars.',
-    element: <ProgressDoc />,
+    file: 'components/progress/progress.doc.tsx',
     name: 'Progress',
     order: 21,
     path: '/components/progress',
@@ -265,7 +211,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Steps component that displays progress through a sequence of operations, supporting horizontal/vertical and centered layouts, dot indicators, custom icons, error status, disabled steps and clickable switching in controlled or uncontrolled mode.',
-    element: <StepsDoc />,
+    file: 'components/steps/steps.doc.tsx',
     name: 'Steps',
     order: 22,
     path: '/components/steps',
@@ -274,7 +220,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Collapse component that toggles the visibility of content with an animated height or width transition, supporting vertical and horizontal dimensions, multiple targets, transition callbacks and reduced-motion preferences.',
-    element: <CollapseDoc />,
+    file: 'components/collapse/collapse.doc.tsx',
     name: 'Collapse',
     order: 23,
     path: '/components/collapse',
@@ -283,7 +229,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Accordion component that collapses vertically stacked content sections into interactive expandable panels, supporting single or multiple open items, flush styling, controlled/uncontrolled active keys, custom triggers and accessible button/collapse associations.',
-    element: <AccordionDoc />,
+    file: 'components/accordion/accordion.doc.tsx',
     name: 'Accordion',
     order: 24,
     path: '/components/accordion',
@@ -292,7 +238,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Carousel component that cycles through slides with reducer-driven custom slide and crossfade transitions, supporting indicators, controls, captions, autoplay with hover pause, per-slide intervals, keyboard and touch navigation, controlled mode and reduced-motion preferences.',
-    element: <CarouselDoc />,
+    file: 'components/carousel/carousel.doc.tsx',
     name: 'Carousel',
     order: 25,
     path: '/components/carousel',
@@ -301,7 +247,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'ScrollSpy component that automatically updates navigation links based on the scroll position of a container or the page, supporting rootMargin/threshold observation options, smooth scrolling, controlled mode, context-based ScrollSpyLink links and plain HTML targets via selector.',
-    element: <ScrollSpyDoc />,
+    file: 'components/scrollspy/scrollspy.doc.tsx',
     name: 'ScrollSpy',
     order: 26,
     path: '/components/scrollspy',
@@ -310,7 +256,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Form component that composes form groups and controls, providing the Form container with native constraint validation support and FormGroup with controlId-based label/control auto-association, plus a single import surface for all form parts.',
-    element: <FormDoc />,
+    file: 'components/form/form.doc.tsx',
     name: 'Form',
     order: 27,
     path: '/components/form',
@@ -319,7 +265,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Form control component that renders inputs, selects and textareas with consistent Bootstrap styles, supporting sizing, disabled and readonly states, readonly plain text, file and color inputs, datalists, valid/invalid states, and the FormText helper text component.',
-    element: <FormControlDoc />,
+    file: 'components/form-control/form-control.doc.tsx',
     name: 'FormControl',
     order: 28,
     path: '/components/form-control',
@@ -328,7 +274,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Floating label component that renders a form control with a label that floats above the input, supporting textareas, selects, disabled and readonly plaintext states, input groups, validation states and grid layouts.',
-    element: <FloatingLabelDoc />,
+    file: 'components/floating-label/floating-label.doc.tsx',
     name: 'FloatingLabel',
     order: 29,
     path: '/components/floating-label',
@@ -337,7 +283,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Input group component that combines text addons, buttons, dropdowns, checkboxes and radios with form controls, supporting prefix/suffix and multiple addons, multiple inputs, button and dropdown addons, segmented buttons, custom selects and file inputs, wrapping, sizing and validation states.',
-    element: <InputGroupDoc />,
+    file: 'components/input-group/input-group.doc.tsx',
     name: 'InputGroup',
     order: 30,
     path: '/components/input-group',
@@ -346,7 +292,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Form select component that renders native selects with customized appearance, supporting small/large sizing, multiple selection, visible option count, disabled state and valid/invalid validation states.',
-    element: <FormSelectDoc />,
+    file: 'components/form-select/form-select.doc.tsx',
     name: 'FormSelect',
     order: 31,
     path: '/components/form-select',
@@ -355,7 +301,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Form check component that renders consistent checkboxes, radios and switches, composing FormCheck, FormCheckInput and FormCheckLabel, supporting indeterminate and disabled states, inline/reverse layouts and valid/invalid validation states.',
-    element: <FormCheckDoc />,
+    file: 'components/form-check/form-check.doc.tsx',
     name: 'FormCheck',
     order: 32,
     path: '/components/form-check',
@@ -364,7 +310,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Form range component that renders a styled native range input, supporting min/max values, step intervals, disabled state and valid/invalid validation states.',
-    element: <FormRangeDoc />,
+    file: 'components/form-range/form-range.doc.tsx',
     name: 'FormRange',
     order: 33,
     path: '/components/form-range',
@@ -373,7 +319,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Form feedback component that renders valid/invalid feedback text for form controls, supporting tooltip variants, browser native constraint validation with the was-validated form class and server-side validation states.',
-    element: <FormFeedbackDoc />,
+    file: 'components/form-feedback/form-feedback.doc.tsx',
     name: 'FormFeedback',
     order: 34,
     path: '/components/form-feedback',
@@ -382,7 +328,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Layout components that structure forms with the grid system, providing Row and Col for multi-column form grids, gutters and alignment utilities, horizontal form labels with size variants, column sizing and auto-sizing, and responsive inline forms.',
-    element: <LayoutDoc />,
+    file: 'components/layout/layout.doc.tsx',
     name: 'Layout',
     order: 35,
     path: '/components/layout',
@@ -391,7 +337,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Container component that fixes the content width at each responsive breakpoint, supporting default, fluid and per-breakpoint responsive containers, custom semantic elements, and composition with the grid Row/Col components.',
-    element: <ContainerDoc />,
+    file: 'components/container/container.doc.tsx',
     name: 'Container',
     order: 36,
     path: '/components/container',
@@ -400,7 +346,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Upload component that collects files for submission, supporting click and drag-and-drop selection, multiple files and accept filtering, disabled state, max count and max size limits, per-file beforeUpload validation, controlled file lists, custom triggers and lists, plus UploadItem/UploadList/useUpload for flexible composition.',
-    element: <UploadDoc />,
+    file: 'components/upload/upload.doc.tsx',
     name: 'Upload',
     order: 37,
     path: '/components/upload',
@@ -409,7 +355,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Input OTP component that captures one-time verification codes in single-character slots, supporting auto-advance, backspace and arrow key navigation, paste distribution, per-character patterns, password masking, separators, validation states, completion callbacks, controlled mode, hidden-field form submission, plus InputOtpSlot/useInputOtp for custom slot composition.',
-    element: <InputOtpDoc />,
+    file: 'components/input-otp/input-otp.doc.tsx',
     name: 'InputOtp',
     order: 38,
     path: '/components/input-otp',
@@ -418,7 +364,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Table component that displays tabular data with Bootstrap styles, providing structural helpers for head/body/footer, rows, cells and captions, supporting contextual variants, striped rows/columns, hover and active states, bordered/borderless styles, small sizing, group dividers, vertical alignment, nesting, top captions, responsive scroll wrappers, plus selection cells, inline editable cells, loading/empty rows and useTable/useTableSelection/useTableEditing hooks for full CRUD interactions.',
-    element: <TableDoc />,
+    file: 'components/table/table.doc.tsx',
     name: 'Table',
     order: 39,
     path: '/components/table',
@@ -426,7 +372,7 @@ const docsConfig: DocConfig[] = [
   },
   {
     description: 'Code block component with syntax highlighting and copy-to-clipboard support.',
-    element: <CodeBlockDoc />,
+    file: 'components/doc-template/code-block.doc.tsx',
     name: 'CodeBlock',
     order: 40,
     path: '/components/code-block',
@@ -434,7 +380,7 @@ const docsConfig: DocConfig[] = [
   },
   {
     description: 'Demo section component for showcasing runnable examples with source code.',
-    element: <DemoSectionDoc />,
+    file: 'components/doc-template/demo-section.doc.tsx',
     name: 'DemoSection',
     order: 41,
     path: '/components/demo-section',
@@ -442,7 +388,7 @@ const docsConfig: DocConfig[] = [
   },
   {
     description: 'Documentation template that composes a single component API reference page.',
-    element: <DocTemplateDoc />,
+    file: 'components/doc-template/doc-template.doc.tsx',
     name: 'DocTemplate',
     order: 42,
     path: '/components/doc-template',
@@ -450,7 +396,7 @@ const docsConfig: DocConfig[] = [
   },
   {
     description: 'Color badge component that derives a stable background color from a name.',
-    element: <NameColorBadgeDoc />,
+    file: 'components/doc-template/name-color-badge.doc.tsx',
     name: 'NameColorBadge',
     order: 43,
     path: '/components/name-badge',
@@ -458,7 +404,7 @@ const docsConfig: DocConfig[] = [
   },
   {
     description: 'Collapsible table of contents for documentation navigation.',
-    element: <TableOfContentsDoc />,
+    file: 'components/doc-template/table-of-contents.doc.tsx',
     name: 'TableOfContents',
     order: 44,
     path: '/components/table-of-contents',
@@ -466,7 +412,7 @@ const docsConfig: DocConfig[] = [
   },
   {
     description: 'Documentation home component that renders component entries as a card grid.',
-    element: <DocsHomeDoc />,
+    file: 'components/docs/docs-home.doc.tsx',
     name: 'DocsHome',
     order: 45,
     path: '/components/docs-home',
@@ -474,7 +420,7 @@ const docsConfig: DocConfig[] = [
   },
   {
     description: 'Documentation layout component with sidebar navigation and footer.',
-    element: <DocsLayoutDoc />,
+    file: 'components/docs/docs-layout.doc.tsx',
     name: 'DocsLayout',
     order: 46,
     path: '/components/docs-layout',
@@ -483,7 +429,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Splitter component that divides content into resizable panels, supporting horizontal/vertical layouts, pixel/percentage/auto sizes, min/max constraints, collapsible panels, keyboard resizing, custom bars and controlled/uncontrolled modes.',
-    element: <SplitterDoc />,
+    file: 'components/splitter/splitter.doc.tsx',
     name: 'Splitter',
     order: 47,
     path: '/components/splitter',
@@ -492,7 +438,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Empty component that displays placeholder states for empty content areas, composing image, title, description and action buttons, with an EmptyImage placeholder supporting Lorem Picsum image URLs, solid color fallbacks when images fail to load, color variants, shapes and sizes.',
-    element: <EmptyDoc />,
+    file: 'components/empty/empty.doc.tsx',
     name: 'Empty',
     order: 48,
     path: '/components/empty',
@@ -501,7 +447,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Timeline component that displays events in chronological order along a vertical line, supporting left/right/alternate alignments, contextual node colors, custom dots, timestamps and rich item content, with the alternate layout collapsing to left alignment on narrow screens.',
-    element: <TimelineDoc />,
+    file: 'components/timeline/timeline.doc.tsx',
     name: 'Timeline',
     order: 49,
     path: '/components/timeline',
@@ -510,7 +456,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Kbd component that indicates keyboard input, rendering key caps and key combinations, supporting nested combined shortcuts, automatic scaling with the parent font size and custom element rendering.',
-    element: <KbdDoc />,
+    file: 'components/kbd/kbd.doc.tsx',
     name: 'Kbd',
     order: 50,
     path: '/components/kbd',
@@ -519,7 +465,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'ScrollShadow component that adds gradient scroll shadows to the edges of a scrollable container, supporting vertical, horizontal and bidirectional scrolling, custom shadow size and color, visibility change callbacks, RTL layouts and a useScrollShadow hook for custom composition.',
-    element: <ScrollShadowDoc />,
+    file: 'components/scroll-shadow/scroll-shadow.doc.tsx',
     name: 'ScrollShadow',
     order: 51,
     path: '/components/scroll-shadow',
@@ -528,7 +474,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Watermark component that overlays tiled text or image watermarks on content, supporting multiline text, image watermarks, rotation, gap, offset, opacity and z-index customization, fullscreen portal mode, plus a useWatermark hook for custom composition.',
-    element: <WatermarkDoc />,
+    file: 'components/watermark/watermark.doc.tsx',
     name: 'Watermark',
     order: 52,
     path: '/components/watermark',
@@ -537,7 +483,7 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Sidebar component that builds application side navigation, supporting header/body/footer regions, grouped navigation items with icons, badges and active/disabled states, a collapsible icon-only rail mode, a responsive off-canvas drawer with backdrop on viewports below a configurable breakpoint, light/dark variants and start/end placements, plus SidebarProvider/useSidebar for controlled composition.',
-    element: <SidebarDoc />,
+    file: 'components/sidebar/sidebar.doc.tsx',
     name: 'Sidebar',
     order: 53,
     path: '/components/sidebar',
@@ -546,81 +492,10 @@ const docsConfig: DocConfig[] = [
   {
     description:
       'Ratio component that creates a responsive fixed-aspect-ratio container for images, videos, iframes and other media content, supporting the 1x1/4x3/16x9/21x9 presets, custom numeric and string ratios, and custom element rendering.',
-    element: <RatioDoc />,
+    file: 'components/ratio/ratio.doc.tsx',
     name: 'Ratio',
     order: 54,
     path: '/components/ratio',
     tags: ['Basic', 'Layout'],
   },
 ];
-
-const HOME_DESCRIPTION =
-  'React component library based on Bootstrap 5, with documentation and usage guides for all components below.';
-const HOME_TITLE = 'React Bootstrap';
-
-const renderLink: RenderLink = ({ children, className, to }) => (
-  <Link className={className} to={to}>
-    {children}
-  </Link>
-);
-
-const PageFallback = () => (
-  <div className="d-flex justify-content-center py-5">
-    <Spinner />
-  </div>
-);
-
-const DocsRoute = () => {
-  const { pathname } = useLocation();
-
-  return (
-    <DocsLayout
-      docs={docsConfig}
-      githubUrl={GITHUB_URL}
-      navItems={NAV_ITEMS}
-      navTitle="React Bootstrap"
-      pathname={pathname}
-      renderLink={renderLink}
-    >
-      <Outlet />
-    </DocsLayout>
-  );
-};
-
-const appRoutes: RouteObject[] = [
-  {
-    children: [
-      {
-        element: <Navigate replace to="/getting-started" />,
-        index: true,
-      },
-      {
-        element: <GettingStarted />,
-        path: 'getting-started',
-      },
-      {
-        element: (
-          <DocsHome
-            description={HOME_DESCRIPTION}
-            docs={docsConfig}
-            renderLink={renderLink}
-            title={HOME_TITLE}
-          />
-        ),
-        path: 'components',
-      },
-      {
-        element: <Blog />,
-        path: 'blog',
-      },
-      ...docsConfig.map((doc): RouteObject => ({
-        element: <Suspense fallback={<PageFallback />}>{doc.element}</Suspense>,
-        path: doc.path.slice(1),
-      })),
-    ],
-    element: <DocsRoute />,
-    path: '/',
-  },
-];
-
-export default appRoutes;

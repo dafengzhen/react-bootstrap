@@ -15,8 +15,6 @@
     "src/**/*.test.tsx",
     "src/**/*.stories.tsx",
     "src/**/demos/**",
-    "src/**/__tests__/**",
-    "src/routes.tsx",
-    "src/main.tsx"
+    "src/**/__tests__/**"
   ]
 }

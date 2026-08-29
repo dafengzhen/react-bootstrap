@@ -141,6 +141,10 @@
       "import": "./dist/components/form-select/index.js",
       "types": "./dist/components/form-select/index.d.ts"
     },
+    "./icon-button": {
+      "import": "./dist/components/icon-button/index.js",
+      "types": "./dist/components/icon-button/index.d.ts"
+    },
     "./image-viewer": {
       "import": "./dist/components/image-viewer/index.js",
       "types": "./dist/components/image-viewer/index.d.ts"
@@ -266,6 +270,7 @@
     "./doc-template/style": "./dist/components/doc-template/doc-template.css",
     "./docs/style": "./dist/components/docs/docs.css",
     "./empty/style": "./dist/components/empty/empty.css",
+    "./icon-button/style": "./dist/components/icon-button/icon-button.css",
     "./image-viewer/style": "./dist/components/image-viewer/image-viewer.css",
     "./input-otp/style": "./dist/components/input-otp/input-otp.css",
     "./kbd/style": "./dist/components/kbd/kbd.css",
@@ -308,6 +313,9 @@
     },
     "./empty/cssmodule": {
       "import": "./dist/components/empty/empty.module.css.js"
+    },
+    "./icon-button/cssmodule": {
+      "import": "./dist/components/icon-button/icon-button.module.css.js"
     },
     "./image-viewer/cssmodule": {
       "import": "./dist/components/image-viewer/image-viewer.module.css.js"

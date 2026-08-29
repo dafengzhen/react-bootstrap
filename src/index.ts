@@ -259,6 +259,9 @@ export type { FormRangeProps } from './components/form-range';
 export { FormSelect } from './components/form-select';
 export type { FormSelectProps, FormSelectSize } from './components/form-select';
 
+export { IconButton } from './components/icon-button';
+export type { IconButtonProps, IconButtonShape } from './components/icon-button';
+
 export {
   Image,
   ImageGroup,

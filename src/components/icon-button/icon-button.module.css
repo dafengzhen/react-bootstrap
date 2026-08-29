@@ -1,0 +1,26 @@
+.icon {
+  --rbs-icon-button-size: calc(
+    var(--bs-btn-padding-y) * 2 + var(--bs-btn-font-size) * var(--bs-btn-line-height) +
+      var(--bs-btn-border-width) * 2
+  );
+  align-items: center;
+  align-self: center;
+  aspect-ratio: 1 / 1;
+  display: inline-flex;
+  flex: none;
+  justify-content: center;
+  padding: 0;
+  width: var(--rbs-icon-button-size);
+}
+
+:global(.btn-group) > .icon,
+:global(.btn-group-vertical) > .icon {
+  flex: none;
+  width: var(--rbs-icon-button-size);
+}
+
+.loading {
+  cursor: wait;
+  opacity: 0.65;
+  pointer-events: none;
+}

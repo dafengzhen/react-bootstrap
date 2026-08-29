@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import type { FormControlElement, FormControlProps } from './types';
 
-import { useFormContext } from '../../internal/form-context';
+import { useFormContext } from '../../contexts';
 
 export const FormControl = forwardRef<FormControlElement, FormControlProps>(
   (

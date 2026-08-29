@@ -3,7 +3,7 @@ import { forwardRef, useCallback } from 'react';
 
 import type { FormCheckInputProps } from './types';
 
-import { useFormContext } from '../../internal/form-context';
+import { useFormContext } from '../../contexts';
 
 export const FormCheckInput = forwardRef<HTMLInputElement, FormCheckInputProps>(
   (

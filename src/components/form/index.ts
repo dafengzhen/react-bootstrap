@@ -1,5 +1,5 @@
-export { FormContext, useFormContext } from '../../internal/form-context';
-export type { FormContextValue } from '../../internal/form-context';
+export { FormContext, useFormContext } from '../../contexts';
+export type { FormContextValue } from '../../contexts';
 
 export { FloatingLabel } from '../floating-label';
 export type { FloatingLabelProps } from '../floating-label';

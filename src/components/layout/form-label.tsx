@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import type { FormLabelProps } from './types';
 
-import { useFormContext } from '../../internal/form-context';
+import { useFormContext } from '../../contexts';
 import { getColClasses } from './layout-utils';
 
 export const FormLabel = forwardRef<HTMLElement, FormLabelProps>(

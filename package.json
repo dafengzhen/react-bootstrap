@@ -173,9 +173,17 @@
       "import": "./dist/components/mark/index.js",
       "types": "./dist/components/mark/index.d.ts"
     },
+    "./menu": {
+      "import": "./dist/components/menu/index.js",
+      "types": "./dist/components/menu/index.d.ts"
+    },
     "./modal": {
       "import": "./dist/components/modal/index.js",
       "types": "./dist/components/modal/index.d.ts"
+    },
+    "./nav": {
+      "import": "./dist/components/nav/index.js",
+      "types": "./dist/components/nav/index.d.ts"
     },
     "./navbar": {
       "import": "./dist/components/navbar/index.js",
@@ -274,6 +282,7 @@
     "./image-viewer/style": "./dist/components/image-viewer/image-viewer.css",
     "./input-otp/style": "./dist/components/input-otp/input-otp.css",
     "./kbd/style": "./dist/components/kbd/kbd.css",
+    "./menu/style": "./dist/components/menu/menu.css",
     "./modal/style": "./dist/components/modal/modal.css",
     "./offcanvas/style": "./dist/components/offcanvas/offcanvas.css",
     "./popover/style": "./dist/components/popover/popover.css",
@@ -325,6 +334,9 @@
     },
     "./kbd/cssmodule": {
       "import": "./dist/components/kbd/kbd.module.css.js"
+    },
+    "./menu/cssmodule": {
+      "import": "./dist/components/menu/menu.module.css.js"
     },
     "./modal/cssmodule": {
       "import": "./dist/components/modal/modal.module.css.js"

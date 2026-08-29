@@ -331,6 +331,19 @@ export type {
 export { Mark } from './components/mark';
 export type { MarkProps } from './components/mark';
 
+export { Menu, MenuDivider, MenuGroup, MenuItem, MenuSubMenu, useMenu } from './components/menu';
+export type {
+  MenuContextValue,
+  MenuDividerProps,
+  MenuGroupProps,
+  MenuItemProps,
+  MenuMode,
+  MenuProps,
+  MenuSubMenuProps,
+  MenuTheme,
+  MenuTrigger,
+} from './components/menu';
+
 export {
   Modal,
   ModalBody,
@@ -361,6 +374,18 @@ export type {
   ModalSize,
   ModalTitleProps,
 } from './components/modal';
+
+export { Nav, NavDropdown, NavItem, NavLink, useNav } from './components/nav';
+export type {
+  EventKey,
+  NavBreakpoint,
+  NavContextValue,
+  NavDropdownProps,
+  NavItemProps,
+  NavLinkProps,
+  NavProps,
+  NavVariant,
+} from './components/nav';
 
 export {
   Navbar,
@@ -600,26 +625,8 @@ export type {
   UseTableSortingResult,
 } from './components/table';
 
-export {
-  Nav,
-  NavItem,
-  NavLink,
-  Tab,
-  TabContainer,
-  TabContent,
-  TabPane,
-  Tabs,
-  useNav,
-  useTabs,
-} from './components/tabs';
+export { Tab, TabContainer, TabContent, TabPane, Tabs, useTabs } from './components/tabs';
 export type {
-  EventKey,
-  NavBreakpoint,
-  NavContextValue,
-  NavItemProps,
-  NavLinkProps,
-  NavProps,
-  NavVariant,
   TabContainerProps,
   TabContentProps,
   TabPaneProps,

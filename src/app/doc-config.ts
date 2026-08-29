@@ -570,4 +570,31 @@ export const docs: DocEntry[] = [
     path: '/components/abbr',
     tags: ['Basic', 'Typography'],
   },
+  {
+    description:
+      'Menu component that builds vertical and horizontal navigation menus, supporting inline and popup submenus, groups and dividers, icons, disabled and danger states, single and multiple selection, controlled/uncontrolled open keys, dark theme, collapsed icon-only rail mode and keyboard navigation.',
+    file: 'components/menu/menu.doc.tsx',
+    name: 'Menu',
+    order: 63,
+    path: '/components/menu',
+    tags: ['Basic', 'Navigation'],
+  },
+  {
+    description:
+      'Nav component that builds navigation links, supporting tabs/pills/underline variants, fill and justify layouts, vertical arrangement, active/disabled states, controlled/uncontrolled active keys and custom element rendering.',
+    file: 'components/nav/nav.doc.tsx',
+    name: 'Nav',
+    order: 64,
+    path: '/components/nav',
+    tags: ['Basic', 'Navigation'],
+  },
+  {
+    description:
+      'Nav dropdown component that embeds a dropdown menu inside Nav, supporting menu variants, alignment, drop directions, disabled state, controlled visibility and active-state syncing after item selection.',
+    file: 'components/nav/nav-dropdown.doc.tsx',
+    name: 'NavDropdown',
+    order: 65,
+    path: '/components/nav-dropdown',
+    tags: ['Basic', 'Navigation'],
+  },
 ];

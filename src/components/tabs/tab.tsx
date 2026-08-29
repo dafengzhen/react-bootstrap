@@ -2,8 +2,7 @@ import { forwardRef } from 'react';
 
 import type { TabProps } from './types';
 
-import { NavItem } from './nav-item';
-import { NavLink } from './nav-link';
+import { NavItem, NavLink } from '../nav';
 
 export const Tab = forwardRef<HTMLElement, TabProps>(
   (

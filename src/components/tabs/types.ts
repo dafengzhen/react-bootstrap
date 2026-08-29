@@ -1,47 +1,17 @@
 import type { ElementType, HTMLAttributes, ReactNode, SyntheticEvent } from 'react';
 
-export type EventKey = null | number | string;
+import type { EventKey, NavVariant } from '../nav';
 
-export type NavBreakpoint = 'lg' | 'md' | 'sm' | 'xl' | 'xxl';
-
-export interface NavContextValue {
-  activeEventKey?: EventKey;
-  onSelect: (eventKey: EventKey, event: SyntheticEvent) => void;
-  role?: string;
-}
-
-export interface NavItemProps extends HTMLAttributes<HTMLElement> {
-  as?: ElementType;
-  children?: ReactNode;
-  className?: string;
-}
-
-export interface NavLinkProps extends Omit<HTMLAttributes<HTMLElement>, 'onSelect'> {
-  active?: boolean;
-  as?: ElementType;
-  children?: ReactNode;
-  className?: string;
-  disabled?: boolean;
-  eventKey?: EventKey;
-  href?: string;
-  onSelect?: (eventKey: EventKey, event: SyntheticEvent) => void;
-  type?: 'button' | 'reset' | 'submit';
-}
-
-export interface NavProps extends Omit<HTMLAttributes<HTMLElement>, 'onSelect'> {
-  activeKey?: EventKey;
-  as?: ElementType;
-  children?: ReactNode;
-  className?: string;
-  defaultActiveKey?: EventKey;
-  fill?: boolean;
-  justify?: boolean;
-  onSelect?: (eventKey: EventKey, event: SyntheticEvent) => void;
-  variant?: NavVariant;
-  vertical?: boolean | NavBreakpoint;
-}
-
-export type NavVariant = 'pills' | 'tabs' | 'underline';
+export type {
+  EventKey,
+  NavBreakpoint,
+  NavContextValue,
+  NavItemProps,
+  NavLinkProps,
+  NavProps,
+  NavVariant,
+  TabsContextValue,
+} from '../nav';
 
 export interface TabContainerProps extends Omit<HTMLAttributes<HTMLElement>, 'onSelect'> {
   activeKey?: EventKey;
@@ -77,13 +47,6 @@ export interface TabProps extends Omit<HTMLAttributes<HTMLElement>, 'onSelect' |
   onSelect?: (eventKey: EventKey, event: SyntheticEvent) => void;
   tabClassName?: string;
   title: ReactNode;
-}
-
-export interface TabsContextValue {
-  activeEventKey?: EventKey;
-  id?: string;
-  onSelect: (eventKey: EventKey, event: SyntheticEvent) => void;
-  transition: boolean;
 }
 
 export interface TabsProps extends Omit<HTMLAttributes<HTMLElement>, 'onSelect'> {

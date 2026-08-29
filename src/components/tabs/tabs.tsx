@@ -2,7 +2,7 @@ import { Children, forwardRef, isValidElement } from 'react';
 
 import type { TabProps, TabsProps } from './types';
 
-import { Nav } from './nav';
+import { Nav } from '../nav';
 import { Tab } from './tab';
 import { TabContainer } from './tab-container';
 import { TabContent } from './tab-content';

@@ -1,0 +1,10 @@
+```tsx
+<AutoComplete
+  clearButton
+  id="auto-complete-controlled-demo"
+  onChange={setSelected}
+  options={states}
+  placeholder="选择一个州..."
+  selected={selected}
+/>
+```

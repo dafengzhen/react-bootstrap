@@ -45,6 +45,10 @@
       "import": "./dist/components/alert/index.js",
       "types": "./dist/components/alert/index.d.ts"
     },
+    "./auto-complete": {
+      "import": "./dist/components/auto-complete/index.js",
+      "types": "./dist/components/auto-complete/index.d.ts"
+    },
     "./avatar": {
       "import": "./dist/components/avatar/index.js",
       "types": "./dist/components/avatar/index.d.ts"
@@ -254,6 +258,7 @@
       "types": "./dist/components/watermark/index.d.ts"
     },
     "./accordion/style": "./dist/components/accordion/accordion.css",
+    "./auto-complete/style": "./dist/components/auto-complete/auto-complete.css",
     "./avatar/style": "./dist/components/avatar/avatar.css",
     "./button/style": "./dist/components/button/button.css",
     "./carousel/style": "./dist/components/carousel/carousel.css",
@@ -279,6 +284,9 @@
     "./watermark/style": "./dist/components/watermark/watermark.css",
     "./accordion/cssmodule": {
       "import": "./dist/components/accordion/accordion.module.css.js"
+    },
+    "./auto-complete/cssmodule": {
+      "import": "./dist/components/auto-complete/auto-complete.module.css.js"
     },
     "./avatar/cssmodule": {
       "import": "./dist/components/avatar/avatar.module.css.js"

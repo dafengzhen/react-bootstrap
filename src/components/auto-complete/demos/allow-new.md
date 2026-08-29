@@ -1,0 +1,9 @@
+```tsx
+<AutoComplete
+  allowNew
+  id="auto-complete-allow-new-demo"
+  newSelectionPrefix="新建选项："
+  options={states}
+  placeholder="输入不存在的选项..."
+/>
+```

@@ -1,0 +1,9 @@
+```tsx
+<AutoComplete
+  id="auto-complete-hint-demo"
+  options={states}
+  placeholder="输入字母查看提示..."
+  selectHint
+  selectHintOnEnter
+/>
+```

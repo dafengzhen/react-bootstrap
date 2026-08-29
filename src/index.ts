@@ -36,6 +36,35 @@ export type {
   AlertVariant,
 } from './components/alert';
 
+export {
+  AutoComplete,
+  AutoCompleteHighlighter,
+  AutoCompleteHint,
+  AutoCompleteItem,
+  AutoCompleteMenu,
+  AutoCompleteToken,
+  useAutoComplete,
+} from './components/auto-complete';
+export type {
+  AutoCompleteAlign,
+  AutoCompleteAllowNew,
+  AutoCompleteContextValue,
+  AutoCompleteFilterContext,
+  AutoCompleteHighlighterProps,
+  AutoCompleteHintProps,
+  AutoCompleteInputProps,
+  AutoCompleteItemProps,
+  AutoCompleteLabelKey,
+  AutoCompleteMenuItemRenderProps,
+  AutoCompleteMenuProps,
+  AutoCompleteOption,
+  AutoCompleteProps,
+  AutoCompleteRenderProps,
+  AutoCompleteSelectHint,
+  AutoCompleteSize,
+  AutoCompleteTokenProps,
+} from './components/auto-complete';
+
 export { Avatar, AvatarGroup, useAvatarGroup } from './components/avatar';
 export type {
   AvatarBg,

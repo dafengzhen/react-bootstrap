@@ -1,0 +1,279 @@
+:root {
+  --rbs-auto-complete-hint-color: rgba(33, 37, 41, 0.54);
+  --rbs-auto-complete-token-bg: #e7f1ff;
+  --rbs-auto-complete-token-color: #0d6efd;
+  --rbs-auto-complete-token-active-bg: #0d6efd;
+  --rbs-auto-complete-token-active-color: #fff;
+  --rbs-auto-complete-token-disabled-bg: rgba(0, 0, 0, 0.1);
+  --rbs-auto-complete-token-disabled-color: #495057;
+}
+
+.rbt {
+  outline: none;
+  position: relative;
+}
+
+.rbtInput {
+  background-color: transparent;
+}
+
+.rbtInputMain::-ms-clear {
+  display: none;
+}
+
+.rbtInputHintContainer {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  position: relative;
+}
+
+.rbtInputHint {
+  background-color: var(--bs-body-bg, #fff);
+  border-color: transparent;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: var(--rbs-auto-complete-hint-color);
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.rbtInputHintContainer .rbtInputMain {
+  background-color: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.menuWrapper {
+  position: absolute;
+  z-index: 1000;
+}
+
+.menu {
+  display: block;
+  margin: 0;
+  position: absolute;
+  top: 0;
+}
+
+.menuWrapper[data-placement='top'] .menu {
+  bottom: 0;
+  top: auto;
+}
+
+.menuJustify {
+  width: 100%;
+}
+
+.menuLeft {
+  left: 0;
+}
+
+.menuRight {
+  left: auto;
+  right: 0;
+}
+
+.menuItem {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menuItem:focus {
+  outline: none;
+}
+
+.menuCustomOption {
+  font-style: italic;
+}
+
+.highlightText {
+  background-color: inherit;
+  color: inherit;
+  font-weight: bold;
+  padding: 0;
+}
+
+.rbtInputMulti {
+  align-items: flex-start;
+  cursor: text;
+  display: flex;
+  flex-wrap: wrap;
+  height: auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.rbtInputMulti.disabled {
+  background-color: var(--bs-secondary-bg, #e9ecef);
+  opacity: 1;
+}
+
+.rbtInputMulti:focus-within {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.rbtInputMulti.is-valid:focus-within {
+  border-color: #198754;
+  box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+}
+
+.rbtInputMulti.is-invalid:focus-within {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+}
+
+.rbtInputMulti .rbtInputMain::placeholder {
+  color: var(--bs-secondary-color, #6c757d);
+}
+
+.rbtInputMulti .rbtInputMain {
+  border: 0;
+  box-shadow: none;
+  cursor: inherit;
+  outline: none;
+  padding: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.rbtInputMulti .rbtInputWrapper {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: -4px;
+  margin-top: -1px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.rbtInputMulti .rbtInputHintContainer {
+  flex: 1 1 auto;
+  height: auto;
+  min-width: 4rem;
+  width: 100%;
+}
+
+.rbtInputMulti .rbtInputMain,
+.rbtInputMulti .rbtInputHint {
+  margin: 1px 0 4px;
+}
+
+.rbtInputMulti .rbtInputHint {
+  border: 0;
+  padding: 0;
+}
+
+.token {
+  background-color: var(--rbs-auto-complete-token-bg);
+  border: 0;
+  border-radius: var(--bs-border-radius, 0.25rem);
+  color: var(--rbs-auto-complete-token-color);
+  display: inline-flex;
+  line-height: 1rem;
+  margin: 1px 3px 2px 0;
+}
+
+.tokenLabel {
+  padding: 0.25rem 0.5rem;
+}
+
+.tokenRemoveable {
+  cursor: pointer;
+}
+
+.tokenActive {
+  background-color: var(--rbs-auto-complete-token-active-bg);
+  color: var(--rbs-auto-complete-token-active-color);
+  outline: none;
+  text-decoration: none;
+}
+
+.tokenDisabled {
+  background-color: var(--rbs-auto-complete-token-disabled-bg);
+  color: var(--rbs-auto-complete-token-disabled-color);
+  pointer-events: none;
+}
+
+.tokenRemoveButton {
+  background-image: none;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  box-shadow: none;
+  color: inherit;
+  display: flex;
+  font-size: inherit;
+  font-weight: normal;
+  justify-content: center;
+  opacity: 1;
+  outline: none;
+  padding: 0.25rem 0.5rem;
+  padding-left: 0;
+}
+
+.closeContent {
+  display: block;
+}
+
+.aux {
+  align-items: center;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 2rem;
+  z-index: 5;
+}
+
+.auxLg {
+  width: 3rem;
+}
+
+.auxClose {
+  font-size: 0.75rem;
+  margin-top: 0;
+  pointer-events: auto;
+}
+
+.auxCloseLg {
+  font-size: 1rem;
+}
+
+.auxCloseSm {
+  font-size: 0.625rem;
+}
+
+.hasAux :global(.form-control) {
+  padding-right: 2rem;
+}
+
+.hasAux :global(.form-control.is-valid),
+.hasAux :global(.form-control.is-invalid) {
+  background-position: right 2rem center;
+  padding-right: 4rem;
+}
+
+:global(.input-group) > .rbt {
+  flex: 1;
+}
+
+:global(.input-group) > .rbt .rbtInputHint {
+  z-index: 5;
+}
+
+:global(.input-group) > .rbt:not(:first-child) :global(.form-control) {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+:global(.input-group) > .rbt:not(:last-child) :global(.form-control) {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}

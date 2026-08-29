@@ -507,4 +507,49 @@ export const docs: DocEntry[] = [
     path: '/components/image-viewer',
     tags: ['Basic', 'Feedback'],
   },
+  {
+    description:
+      'Typography component suite that renders rich text with Bootstrap typographic styles, providing Title/Text/Paragraph/Link sub-components with heading levels, inline styles (mark/code/keyboard/strong/italic/underline/delete), color types, copyable text, ellipsis with expandable rows, editable content and group-level defaults via the root component.',
+    file: 'components/typography/typography.doc.tsx',
+    name: 'Typography',
+    order: 56,
+    path: '/components/typography',
+    tags: ['Basic', 'Typography'],
+  },
+  {
+    description:
+      'Blockquote component that displays quoted content, composing Blockquote and BlockquoteFooter sub-components, supporting source citations with cite elements, centered quotes and custom element rendering.',
+    file: 'components/blockquote/blockquote.doc.tsx',
+    name: 'Blockquote',
+    order: 57,
+    path: '/components/blockquote',
+    tags: ['Basic', 'Typography'],
+  },
+  {
+    description:
+      'Code component that renders inline code snippets with Bootstrap code styling, supporting commands, package names and pre-wrapped code blocks, with automatic scaling based on the parent font size.',
+    file: 'components/code/code.doc.tsx',
+    name: 'Code',
+    order: 58,
+    path: '/components/code',
+    tags: ['Basic', 'Typography'],
+  },
+  {
+    description:
+      'Mark component that highlights text content with Bootstrap mark styling, supporting search result marking and combination with strong/italic styles.',
+    file: 'components/mark/mark.doc.tsx',
+    name: 'Mark',
+    order: 59,
+    path: '/components/mark',
+    tags: ['Basic', 'Typography'],
+  },
+  {
+    description:
+      'Abbr component that renders abbreviations with a dotted underline and hover tooltip via the title attribute, supporting the initialism uppercase style for acronyms.',
+    file: 'components/abbr/abbr.doc.tsx',
+    name: 'Abbr',
+    order: 60,
+    path: '/components/abbr',
+    tags: ['Basic', 'Typography'],
+  },
 ];

@@ -33,6 +33,10 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./abbr": {
+      "import": "./dist/components/abbr/index.js",
+      "types": "./dist/components/abbr/index.d.ts"
+    },
     "./accordion": {
       "import": "./dist/components/accordion/index.js",
       "types": "./dist/components/accordion/index.d.ts"
@@ -48,6 +52,10 @@
     "./badge": {
       "import": "./dist/components/badge/index.js",
       "types": "./dist/components/badge/index.d.ts"
+    },
+    "./blockquote": {
+      "import": "./dist/components/blockquote/index.js",
+      "types": "./dist/components/blockquote/index.d.ts"
     },
     "./breadcrumb": {
       "import": "./dist/components/breadcrumb/index.js",
@@ -72,6 +80,10 @@
     "./close-button": {
       "import": "./dist/components/close-button/index.js",
       "types": "./dist/components/close-button/index.d.ts"
+    },
+    "./code": {
+      "import": "./dist/components/code/index.js",
+      "types": "./dist/components/code/index.d.ts"
     },
     "./container": {
       "import": "./dist/components/container/index.js",
@@ -149,6 +161,10 @@
       "import": "./dist/components/list-group/index.js",
       "types": "./dist/components/list-group/index.d.ts"
     },
+    "./mark": {
+      "import": "./dist/components/mark/index.js",
+      "types": "./dist/components/mark/index.d.ts"
+    },
     "./modal": {
       "import": "./dist/components/modal/index.js",
       "types": "./dist/components/modal/index.d.ts"
@@ -217,6 +233,10 @@
       "import": "./dist/components/timeline/index.js",
       "types": "./dist/components/timeline/index.d.ts"
     },
+    "./typography": {
+      "import": "./dist/components/typography/index.js",
+      "types": "./dist/components/typography/index.d.ts"
+    },
     "./toast": {
       "import": "./dist/components/toast/index.js",
       "types": "./dist/components/toast/index.d.ts"
@@ -254,6 +274,7 @@
     "./steps/style": "./dist/components/steps/steps.css",
     "./timeline/style": "./dist/components/timeline/timeline.css",
     "./toast/style": "./dist/components/toast/toast.css",
+    "./typography/style": "./dist/components/typography/typography.css",
     "./upload/style": "./dist/components/upload/upload.css",
     "./watermark/style": "./dist/components/watermark/watermark.css",
     "./accordion/cssmodule": {
@@ -318,6 +339,9 @@
     },
     "./toast/cssmodule": {
       "import": "./dist/components/toast/toast.module.css.js"
+    },
+    "./typography/cssmodule": {
+      "import": "./dist/components/typography/typography.module.css.js"
     },
     "./upload/cssmodule": {
       "import": "./dist/components/upload/upload.module.css.js"

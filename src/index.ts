@@ -1,3 +1,6 @@
+export { Abbr } from './components/abbr';
+export type { AbbrProps } from './components/abbr';
+
 export {
   Accordion,
   AccordionBody,
@@ -45,6 +48,9 @@ export type {
 
 export { Badge } from './components/badge';
 export type { BadgeBg, BadgeProps, BadgeText } from './components/badge';
+
+export { Blockquote, BlockquoteFooter } from './components/blockquote';
+export type { BlockquoteFooterProps, BlockquoteProps } from './components/blockquote';
 
 export { Breadcrumb, BreadcrumbItem } from './components/breadcrumb';
 export type { BreadcrumbItemProps, BreadcrumbProps } from './components/breadcrumb';
@@ -113,6 +119,9 @@ export type {
 
 export { CloseButton } from './components/close-button';
 export type { CloseButtonProps, CloseButtonVariant } from './components/close-button';
+
+export { Code } from './components/code';
+export type { CodeProps } from './components/code';
 
 export { Collapse } from './components/collapse';
 export type {
@@ -286,6 +295,9 @@ export type {
   ListGroupItemVariant,
   ListGroupProps,
 } from './components/list-group';
+
+export { Mark } from './components/mark';
+export type { MarkProps } from './components/mark';
 
 export {
   Modal,
@@ -622,6 +634,32 @@ export type {
   TooltipTriggerProps,
   TooltipTriggerType,
 } from './components/tooltip';
+
+export {
+  Typography,
+  TypographyLink,
+  TypographyParagraph,
+  TypographyText,
+  TypographyTitle,
+} from './components/typography';
+export type {
+  TypographyAutoSize,
+  TypographyColor,
+  TypographyCommonProps,
+  TypographyContextValue,
+  TypographyCopyable,
+  TypographyCopyableConfig,
+  TypographyEditable,
+  TypographyEditableConfig,
+  TypographyEllipsis,
+  TypographyEllipsisConfig,
+  TypographyLinkProps,
+  TypographyParagraphProps,
+  TypographyProps,
+  TypographyTextProps,
+  TypographyTitleLevel,
+  TypographyTitleProps,
+} from './components/typography';
 
 export { Upload, UploadItem, UploadList, useUpload } from './components/upload';
 export type {

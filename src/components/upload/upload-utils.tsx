@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 
+import { CircleAlert, CircleCheck, File } from 'lucide-react';
+
 import type { UploadFile, UploadStatus } from './types';
 
 const BYTE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB'] as const;
@@ -46,22 +48,10 @@ export const isDuplicateUploadFile = (file: File, files: UploadFile[]): boolean 
 
 export const renderUploadStatusIcon = (status: UploadStatus): ReactNode => {
   if (status === 'error') {
-    return (
-      <svg aria-hidden="true" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-      </svg>
-    );
+    return <CircleAlert aria-hidden="true" />;
   }
   if (status === 'success') {
-    return (
-      <svg aria-hidden="true" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-      </svg>
-    );
+    return <CircleCheck aria-hidden="true" />;
   }
-  return (
-    <svg aria-hidden="true" fill="currentColor" viewBox="0 0 16 16">
-      <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
-    </svg>
-  );
+  return <File aria-hidden="true" />;
 };

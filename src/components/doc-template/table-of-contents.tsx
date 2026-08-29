@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { ChevronDown } from 'lucide-react';
 import { type FC, type MouseEvent as ReactMouseEvent, useCallback, useMemo, useState } from 'react';
 
 import type { TableOfContentsProps, TocItem } from './types.ts';
@@ -42,9 +43,6 @@ const buildTree = (items: TocItem[]): TocNode[] => {
 
   return roots;
 };
-
-const CHEVRON_PATH =
-  'M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z';
 
 const LEVEL_CLASSES = {
   1: styles.tocLevel1,
@@ -112,16 +110,7 @@ export const TableOfContents: FC<TableOfContentsProps> = ({
           const isCollapsed = collapsedIds.has(item.id);
           const levelClass = LEVEL_CLASSES[item.level];
           const isActive = item.to !== undefined ? item.to === activeTo : activeId === item.id;
-          const chevron = (
-            <svg
-              aria-hidden="true"
-              className={styles.tocChevron}
-              fill="currentColor"
-              viewBox="0 0 16 16"
-            >
-              <path d={CHEVRON_PATH} />
-            </svg>
-          );
+          const chevron = <ChevronDown aria-hidden="true" className={styles.tocChevron} />;
 
           return (
             <li

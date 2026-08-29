@@ -1,14 +1,13 @@
 import type { MouseEvent as ReactMouseEvent } from 'react';
 
 import clsx from 'clsx';
+import { Menu } from 'lucide-react';
 import { forwardRef } from 'react';
 
 import type { SidebarTriggerProps } from './types';
 
 import { useSidebarRequired } from './sidebar-context';
 import styles from './sidebar.module.css';
-
-const MENU_ICON_PATH = 'M2 3.5h12v1.25H2V3.5zm0 4.125h12v1.25H2V7.625zm0 4.125h12v1.25H2v-1.25z';
 
 export const SidebarTrigger = forwardRef<HTMLElement, SidebarTriggerProps>(
   (
@@ -48,14 +47,7 @@ export const SidebarTrigger = forwardRef<HTMLElement, SidebarTriggerProps>(
         type={Component === 'button' ? 'button' : undefined}
         {...rest}
       >
-        <svg
-          aria-hidden="true"
-          className={styles.triggerIcon}
-          fill="currentColor"
-          viewBox="0 0 16 16"
-        >
-          <path d={MENU_ICON_PATH} />
-        </svg>
+        <Menu aria-hidden="true" className={styles.triggerIcon} />
         {children != null && <span className={styles.triggerLabel}>{children}</span>}
       </Component>
     );

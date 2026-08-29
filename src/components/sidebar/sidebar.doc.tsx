@@ -1,5 +1,15 @@
 import type { CSSProperties, FC, ReactNode } from 'react';
 
+import {
+  Bell,
+  Book,
+  ChartColumn,
+  Folder,
+  House,
+  MessageSquare,
+  Settings,
+  User,
+} from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '../button';
@@ -48,61 +58,21 @@ import sidebarStatePropsTypeCode from './types/sidebar-state-props.md?raw';
 import sidebarTriggerPropsTypeCode from './types/sidebar-trigger-props.md?raw';
 import sidebarVariantTypeCode from './types/sidebar-variant.md?raw';
 
-const Icon: FC<{ children?: ReactNode }> = ({ children }) => (
-  <svg aria-hidden="true" fill="currentColor" viewBox="0 0 16 16">
-    {children}
-  </svg>
-);
+const HomeIcon = () => <House aria-hidden="true" size={16} />;
 
-const HomeIcon = () => (
-  <Icon>
-    <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5Z" />
-    <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6Z" />
-  </Icon>
-);
+const ChartIcon = () => <ChartColumn aria-hidden="true" size={16} />;
 
-const ChartIcon = () => (
-  <Icon>
-    <path d="M1 14.5h14v1H1v-1zM3.5 12.5h2V6h-2v6.5zm4 0h2V3h-2v9.5zm4 0h2V8.5h-2v4z" />
-  </Icon>
-);
+const FolderIcon = () => <Folder aria-hidden="true" size={16} />;
 
-const FolderIcon = () => (
-  <Icon>
-    <path d="M.5 3.5A1.5 1.5 0 0 1 2 2h4l1.5 1.5h6.5A1.5 1.5 0 0 1 15.5 5v7.5a1.5 1.5 0 0 1-1.5 1.5H2A1.5 1.5 0 0 1 .5 12.5v-9z" />
-  </Icon>
-);
+const BookIcon = () => <Book aria-hidden="true" size={16} />;
 
-const BookIcon = () => (
-  <Icon>
-    <path d="M3.5 1A1.5 1.5 0 0 0 2 2.5v11A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5v-11A1.5 1.5 0 0 0 12.5 1h-9zM4.5 4h6v1h-6V4zm0 3h6v1h-6V7zm0 3h4v1h-4v-1z" />
-  </Icon>
-);
+const SettingsIcon = () => <Settings aria-hidden="true" size={16} />;
 
-const SettingsIcon = () => (
-  <Icon>
-    <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11z" />
-    <path d="M8 4.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z" />
-  </Icon>
-);
+const BellIcon = () => <Bell aria-hidden="true" size={16} />;
 
-const BellIcon = () => (
-  <Icon>
-    <path d="M8 1a6 6 0 0 0-6 6c0 3.36-1.12 4.63-1.75 5.25A1 1 0 0 0 1 14h14a1 1 0 0 0 .75-1.75C15.12 11.63 14 10.36 14 7a6 6 0 0 0-6-6zm0 1.5A4.5 4.5 0 0 1 12.5 7c0 3.6 1.2 4.9 1.75 5.5H1.75C2.3 11.9 3.5 10.6 3.5 7A4.5 4.5 0 0 1 8 2.5zM8 13a1.75 1.75 0 0 0 1.7-1.25h-3.4A1.75 1.75 0 0 0 8 13z" />
-  </Icon>
-);
+const UserIcon = () => <User aria-hidden="true" size={16} />;
 
-const UserIcon = () => (
-  <Icon>
-    <path d="M8 8a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zm0 1.5c-3.05 0-6.5 1.53-6.5 4V15a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-1.5c0-2.47-3.45-4-6.5-4z" />
-  </Icon>
-);
-
-const ChatIcon = () => (
-  <Icon>
-    <path d="M2 2.5A1.5 1.5 0 0 1 3.5 1h9A1.5 1.5 0 0 1 14 2.5v7a1.5 1.5 0 0 1-1.5 1.5H8l-3.5 3v-3H3.5A1.5 1.5 0 0 1 2 9.5v-7z" />
-  </Icon>
-);
+const ChatIcon = () => <MessageSquare aria-hidden="true" size={16} />;
 
 const DemoFrame: FC<{ children?: ReactNode; height?: number }> = ({ children, height = 480 }) => (
   <div

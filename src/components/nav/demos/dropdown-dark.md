@@ -7,8 +7,12 @@
     <DropdownItem active className="my-1" eventKey="dark-1">
       激活项
     </DropdownItem>
-    <DropdownItem className="my-1" eventKey="dark-2">操作</DropdownItem>
-    <DropdownItem className="my-1" eventKey="dark-3">另一个操作</DropdownItem>
+    <DropdownItem className="my-1" eventKey="dark-2">
+      操作
+    </DropdownItem>
+    <DropdownItem className="my-1" eventKey="dark-3">
+      另一个操作
+    </DropdownItem>
   </NavDropdown>
 </Nav>
 ```

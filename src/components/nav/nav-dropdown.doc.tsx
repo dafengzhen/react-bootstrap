@@ -151,9 +151,15 @@ export const NavDropdownDoc = () => {
             <NavLink eventKey="home">首页</NavLink>
           </NavItem>
           <NavDropdown eventKey="profile" id="nav-dropdown-basic-demo" title="个人资料">
-            <DropdownItem className="my-1" eventKey="profile">编辑资料</DropdownItem>
-            <DropdownItem className="my-1" eventKey="settings">账号设置</DropdownItem>
-            <DropdownItem className="my-1" eventKey="logout">退出登录</DropdownItem>
+            <DropdownItem className="my-1" eventKey="profile">
+              编辑资料
+            </DropdownItem>
+            <DropdownItem className="my-1" eventKey="settings">
+              账号设置
+            </DropdownItem>
+            <DropdownItem className="my-1" eventKey="logout">
+              退出登录
+            </DropdownItem>
           </NavDropdown>
         </Nav>
         <p className="mb-0 mt-3 text-muted small">
@@ -165,16 +171,28 @@ export const NavDropdownDoc = () => {
       <DemoSection code={dropdownDirectionsCode} title="展开方向">
         <Nav className="gap-1 mb-0" variant="pills">
           <NavDropdown drop="up" id="nav-dropdown-up-demo" title="向上展开">
-            <DropdownItem className="my-1" eventKey="up-1">操作一</DropdownItem>
-            <DropdownItem className="my-1" eventKey="up-2">操作二</DropdownItem>
+            <DropdownItem className="my-1" eventKey="up-1">
+              操作一
+            </DropdownItem>
+            <DropdownItem className="my-1" eventKey="up-2">
+              操作二
+            </DropdownItem>
           </NavDropdown>
           <NavDropdown drop="end" id="nav-dropdown-end-demo" title="向右展开">
-            <DropdownItem className="my-1" eventKey="end-1">操作一</DropdownItem>
-            <DropdownItem className="my-1" eventKey="end-2">操作二</DropdownItem>
+            <DropdownItem className="my-1" eventKey="end-1">
+              操作一
+            </DropdownItem>
+            <DropdownItem className="my-1" eventKey="end-2">
+              操作二
+            </DropdownItem>
           </NavDropdown>
           <NavDropdown drop="start" id="nav-dropdown-start-demo" title="向左展开">
-            <DropdownItem className="my-1" eventKey="start-1">操作一</DropdownItem>
-            <DropdownItem className="my-1" eventKey="start-2">操作二</DropdownItem>
+            <DropdownItem className="my-1" eventKey="start-1">
+              操作一
+            </DropdownItem>
+            <DropdownItem className="my-1" eventKey="start-2">
+              操作二
+            </DropdownItem>
           </NavDropdown>
         </Nav>
         <p className="mb-0 mt-3 text-muted small">
@@ -191,8 +209,12 @@ export const NavDropdownDoc = () => {
             <DropdownItem active className="my-1" eventKey="dark-1">
               激活项
             </DropdownItem>
-            <DropdownItem className="my-1" eventKey="dark-2">操作</DropdownItem>
-            <DropdownItem className="my-1" eventKey="dark-3">另一个操作</DropdownItem>
+            <DropdownItem className="my-1" eventKey="dark-2">
+              操作
+            </DropdownItem>
+            <DropdownItem className="my-1" eventKey="dark-3">
+              另一个操作
+            </DropdownItem>
           </NavDropdown>
         </Nav>
         <p className="mb-0 mt-3 text-muted small">
@@ -206,8 +228,12 @@ export const NavDropdownDoc = () => {
             <NavLink active>首页</NavLink>
           </NavItem>
           <NavDropdown disabled id="nav-dropdown-disabled-demo" title="禁用下拉">
-            <DropdownItem className="my-1" eventKey="disabled-1">操作一</DropdownItem>
-            <DropdownItem className="my-1" eventKey="disabled-2">操作二</DropdownItem>
+            <DropdownItem className="my-1" eventKey="disabled-1">
+              操作一
+            </DropdownItem>
+            <DropdownItem className="my-1" eventKey="disabled-2">
+              操作二
+            </DropdownItem>
           </NavDropdown>
         </Nav>
         <p className="mb-0 mt-3 text-muted small">
@@ -224,8 +250,12 @@ export const NavDropdownDoc = () => {
               show={show}
               title="受控下拉"
             >
-              <DropdownItem className="my-1" eventKey="controlled-1">操作一</DropdownItem>
-              <DropdownItem className="my-1" eventKey="controlled-2">操作二</DropdownItem>
+              <DropdownItem className="my-1" eventKey="controlled-1">
+                操作一
+              </DropdownItem>
+              <DropdownItem className="my-1" eventKey="controlled-2">
+                操作二
+              </DropdownItem>
             </NavDropdown>
           </Nav>
           <Button onClick={() => setShow((prev) => !prev)} variant="outline-secondary">
@@ -253,8 +283,12 @@ export const NavDropdownDoc = () => {
             <NavLink eventKey="home">首页</NavLink>
           </NavItem>
           <NavDropdown eventKey="profile" id="nav-dropdown-active-demo" title="个人资料">
-            <DropdownItem className="my-1" eventKey="profile">编辑资料</DropdownItem>
-            <DropdownItem className="my-1" eventKey="settings">账号设置</DropdownItem>
+            <DropdownItem className="my-1" eventKey="profile">
+              编辑资料
+            </DropdownItem>
+            <DropdownItem className="my-1" eventKey="settings">
+              账号设置
+            </DropdownItem>
           </NavDropdown>
           <NavItem>
             <NavLink eventKey="messages">消息</NavLink>

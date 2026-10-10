@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import type { ApiProp, RenderLink } from '../doc-template';
 import type { DocConfig } from './types.ts';
 
 import { DemoSection, DocTemplate } from '../doc-template';
 import { DocsLayout } from './docs-layout.tsx';
+import {
+  LOADING_INDICATOR_DELAY,
+  LOADING_INDICATOR_MIN_DURATION,
+} from './use-loading-indicator.ts';
 
 const usageCode =
   '<DocsLayout\n  docs={docs}\n  navItems={navItems}\n  navTitle="React Bootstrap"\n  pathname={pathname}\n  renderLink={renderLink}\n>\n  {content}\n</DocsLayout>';
@@ -14,6 +18,8 @@ const embeddedCode =
   '<DocsLayout docs={docs} embedded pathname="/button" renderLink={renderLink}>\n  {content}\n</DocsLayout>';
 const controlledCode =
   '<DocsLayout docs={docs} embedded pathname={pathname} renderLink={renderLink}>\n  {content}\n</DocsLayout>';
+const loadingCode =
+  '<DocsLayout docs={docs} loading={loading} pathname={pathname} renderLink={renderLink}>\n  {content}\n</DocsLayout>';
 
 const demoDocs: DocConfig[] = [
   { description: '按钮组件', element: <div />, name: 'Button', path: '/button', tags: ['基础'] },
@@ -50,6 +56,13 @@ const docsLayoutProps: ApiProp[] = [
     description: '页脚 GitHub 链接',
     name: 'githubUrl',
     type: 'string',
+  },
+  {
+    defaultValue: 'false',
+    description:
+      '全局加载状态，为 true 时显示顶部进度条与主内容区加载指示（延迟出现，且出现后保持最短可见时长）',
+    name: 'loading',
+    type: 'boolean',
   },
   {
     defaultValue: '[]',
@@ -89,8 +102,32 @@ const docsLayoutProps: ApiProp[] = [
   },
 ];
 
+const SIMULATED_LOADING_DURATION = 2000;
+
 export const DocsLayoutDoc = () => {
   const [pathname, setPathname] = useState('/button');
+  const [loading, setLoading] = useState(false);
+  const loadingTimerRef = useRef<null | number>(null);
+
+  const handleSimulateLoading = useCallback(() => {
+    setLoading(true);
+    if (loadingTimerRef.current !== null) {
+      clearTimeout(loadingTimerRef.current);
+    }
+    loadingTimerRef.current = setTimeout(() => {
+      loadingTimerRef.current = null;
+      setLoading(false);
+    }, SIMULATED_LOADING_DURATION);
+  }, []);
+
+  useEffect(
+    () => () => {
+      if (loadingTimerRef.current !== null) {
+        clearTimeout(loadingTimerRef.current);
+      }
+    },
+    [],
+  );
 
   const demoContent = (
     <>
@@ -144,12 +181,40 @@ export const DocsLayoutDoc = () => {
           <p className="mb-0">当前路由：{pathname}</p>
         </DocsLayout>
       </DemoSection>
+      <DemoSection code={loadingCode} title="全局加载状态">
+        <p className="mb-3">
+          将路由库的导航状态传给
+          loading，即可显示全局加载指示：顶部进度条与主内容区加载遮罩。指示器延迟{' '}
+          {LOADING_INDICATOR_DELAY}ms 出现，出现后至少保持 {LOADING_INDICATOR_MIN_DURATION}
+          ms，因此快速加载不会闪烁。
+        </p>
+        <div className="d-flex gap-2 mb-3">
+          <button
+            className="btn btn-sm btn-primary"
+            disabled={loading}
+            onClick={handleSimulateLoading}
+            type="button"
+          >
+            模拟加载 {SIMULATED_LOADING_DURATION / 1000} 秒
+          </button>
+        </div>
+        <DocsLayout
+          docs={demoDocs}
+          embedded
+          loading={loading}
+          pathname="/button"
+          renderLink={renderLink}
+          sidebarTitle="组件"
+        >
+          <p className="mb-0">点击上方按钮查看全局加载指示效果。</p>
+        </DocsLayout>
+      </DemoSection>
     </>
   );
 
   return (
     <DocTemplate
-      componentDescription="文档站点布局组件，组合顶部导航、左侧组件目录、主内容区、右侧页面目录与页脚，不依赖特定路由库，并支持内嵌模式"
+      componentDescription="文档站点布局组件，组合顶部导航、左侧组件目录、主内容区、右侧页面目录与页脚，不依赖特定路由库，并支持内嵌模式与全局加载指示"
       componentName="DocsLayout"
       componentTags={['文档', '布局']}
       demoContent={demoContent}

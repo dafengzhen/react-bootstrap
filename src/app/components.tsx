@@ -6,7 +6,7 @@ import { DocsHome } from '../components/docs';
 import { docs, HOME_DESCRIPTION, HOME_TITLE } from './doc-config';
 
 const renderLink: RenderLink = ({ children, className, to }) => (
-  <Link className={className} to={to}>
+  <Link className={className} prefetch="intent" to={to}>
     {children}
   </Link>
 );

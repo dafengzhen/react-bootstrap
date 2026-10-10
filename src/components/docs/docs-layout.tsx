@@ -6,12 +6,14 @@ import type { DocsLayoutProps } from './types.ts';
 import { DocSidebarContext, slugify, TableOfContents, type TocItem } from '../doc-template';
 import { DocsFooter } from './docs-footer.tsx';
 import styles from './docs.module.css';
+import { useLoadingIndicator } from './use-loading-indicator.ts';
 
 export const DocsLayout: FC<DocsLayoutProps> = ({
   children,
   docs,
   embedded = false,
   githubUrl = 'https://github.com/dafengzhen/react-bootstrap',
+  loading = false,
   navItems = [],
   navTitle,
   pathname,
@@ -21,6 +23,7 @@ export const DocsLayout: FC<DocsLayoutProps> = ({
 }) => {
   const [pageSections, setPageSections] = useState<TocItem[]>([]);
   const [sidebarOpenAt, setSidebarOpenAt] = useState<null | string>(null);
+  const showLoading = useLoadingIndicator(loading);
 
   const sidebarOpen = sidebarOpenAt !== null && sidebarOpenAt === pathname;
   const showNav = !embedded && navItems.length > 0;
@@ -83,6 +86,14 @@ export const DocsLayout: FC<DocsLayoutProps> = ({
           showNav && styles.docsLayoutWithNav,
         )}
       >
+        <output aria-live="polite" className={styles.docsSrOnly}>
+          {showLoading ? '正在加载…' : ''}
+        </output>
+        {showLoading && (
+          <div aria-hidden="true" className={styles.docsLoadingBar}>
+            <span className={styles.docsLoadingBarThumb} />
+          </div>
+        )}
         {showNav && (
           <header className={styles.docsNavbar}>
             {navTitle && (
@@ -185,7 +196,18 @@ export const DocsLayout: FC<DocsLayoutProps> = ({
             />
           </aside>
 
-          <main className={styles.docsMain}>{children}</main>
+          <main aria-busy={showLoading || undefined} className={styles.docsMain}>
+            {children}
+            {showLoading && (
+              <Fragment>
+                <div aria-hidden="true" className={styles.docsLoadingVeil} />
+                <div aria-hidden="true" className={styles.docsLoadingPill}>
+                  <span className={styles.docsLoadingSpinner} />
+                  <span>正在加载…</span>
+                </div>
+              </Fragment>
+            )}
+          </main>
 
           {!embedded && pageSections.length > 0 && (
             <aside

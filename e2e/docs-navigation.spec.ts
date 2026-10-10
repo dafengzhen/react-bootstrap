@@ -56,4 +56,29 @@ test.describe('docs site', () => {
         .getByRole('link', { exact: true, name: 'Button' }),
     ).toBeVisible();
   });
+
+  test('shows a global loading indicator while a component page is loading', async ({ page }) => {
+    await page.goto('/components/button');
+
+    const sidebar = page.getByRole('complementary', { name: 'Components' });
+    await expect(sidebar.getByRole('link', { exact: true, name: 'Menu' })).toBeVisible();
+
+    // Keep the target route module in flight so the loading state is observable.
+    await page.route(/\/(components\/menu\/|menu\.doc[^/]*\.js)/, async (route) => {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1000);
+      });
+      await route.continue();
+    });
+
+    await sidebar.getByRole('link', { exact: true, name: 'Menu' }).click();
+
+    const loadingMain = page.locator('main[aria-busy="true"]');
+
+    await expect(loadingMain).toHaveCount(1);
+    await expect(page.getByRole('main').getByText('正在加载…')).toBeVisible();
+
+    await expect(page.getByRole('heading', { level: 2, name: 'Menu' })).toBeVisible();
+    await expect(loadingMain).toHaveCount(0);
+  });
 });

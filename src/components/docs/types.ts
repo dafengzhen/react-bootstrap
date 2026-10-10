@@ -23,6 +23,7 @@ export interface DocsLayoutProps {
   docs: DocConfig[];
   embedded?: boolean;
   githubUrl?: string;
+  loading?: boolean;
   navItems?: DocsNavItem[];
   navTitle?: string;
   pathname?: string;

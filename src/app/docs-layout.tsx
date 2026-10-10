@@ -1,4 +1,4 @@
-import { Link, Outlet, useLocation } from 'react-router';
+import { Link, Outlet, useLocation, useNavigation } from 'react-router';
 
 import type { RenderLink } from '../components/doc-template';
 
@@ -6,18 +6,20 @@ import { DocsLayout } from '../components/docs';
 import { docs, GITHUB_URL, HOME_DESCRIPTION, HOME_TITLE, NAV_ITEMS } from './doc-config';
 
 const renderLink: RenderLink = ({ children, className, to }) => (
-  <Link className={className} to={to}>
+  <Link className={className} prefetch="intent" to={to}>
     {children}
   </Link>
 );
 
 export default function DocsRoute() {
   const { pathname } = useLocation();
+  const navigation = useNavigation();
 
   return (
     <DocsLayout
       docs={docs}
       githubUrl={GITHUB_URL}
+      loading={navigation.state !== 'idle'}
       navItems={NAV_ITEMS}
       navTitle="React Bootstrap"
       pathname={pathname}

@@ -30,6 +30,8 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>(
     const [standaloneOpen, setStandaloneOpen] = useState(false);
     const group = useImageGroup();
     const id = useId();
+    const register = group?.register;
+    const unregister = group?.unregister;
 
     const previewImage = useMemo<ImageViewerImage>(
       () => ({ alt, src: previewSrc ?? src ?? '' }),
@@ -37,14 +39,14 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>(
     );
 
     useEffect(() => {
-      if (!group || !preview) {
+      if (!register || !unregister || !preview) {
         return;
       }
-      group.register(id, previewImage);
+      register(id, previewImage);
       return () => {
-        group.unregister(id);
+        unregister(id);
       };
-    }, [group, id, preview, previewImage]);
+    }, [id, preview, previewImage, register, unregister]);
 
     const handleOpen = useCallback(() => {
       if (!preview || src == null) {

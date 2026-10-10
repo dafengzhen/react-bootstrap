@@ -368,7 +368,7 @@ export const LayoutDoc = () => {
           <Col md={4}>
             <FormLabel htmlFor="layoutGridState">省份</FormLabel>
             <FormSelect id="layoutGridState">
-              <option selected>请选择...</option>
+              <option>请选择...</option>
               <option>...</option>
             </FormSelect>
           </Col>
@@ -541,7 +541,7 @@ export const LayoutDoc = () => {
               偏好
             </FormLabel>
             <FormSelect id="layoutAutoSelect">
-              <option selected>请选择...</option>
+              <option>请选择...</option>
               <option value="1">选项 1</option>
               <option value="2">选项 2</option>
               <option value="3">选项 3</option>
@@ -586,7 +586,7 @@ export const LayoutDoc = () => {
               偏好
             </FormLabel>
             <FormSelect id="layoutMixedSelect">
-              <option selected>请选择...</option>
+              <option>请选择...</option>
               <option value="1">选项 1</option>
               <option value="2">选项 2</option>
               <option value="3">选项 3</option>
@@ -622,7 +622,7 @@ export const LayoutDoc = () => {
               偏好
             </FormLabel>
             <FormSelect id="layoutInlineSelect">
-              <option selected>请选择...</option>
+              <option>请选择...</option>
               <option value="1">选项 1</option>
               <option value="2">选项 2</option>
               <option value="3">选项 3</option>

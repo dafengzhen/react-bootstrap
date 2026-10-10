@@ -5,7 +5,7 @@
       选项
     </InputGroupText>
     <FormSelect id="inputGroupSelect01">
-      <option selected>选择...</option>
+      <option>选择...</option>
       <option value="1">选项 1</option>
       <option value="2">选项 2</option>
       <option value="3">选项 3</option>

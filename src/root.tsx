@@ -9,6 +9,10 @@ import './main.css';
 import { CodeBlockHighlightContext } from './components/doc-template';
 import { highlightElement } from './highlight';
 
+// `/_vercel/insights/script.js` only exists on Vercel, so other deployments
+// would just log a 404 for it.
+const analyticsEnabled = import.meta.env.VITE_VERCEL === '1';
+
 export function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
@@ -25,7 +29,7 @@ export function Layout({ children }: { children: ReactNode }) {
         {children}
         <ScrollRestoration />
         <Scripts />
-        <Analytics />
+        {analyticsEnabled && <Analytics />}
       </body>
     </html>
   );

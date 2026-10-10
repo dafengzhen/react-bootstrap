@@ -23,7 +23,7 @@
   <Col md={4}>
     <FormLabel htmlFor="layoutGridState">省份</FormLabel>
     <FormSelect id="layoutGridState">
-      <option selected>请选择...</option>
+      <option>请选择...</option>
       <option>...</option>
     </FormSelect>
   </Col>

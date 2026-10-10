@@ -87,7 +87,7 @@ const formSelectTypeDefinitions: ApiTypeDefinition[] = [
 
 const SELECT_OPTIONS = (
   <>
-    <option selected>打开此选择菜单</option>
+    <option>打开此选择菜单</option>
     <option value="1">选项 1</option>
     <option value="2">选项 2</option>
     <option value="3">选项 3</option>
@@ -120,7 +120,7 @@ export const FormSelectDoc = () => {
       </DemoSection>
 
       <DemoSection code={multipleCode} title="多选">
-        <FormSelect aria-label="多选下拉选择框示例" multiple>
+        <FormSelect aria-label="多选下拉选择框示例" defaultValue={['打开此选择菜单']} multiple>
           {SELECT_OPTIONS}
         </FormSelect>
         <p className="mb-0 mt-3 text-muted small">
@@ -129,7 +129,11 @@ export const FormSelectDoc = () => {
       </DemoSection>
 
       <DemoSection code={htmlSizeCode} title="可见选项数量">
-        <FormSelect aria-label="显示三个可见选项的下拉选择框示例" htmlSize={3}>
+        <FormSelect
+          aria-label="显示三个可见选项的下拉选择框示例"
+          defaultValue="打开此选择菜单"
+          htmlSize={3}
+        >
           {SELECT_OPTIONS}
         </FormSelect>
         <p className="mb-0 mt-3 text-muted small">

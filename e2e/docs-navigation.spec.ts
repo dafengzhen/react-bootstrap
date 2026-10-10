@@ -81,4 +81,30 @@ test.describe('docs site', () => {
     await expect(page.getByRole('heading', { level: 2, name: 'Menu' })).toBeVisible();
     await expect(loadingMain).toHaveCount(0);
   });
+
+  test('keeps switching components after visiting the image viewer page', async ({ page }) => {
+    const updateLoops: string[] = [];
+    page.on('console', (msg) => {
+      if (msg.text().includes('Maximum update depth')) {
+        updateLoops.push(msg.text());
+      }
+    });
+
+    await page.goto('/components/image-viewer');
+
+    const sidebar = page.getByRole('complementary', { name: 'Components' });
+    await expect(page.getByRole('heading', { level: 2, name: 'ImageViewer' })).toBeVisible();
+
+    await sidebar.getByRole('link', { exact: true, name: 'Modal' }).click();
+
+    await expect(page).toHaveURL(/\/components\/modal$/);
+    await expect(page.getByRole('heading', { level: 2, name: 'Modal' })).toBeVisible();
+
+    await sidebar.getByRole('link', { exact: true, name: 'ImageViewer' }).click();
+
+    await expect(page).toHaveURL(/\/components\/image-viewer$/);
+    await expect(page.getByRole('heading', { level: 2, name: 'ImageViewer' })).toBeVisible();
+
+    expect(updateLoops).toEqual([]);
+  });
 });

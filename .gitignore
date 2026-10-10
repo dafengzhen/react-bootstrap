@@ -150,3 +150,10 @@ vite.config.ts.timestamp-*
 # React Router
 .react-router/
 /build
+
+# Tests
+/coverage
+/blob-report
+/playwright-report
+/test-results
+/src/**/__screenshots__

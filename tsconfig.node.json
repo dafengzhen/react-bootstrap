@@ -24,6 +24,7 @@
     "vite.config.ts",
     "vite.config.full.ts",
     "vite.config.docs.ts",
+    "vitest.config.ts",
     "react-router.config.ts"
   ]
 }

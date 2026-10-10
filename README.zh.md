@@ -12,7 +12,8 @@
 - 基于 Bootstrap 5，支持全部内置变体与尺寸
 - ES Module 输出，支持 Tree Shaking
 - 完整的 TypeScript 类型支持
-- React 19 + React Compiler
+- React 19
+- Vitest 浏览器模式组件测试 + Playwright 端到端测试
 
 ## 安装
 
@@ -61,6 +62,32 @@ npm run build
 
 # 代码检查与格式化
 npm run lint:fmt
+```
+
+## 测试
+
+单元测试（Node 环境，`*.node.test.ts`）与组件测试（Vitest 浏览器模式 + Playwright，`*.browser.test.tsx`）：
+
+```bash
+# 一次性运行全部 Vitest 测试（unit + browser 两个 project）
+npm test
+
+# 只运行单个 project
+npm run test:unit
+npm run test:browser
+
+# 覆盖率报告（输出到 ./coverage）
+npm run test:coverage
+```
+
+端到端测试使用 Playwright，覆盖文档站点的真实交互（`e2e/**/*.spec.ts`）：
+
+```bash
+# 首次运行前安装浏览器（仅 chromium）
+npm run test:e2e:install
+
+# 运行 E2E，会自动启动文档站点开发服务器
+npm run test:e2e
 ```
 
 ## 许可证

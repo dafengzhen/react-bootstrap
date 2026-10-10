@@ -1,5 +1,4 @@
-import babel from '@rolldown/plugin-babel';
-import react, { reactCompilerPreset } from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react';
 import { existsSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
@@ -62,5 +61,5 @@ export default defineConfig({
     },
     sourcemap: true,
   },
-  plugins: [react(), babel({ presets: [reactCompilerPreset()] })],
+  plugins: [react()],
 });

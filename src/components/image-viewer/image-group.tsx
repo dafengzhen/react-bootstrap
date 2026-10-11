@@ -23,8 +23,6 @@ export const ImageGroup = forwardRef<HTMLElement, ImageGroupProps>(
     const [index, setIndex] = useState(0);
     const [items, setItems] = useState<RegisteredImage[]>([]);
     const [open, setOpen] = useState(false);
-    // Registry mirror so the context callbacks never change identity, otherwise child
-    // effects that register themselves would run again on every registration.
     const itemsRef = useRef<RegisteredImage[]>(items);
 
     const register = useCallback((id: string, image: ImageViewerImage) => {

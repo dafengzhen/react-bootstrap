@@ -26,7 +26,10 @@
   ],
   "type": "module",
   "sideEffects": [
-    "*.css"
+    "*.css",
+    "**/lib/position/position.*",
+    "**/lib/position/node-range.*",
+    "**/lib/view/index.*"
   ],
   "exports": {
     ".": {

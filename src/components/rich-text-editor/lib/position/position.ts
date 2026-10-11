@@ -12,6 +12,14 @@ import { resolvePosition } from './resolved-pos.ts';
  * model free of position arithmetic while still offering them as the public entry
  * points. Importing anything from `src/position/**` registers both resolvers, so
  * the model works as soon as a caller touches positions at all.
+ *
+ * No caller imports a value from here: `model.ts` and `editor.ts` only reach the
+ * wiring with a bare `import './position/position.ts'`, and a bundler removes such
+ * an import unless the package declares the module to have side effects. The
+ * `sideEffects` field in `package.json` therefore names this file, `node-range.ts`
+ * and the view entry: drop those entries and a production build throws "Position
+ * resolver has not been registered" while the dev server keeps working, because
+ * nothing in `npm test` ever bundles the wiring.
  */
 registerPositionResolver(resolvePosition);
 registerRangeResolver(resolveRange);

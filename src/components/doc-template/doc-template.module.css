@@ -195,6 +195,17 @@
   margin-bottom: clamp(1.5rem, 2vw, 2.5rem);
 }
 
+/*
+ * The reference table starts a new part of the page, so it is set apart from the last example
+ * rather than continuing the run of them: a demo and the API list are read differently, and the
+ * extra room is what tells a reader the examples have ended.
+ */
+.apiOverview {
+  border-top: 1px solid var(--rbs-border-color);
+  margin-top: clamp(2.5rem, 5vw, 4.5rem);
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
 .apiComponentHeader {
   display: flex;
   flex-wrap: wrap;

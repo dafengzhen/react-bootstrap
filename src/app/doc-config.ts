@@ -597,4 +597,13 @@ export const docs: DocEntry[] = [
     path: '/components/nav-dropdown',
     tags: ['Basic', 'Navigation'],
   },
+  {
+    description:
+      'Rich text editor built on a headless editor kernel, with text formatting, paragraph alignment, indent and line height, quotes and code blocks, links and images, media and tables, emoji, symbols, date stamps and custom cards, plus undo/redo, clipboard actions, paste as plain text, select all, find and replace, a format painter, full keyboard shortcuts and an extension mechanism.',
+    file: 'components/rich-text-editor/rich-text-editor.doc.tsx',
+    name: 'RichTextEditor',
+    order: 66,
+    path: '/components/rich-text-editor',
+    tags: ['Basic', 'Forms'],
+  },
 ];

@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import {
   type FC,
   type MouseEvent as ReactMouseEvent,
@@ -234,7 +235,10 @@ export const DocTemplate: FC<DocTemplateProps> = ({
         {demoContent}
       </DemoSectionsContext.Provider>
 
-      <section className={styles.apiSection} id={`${idPrefix}-api-overview`}>
+      <section
+        className={clsx(styles.apiSection, styles.apiOverview)}
+        id={`${idPrefix}-api-overview`}
+      >
         <h2 className="h4 mb-3">API Documentation</h2>
         <p className="text-muted mb-4">Complete API reference for the {componentName} component</p>
       </section>

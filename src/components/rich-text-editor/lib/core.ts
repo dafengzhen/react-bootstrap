@@ -263,6 +263,7 @@ export type {
 } from './state/plugin.ts';
 export { createTransaction, Transaction } from './state/transaction.ts';
 export {
+  createParagraphNear,
   deleteBackward,
   deleteForward,
   deleteSelection,

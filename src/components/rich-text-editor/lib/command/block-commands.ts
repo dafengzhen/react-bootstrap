@@ -1,14 +1,14 @@
 import type { NodeRange } from '../model/node-range.ts';
 import type { NodeType } from '../model/node-type.ts';
 import type { Node as DocNode } from '../model/node.ts';
-import type { ResolvedPos } from '../position/resolved-pos.ts';
 import type { EditorState } from '../state/editor-state.ts';
 import type { Attrs } from '../util/object.ts';
 import type { Command } from './command.ts';
 
 import { Fragment } from '../model/fragment.ts';
 import { Slice } from '../model/slice.ts';
-import { placeCursor } from '../state/cursor.ts';
+import { AllSelection } from '../selection/all-selection.ts';
+import { TextSelection } from '../selection/text-selection.ts';
 
 /** Commands that change the nature of the block the cursor sits in. */
 
@@ -52,15 +52,35 @@ export function blockRange(state: EditorState, depth: number): NodeRange | null 
 export function setBlockType(type: NodeType, attrs: Attrs = {}): Command {
   return (state, dispatch) => {
     const { from, to } = state.selection;
-    const $from = blockStart(state, from);
-    const $to = blockStart(state, to);
+    const tr = state.tr;
+    const visit = (parent: DocNode, base: number): void => {
+      parent.forEach((node, offset) => {
+        const pos = base + offset;
+        const end = pos + node.nodeSize;
 
-    if ($from.depth === 0) {
-      return false;
-    }
+        if (end <= from || pos > to || (!state.selection.empty && pos === to)) {
+          return;
+        }
 
-    if (alreadyOfType($from, type, attrs) && alreadyOfType($to, type, attrs)) {
-      // Nothing to change, so the command reports that it would not run.
+        if (!node.isLeaf && node.contentMatch.allowedTypes.some((candidate) => candidate.isText)) {
+          if (
+            node.type === type &&
+            Object.entries(attrs).every(([name, value]) => node.attr(name) === value)
+          ) {
+            return;
+          }
+          const replacement = type.create({ ...node.attrs, ...attrs }, node.content);
+
+          tr.replaceWith(pos, end, new Slice(Fragment.from([replacement]), 0, 0));
+        } else if (!node.isLeaf) {
+          visit(node, pos + 1);
+        }
+      });
+    };
+
+    visit(state.doc, 0);
+
+    if (!tr.docChanged) {
       return false;
     }
 
@@ -68,24 +88,12 @@ export function setBlockType(type: NodeType, attrs: Attrs = {}): Command {
       return true;
     }
 
-    const start = $from.before($from.depth);
-    const end = $to.after($to.depth);
-
-    const tr = state.tr;
-    const content = state.doc.content.cut(start, end);
-    const nodes = content.children.map((node) =>
-      type.create({ ...node.attrs, ...attrs }, node.content),
+    // Textblock type changes preserve size, so retain both endpoints and selection direction.
+    tr.setSelection(
+      state.selection instanceof AllSelection
+        ? new AllSelection(tr.doc)
+        : TextSelection.create(tr.doc, state.selection.anchor, state.selection.head),
     );
-    const slice = new Slice(Fragment.from(nodes), 0, 0);
-
-    tr.replaceWith(start, end, slice);
-
-    if (!tr.docChanged) {
-      return false;
-    }
-
-    // The new blocks span the same range, so the caret keeps its offset inside its block.
-    placeCursor(tr, from);
     tr.setMeta('historyGroup', 'block');
     dispatch(tr.scrollIntoView());
 
@@ -170,15 +178,6 @@ export function setTextAlign(align: 'center' | 'justify' | 'left' | 'right'): Co
   return setNodeAttr('align', align);
 }
 
-/** Whether the block at `$pos` already has `type` and every attribute of `attrs`. */
-function alreadyOfType($pos: ResolvedPos, type: NodeType, attrs: Attrs): boolean {
-  const node = $pos.node($pos.depth);
-
-  return (
-    node.type === type && Object.entries(attrs).every(([name, value]) => node.attr(name) === value)
-  );
-}
-
 /** Depth of the deepest non-text node at `pos`. */
 function blockDepthAt(doc: DocNode, pos: number): number {
   const $pos = doc.resolve(pos);
@@ -190,22 +189,6 @@ function blockDepthAt(doc: DocNode, pos: number): number {
   }
 
   return 0;
-}
-
-/** Resolved position of the block that contains `pos`. */
-function blockStart(state: EditorState, pos: number): ResolvedPos {
-  const depth = blockDepthAt(state.doc, pos);
-
-  if (depth === 0) {
-    return state.doc.resolve(pos);
-  }
-
-  const $pos = state.doc.resolve(pos);
-  const start = $pos.start(depth);
-
-  return state.doc.resolve(
-    Math.min(Math.max(pos, start - 1), start + $pos.node(depth).content.size),
-  );
 }
 
 /**

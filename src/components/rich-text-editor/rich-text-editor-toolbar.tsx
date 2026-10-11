@@ -33,6 +33,7 @@ import {
   Paintbrush,
   Palette,
   Pilcrow,
+  PilcrowLeft,
   Quote,
   Redo2,
   RemoveFormatting,
@@ -231,13 +232,28 @@ export function RichTextEditorToolbar({
           <PanelTrigger
             actions={actions}
             icon={<UnfoldVertical aria-hidden="true" />}
-            label="Line height and spacing"
+            label="Line height"
             panel="line-height"
+          >
+            <LineHeightPanel />
+          </PanelTrigger>
+          <PanelTrigger
+            actions={actions}
+            icon={<PilcrowLeft aria-hidden="true" />}
+            label="Paragraph spacing"
+            panel="spacing"
           >
             <SpacingPanel />
           </PanelTrigger>
           <CommandButton command="toggleBlockquote" label="Blockquote" />
-          <CommandButton command="toggleCodeBlock" label="Code block" />
+          <PanelTrigger
+            actions={actions}
+            icon={<SquareCode aria-hidden="true" />}
+            label="Code block"
+            panel="code-language"
+          >
+            <CodeLanguagePanel />
+          </PanelTrigger>
           <ActionButton action="insert-horizontal-rule" label="Horizontal rule" />
           <PanelTrigger
             actions={actions}
@@ -260,7 +276,7 @@ export function RichTextEditorToolbar({
             label="Emoji"
             panel="emoji"
           >
-            <EmojiPanel />
+            <EmojiPanel onInserted={() => actions.openPanel(null)} />
           </PanelTrigger>
           <PanelTrigger
             actions={actions}
@@ -420,6 +436,36 @@ function BlockTypePanel() {
   );
 }
 
+/** Code language has its own panel rather than sharing the paragraph spacing controls. */
+function CodeLanguagePanel() {
+  const context = useRichTextEditor();
+
+  return (
+    <div className={styles.choicePanel}>
+      <ToolbarMenuItem label="Normal text" onSelect={() => context.run('setParagraph')} />
+      <div className={styles.panelHeading}>Code block language</div>
+      <div className={styles.choiceList}>
+        {CODE_LANGUAGE_CHOICES.map((choice) => (
+          <ToolbarMenuItem
+            active={context.getAttributes('code_block').language === choice.value}
+            disabled={!context.editable}
+            key={choice.value}
+            label={choice.label}
+            onSelect={() => {
+              if (!context.isActive('code_block')) {
+                if (!context.run('toggleCodeBlock')) {
+                  return;
+                }
+              }
+              context.run('setCodeBlockLanguage', { language: choice.value });
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /** A button that opens one of the component's dialogs. */
 function DialogButton({
   dialog,
@@ -532,8 +578,8 @@ function InsertPanel({ actions }: { actions: RichTextEditorToolbarActions }) {
           data-panel-item=""
           key={row.label}
           onClick={() => {
-            row.run();
             actions.openPanel(null);
+            row.run();
           }}
           onPointerDown={(event) => event.preventDefault()}
           type="button"
@@ -542,6 +588,32 @@ function InsertPanel({ actions }: { actions: RichTextEditorToolbarActions }) {
           <span>{row.label}</span>
         </button>
       ))}
+    </div>
+  );
+}
+
+/** Line height options. */
+function LineHeightPanel() {
+  const context = useRichTextEditor();
+  const lineHeight = lineHeightOf(context.state);
+
+  return (
+    <div className={styles.spacingPanel}>
+      <div className={styles.panelHeading}>Line height</div>
+      <div className={styles.choiceList}>
+        {LINE_HEIGHT_CHOICES.map((choice) => (
+          <ToolbarMenuItem
+            active={String(lineHeight) === String(choice.value)}
+            key={choice.label}
+            label={choice.label}
+            onSelect={() => context.run('setLineHeight', { lineHeight: choice.value })}
+          />
+        ))}
+      </div>
+      <ResetRow
+        label="Default line height"
+        onSelect={() => context.run('setLineHeight', { lineHeight: null })}
+      />
     </div>
   );
 }
@@ -588,29 +660,13 @@ function ResetRow({ label, onSelect }: { label: string; onSelect: () => void }) 
   );
 }
 
-/** Line height, paragraph spacing and the code block's language. */
+/** Paragraph spacing is independent from line height. */
 function SpacingPanel() {
   const context = useRichTextEditor();
-  const lineHeight = lineHeightOf(context.state);
   const spacing = spacingOf(context.state);
 
   return (
     <div className={styles.spacingPanel}>
-      <div className={styles.panelHeading}>Line height</div>
-      <div className={styles.choiceList}>
-        {LINE_HEIGHT_CHOICES.map((choice) => (
-          <ToolbarMenuItem
-            active={String(lineHeight) === String(choice.value)}
-            key={choice.label}
-            label={choice.label}
-            onSelect={() => context.run('setLineHeight', { lineHeight: choice.value })}
-          />
-        ))}
-      </div>
-      <ResetRow
-        label="Default line height"
-        onSelect={() => context.run('setLineHeight', { lineHeight: null })}
-      />
       <div className={styles.panelHeading}>Paragraph spacing</div>
       <div className={styles.choiceList}>
         {SPACING_CHOICES.map((choice) => (
@@ -627,16 +683,6 @@ function SpacingPanel() {
                 marginTop: choice.marginTop,
               })
             }
-          />
-        ))}
-      </div>
-      <div className={styles.panelHeading}>Code block language</div>
-      <div className={styles.choiceList}>
-        {CODE_LANGUAGE_CHOICES.map((choice) => (
-          <ToolbarMenuItem
-            key={choice.value}
-            label={choice.label}
-            onSelect={() => context.run('setCodeBlockLanguage', { language: choice.value })}
           />
         ))}
       </div>

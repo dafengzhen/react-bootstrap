@@ -6,11 +6,13 @@ import type { DOMRules } from './dom-rules.ts';
 
 import { chainCommands } from '../command/command.ts';
 import {
+  createParagraphNear,
   deleteBackward,
   deleteForward,
   deleteSelection,
   joinBackward,
   joinForward,
+  splitBlock,
 } from '../transform-commands/basic-editing.ts';
 import { parseDOMElement } from './dom-parser.ts';
 
@@ -36,6 +38,9 @@ const INSERT_TYPES = new Set(['insertReplacementText', 'insertText']);
 /** Deletion commands, chained the same way the keymap chains them. */
 const DELETE_BACKWARD = chainCommands(deleteSelection(), deleteBackward(), joinBackward());
 const DELETE_FORWARD = chainCommands(deleteSelection(), deleteForward(), joinForward());
+
+/** Block breaks use the same atom-edge fallback as the Enter keymap. */
+const BREAK_BLOCK = chainCommands(createParagraphNear(), splitBlock());
 
 /** Input types that delete backwards. */
 const BACKWARD_TYPES = new Set([
@@ -66,11 +71,15 @@ export class InputHandler {
   beforeInput(state: EditorState, event: InputLike): InputResult {
     const inputType = event.inputType ?? '';
 
+    if (inputType === 'insertParagraph' || inputType === 'insertLineBreak') {
+      return runCommand(state, BREAK_BLOCK, 'split');
+    }
+
     if (INSERT_TYPES.has(inputType)) {
       const text = event.data ?? '';
 
-      // A newline is a block break, and the browser's own `insertParagraph` covers it; an empty
-      // payload changes nothing.
+      // A newline arrives through one of the block-break input types above; an empty payload
+      // changes nothing.
       if (text.length === 0 || text.includes('\n')) {
         return { handled: false };
       }

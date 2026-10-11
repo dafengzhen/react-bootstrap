@@ -642,9 +642,11 @@ function videoAttrs(attrs: VideoAttrs): Attrs | null {
 /** Video attrs from a registered command's loose options. */
 function videoAttrsFrom(options: Attrs | undefined): VideoAttrs {
   return {
+    height: optionalNumber(options?.height),
     id: optionalString(options?.id),
     poster: optionalString(options?.poster),
     provider: providerFrom(options?.provider),
     url: optionalString(options?.url),
+    width: optionalNumber(options?.width),
   };
 }

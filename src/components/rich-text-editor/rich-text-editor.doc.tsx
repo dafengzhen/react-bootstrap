@@ -21,6 +21,7 @@ import insertCode from './demos/insert.md?raw';
 import statesCode from './demos/states.md?raw';
 import { RichTextEditor } from './rich-text-editor';
 import contextValueTypeCode from './types/rich-text-editor-context-value.md?raw';
+import focusToolbarTypeCode from './types/rich-text-editor-focus-toolbar-context.md?raw';
 import galleryGroupTypeCode from './types/rich-text-editor-gallery-group.md?raw';
 import handleTypeCode from './types/rich-text-editor-handle.md?raw';
 import panelTypeCode from './types/rich-text-editor-panel.md?raw';
@@ -62,6 +63,14 @@ const richTextEditorProps: ApiProp[] = [
     description: '图片弹窗「图库」页签展示的图片分组',
     name: 'gallery',
     type: 'RichTextEditorGalleryGroup[]',
+  },
+  {
+    component: 'RichTextEditor',
+    defaultValue: '图片、媒体与自定义卡片工具栏',
+    description:
+      '常驻于叶子节点上方的焦点工具栏，独立占位、不覆盖内容。接收节点、位置及 update/remove 操作；返回 null 忽略该节点，设为 false 禁用',
+    name: 'focusToolbar',
+    type: 'false | ((context: RichTextEditorFocusToolbarContext) => ReactNode)',
   },
   {
     component: 'RichTextEditor',
@@ -109,7 +118,7 @@ const richTextEditorProps: ApiProp[] = [
     component: 'RichTextEditor',
     defaultValue: '-',
     description:
-      '上传适配器，`image` 用于插入图片、`file` 用于插入附件；未提供时上传按钮不产生任何插入',
+      '上传适配器，`image` 用于图片、`file` 用于附件；未提供时图片以本地 data URL 嵌入。上传状态显示在正文下方，成功后隐藏',
     name: 'upload',
     type: '{ file?: FileUploader; image?: FileUploader }',
   },
@@ -259,6 +268,11 @@ const richTextEditorTypeDefinitions: ApiTypeDefinition[] = [
     name: 'RichTextEditorContextValue',
   },
   {
+    code: focusToolbarTypeCode,
+    description: '通用节点焦点工具栏上下文，图片默认接入，可扩展其他节点',
+    name: 'RichTextEditorFocusToolbarContext',
+  },
+  {
     code: galleryGroupTypeCode,
     description: '图库分组与图片描述',
     name: 'RichTextEditorGalleryGroup',
@@ -337,7 +351,8 @@ export const RichTextEditorDoc = () => {
         />
         <p className="mb-0 mt-3 text-muted small">
           图片支持 URL、本地上传与图库三种来源；表情、符号、日期以原子节点写入文档，
-          保留名称与时间戳以便检索与再次格式化
+          保留名称与时间戳以便检索与再次格式化。媒体面板支持 iframe 地址或嵌入代码；平台视频使用
+          iframe，视频文件使用原生播放器。图片与媒体均带常驻焦点工具栏
         </p>
       </DemoSection>
 

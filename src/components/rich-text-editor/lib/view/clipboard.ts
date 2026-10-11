@@ -17,6 +17,7 @@ import { ErrorCode, viewError } from '../util/errors.ts';
 import { parseHTML, parsePlainText } from './dom-parser.ts';
 import { createViewMaps, renderNode } from './dom-renderer.ts';
 import { defaultDOMRules, mergeDOMRules, rulesForSchema } from './dom-rules.ts';
+import { mediaBlockNodeView } from './media-rules.ts';
 
 /** Options shared by the clipboard helpers. */
 export interface ClipboardOptions {
@@ -158,6 +159,9 @@ export function serializeRange(
   const context: RenderContext = {
     document,
     maps: createViewMaps(),
+    // Media DOM rules alone cannot express an iframe inside its metadata wrapper.
+    // Keep clipboard HTML consistent with the editor instead of emitting a video tag.
+    nodeView: (node) => mediaBlockNodeView(node, { document }),
     rules: clipboardRules(options),
   };
   let position = from;
@@ -225,7 +229,7 @@ function insertFragment(state: EditorState, content: Fragment): null | Transacti
 
   const tr = state.tr;
 
-  tr.replaceSelection(fitSlice(content, state));
+  tr.replaceSelectionWith(fitSlice(content, state));
 
   if (!tr.docChanged) {
     return null;

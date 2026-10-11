@@ -1,6 +1,5 @@
 export { RichTextEditor } from './rich-text-editor';
 export { ColorPicker } from './rich-text-editor-color-picker';
-
 export type { ColorPickerProps } from './rich-text-editor-color-picker';
 export { contrastColor, isColorValue, normalizeColor, rgbOf } from './rich-text-editor-color-utils';
 
@@ -11,12 +10,12 @@ export {
   setLineHeight,
   setParagraphSpacing,
 } from './rich-text-editor-commands';
-
 export {
   RichTextEditorContext,
   useRichTextEditor,
   useRichTextEditorContext,
 } from './rich-text-editor-context';
+
 export {
   BLOCK_TYPE_CHOICES,
   CODE_LANGUAGE_CHOICES,
@@ -30,6 +29,7 @@ export {
   SYMBOL_GROUPS,
   TEXT_COLOR_GROUPS,
 } from './rich-text-editor-data';
+
 export type {
   RichTextEditorChoice,
   RichTextEditorColorGroup,
@@ -37,7 +37,6 @@ export type {
   RichTextEditorSpacingChoice,
   RichTextEditorSymbolGroup,
 } from './rich-text-editor-data';
-
 export { DateTimePanel } from './rich-text-editor-datetime';
 export { RichTextEditorDialogs } from './rich-text-editor-dialogs';
 
@@ -55,7 +54,10 @@ export {
   extendedNodeText,
   symbolNode,
 } from './rich-text-editor-extensions';
+
 export type { CustomBlockAttrs, EmojiAttrs, SymbolAttrs } from './rich-text-editor-extensions';
+export { FocusToolbar } from './rich-text-editor-focus-toolbar';
+export type { FocusToolbarProps } from './rich-text-editor-focus-toolbar';
 export {
   defaultDOMRules,
   Editor,
@@ -130,6 +132,7 @@ export type { RichTextEditorVideoProvider, VideoSource } from './rich-text-edito
 
 export type {
   RichTextEditorContextValue,
+  RichTextEditorFocusToolbarContext,
   RichTextEditorFormatPainter,
   RichTextEditorGalleryGroup,
   RichTextEditorHandle,

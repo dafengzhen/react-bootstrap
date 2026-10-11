@@ -1,13 +1,12 @@
 import type { Node as DocNode } from '../model/node.ts';
 import type { TextNode } from '../model/text-node.ts';
-import type { DecorationSet } from './decoration.ts';
 import type { DOMRules } from './dom-rules.ts';
 import type { DOMElement, DOMNode, DOMText } from './dom-types.ts';
 import type { EditorLocale } from './locale.ts';
 import type { NodeView } from './node-view.ts';
 
 import { urlPolicy } from '../serialization/sanitize.ts';
-import { inlineAttrsAt } from './decoration.ts';
+import { DecorationSet, inlineAttrsAt } from './decoration.ts';
 import { ruleTag } from './dom-rules.ts';
 import { resolveLocale } from './locale.ts';
 
@@ -230,10 +229,40 @@ export function renderNode(node: DocNode, context: RenderContext, ownStart: numb
   };
 
   applyAttrs(element, attrs);
+  if (node.isLeaf && node.isBlock) {
+    element.setAttribute('contenteditable', 'false');
+  }
   remember(context, node, element);
 
+  if (node.isLeaf && rule?.text) {
+    element.textContent = rule.text(node);
+    element.setAttribute('contenteditable', 'false');
+  }
+
   if (!node.isLeaf) {
-    renderContent(element, node, context, ownStart + 1);
+    const inlineDecorations = rule?.inlineDecorations?.(node, ownStart + 1, context.document);
+    const contentContext = inlineDecorations?.length
+      ? {
+          ...context,
+          decorations: DecorationSet.create([
+            ...(context.decorations?.decorations ?? []),
+            ...inlineDecorations,
+          ]),
+        }
+      : context;
+    renderContent(element, node, contentContext, ownStart + 1);
+
+    // Empty textblocks still need a line box and a visible caret. This is a view-only filler,
+    // not a hard break in the document; the DOM parser ignores it on reconciliation and paste.
+    if (
+      (node.childCount === 0 && node.contentMatch.allowedTypes.some((type) => type.isText)) ||
+      (node.name === 'code_block' && node.textContent.endsWith('\n'))
+    ) {
+      const filler = context.document.createElement('br');
+
+      filler.setAttribute('data-rt-filler', 'true');
+      element.append(filler);
+    }
   }
 
   return element;

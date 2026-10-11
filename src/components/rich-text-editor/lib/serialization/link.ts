@@ -189,12 +189,14 @@ export interface TaskItemAttrs {
 
 /** Attributes of a video node. */
 export interface VideoAttrs {
+  height?: number;
   /** Provider specific id, when the provider has one. */
   id?: string;
   poster?: string;
   provider: VideoProvider;
   /** Original URL the video was created from. */
   url?: string;
+  width?: number;
 }
 
 /** Providers the video node understands. */

@@ -9,7 +9,68 @@ import type { Transaction } from '../state/transaction.ts';
 import { Fragment as FragmentClass } from '../model/fragment.ts';
 import { Slice as SliceClass } from '../model/slice.ts';
 import { AllSelection } from '../selection/all-selection.ts';
+import { NodeSelection } from '../selection/node-selection.ts';
 import { TextSelection } from '../selection/text-selection.ts';
+
+/**
+ * Creates an editable paragraph beside a selected or adjacent block atom.
+ *
+ * A horizontal rule and block media cannot contain a text caret. Browsers represent a click at
+ * either edge as a document-level position (and may normalize it to the other edge), so letting
+ * their native Enter handling run leaves the DOM selection detached from the model. Claiming the
+ * boundary here gives Enter one deterministic result and one valid place for the caret.
+ */
+export function createParagraphNear(): Command {
+  return (state, dispatch) => {
+    const { selection } = state;
+    const paragraph = state.schema.nodes.paragraph;
+
+    if (!paragraph || !selection.$from.node().contentMatch.allows(paragraph)) {
+      return false;
+    }
+
+    let boundary: null | number = null;
+
+    if (selection instanceof NodeSelection && selection.node.isBlock) {
+      boundary = selection.from === 0 ? selection.from : selection.to;
+    } else if (selection.empty && selection.$from.depth === 0) {
+      const before = selection.$from.nodeBefore();
+      const after = selection.$from.nodeAfter();
+
+      if (after?.isBlock && after.isLeaf) {
+        boundary = selection.from;
+      } else if (before?.isBlock && before.isLeaf) {
+        boundary = selection.from;
+      }
+    }
+
+    if (boundary === null) {
+      return false;
+    }
+
+    const block = paragraph.createAndFill();
+
+    if (!block) {
+      return false;
+    }
+
+    if (!dispatch) {
+      return true;
+    }
+
+    const tr = state.tr.insert(boundary, block);
+
+    if (!tr.docChanged) {
+      return false;
+    }
+
+    tr.setSelection(TextSelection.create(tr.doc, boundary + 1));
+    tr.setMeta('historyGroup', 'split');
+    dispatch(tr.scrollIntoView());
+
+    return true;
+  };
+}
 
 /**
  * Deletes the character before the cursor.
@@ -306,6 +367,26 @@ export function splitBlock(): Command {
   return (state, dispatch) => {
     const { selection } = state;
 
+    const fromDepth = blockDepth(selection.$from);
+    const toDepth = blockDepth(selection.$to);
+    if (
+      fromDepth > 0 &&
+      toDepth > 0 &&
+      selection.$from.node(fromDepth).name === 'code_block' &&
+      selection.$from.node(fromDepth) === selection.$to.node(toDepth)
+    ) {
+      if (!dispatch) {
+        return true;
+      }
+      const tr = state.tr.replaceSelectionWith('\n');
+      if (!tr.docChanged) {
+        return false;
+      }
+      tr.setMeta('historyGroup', 'typing');
+      dispatch(tr.scrollIntoView());
+      return true;
+    }
+
     if (!selection.empty) {
       return deleteSelection()(state, dispatch);
     }
@@ -338,24 +419,35 @@ export function splitBlock(): Command {
 
     const tr = state.tr;
     const base = $pos.start(depth);
-    const before = content.cut(0, offset);
-    const after = content.cut(offset);
-    const slice = new SliceClass(
-      FragmentClass.from([
-        node.type.create(node.attrs, before),
-        node.type.create(node.attrs, after),
-      ]),
-      0,
-      0,
-    );
+    const beforeContent = content.cut(0, offset);
+    const afterContent = content.cut(offset);
+    const paragraph = state.schema.nodes.paragraph;
+    const parentAllowsParagraph = paragraph
+      ? $pos.node(depth - 1).contentMatch.allows(paragraph)
+      : false;
+    const atStartOfHeading = offset === 0 && node.name === 'heading' && parentAllowsParagraph;
+    const atEndOfHeading =
+      offset === content.size && node.name === 'heading' && parentAllowsParagraph;
+    const before = atStartOfHeading
+      ? paragraph?.createAndFill()
+      : node.type.create(node.attrs, beforeContent);
+    const after = atEndOfHeading
+      ? paragraph?.createAndFill()
+      : node.type.create(node.attrs, afterContent);
+
+    if (!before || !after) {
+      return false;
+    }
+
+    const slice = new SliceClass(FragmentClass.from([before, after]), 0, 0);
 
     // The block is replaced as a whole: one token before its content and one behind it. Two
     // blocks cannot be inserted *inside* a paragraph, but swapping one block for two is exactly
     // what the parent's content model already allows.
     tr.replaceWith(base - 1, base + content.size + 1, slice);
-    // The cursor belongs at the start of the second block, right after the first one's closing
-    // token and the new block's opening token.
-    tr.setSelection(collapse(tr, base + before.size + 2));
+    // At the start of a heading the new paragraph is the line the user asked for, so its caret
+    // stays there. Every other split puts it at the start of the second block.
+    tr.setSelection(collapse(tr, atStartOfHeading ? base : base + before.nodeSize));
     // A new block ends the typing run, so the split stays its own undo step.
     tr.setMeta('historyGroup', 'split');
     dispatch(tr.scrollIntoView());

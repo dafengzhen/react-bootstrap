@@ -14,6 +14,7 @@ export interface RichTextEditorProps extends Omit<
   onHTMLChange?: (html: string) => void;
   placeholder?: string;
   toolbarExtra?: ReactNode;
+  focusToolbar?: false | ((context: RichTextEditorFocusToolbarContext) => ReactNode);
   upload?: { file?: FileUploader; image?: FileUploader };
 }
 ```

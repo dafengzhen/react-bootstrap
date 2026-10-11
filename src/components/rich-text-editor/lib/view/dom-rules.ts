@@ -2,6 +2,7 @@ import type { Mark } from '../model/mark.ts';
 import type { Node as DocNode } from '../model/node.ts';
 import type { Schema } from '../schema/schema.ts';
 import type { Attrs } from '../util/object.ts';
+import type { Decoration } from './decoration.ts';
 
 import {
   blockPresentationStyle,
@@ -58,6 +59,8 @@ export interface MarkDOMRule {
 export interface NodeDOMRule {
   /** Attributes derived from the node; `null` drops the attribute. */
   attrs?: (node: DocNode) => DOMAttrs;
+  /** View-only ranges used to colour the node's text without changing its document content. */
+  inlineDecorations?: (node: DocNode, start: number, document: Document) => readonly Decoration[];
   /** Hook that reads a node's attributes back from an element, or rejects it. */
   parse?: (element: Element) => Attrs | null;
   /** Attribute names copied from the element onto the node during parsing. */
@@ -66,6 +69,8 @@ export interface NodeDOMRule {
   parseTags?: readonly string[];
   /** Tag the node renders as; a function receives the node. */
   tag: ((node: DocNode) => string) | string;
+  /** Visible label of a leaf node, rendered as text rather than editable child content. */
+  text?: (node: DocNode) => string;
 }
 
 /**

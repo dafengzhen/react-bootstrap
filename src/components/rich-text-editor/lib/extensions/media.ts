@@ -6,7 +6,7 @@ import type { NodeViewRegistry } from '../view/node-view.ts';
 import { mediaCommands } from '../command/media-commands.ts';
 import { upload } from '../plugins/upload.ts';
 import { urlPolicy } from '../serialization/sanitize.ts';
-import { imageNodeView, mediaDOMRules } from '../view/media-rules.ts';
+import { imageNodeView, mediaBlockNodeView, mediaDOMRules } from '../view/media-rules.ts';
 
 /**
  * The media nodes: image, video, audio and attachment, plus the upload runtime state.
@@ -55,10 +55,12 @@ export const image: NodeSpec = {
 /** A video block: a provider and the URL it came from (design §50). */
 export const video: NodeSpec = {
   attrs: {
+    height: { default: null },
     id: { default: null },
     poster: { compute: safeUrlOrNull, default: null },
     provider: { default: 'native' },
     url: { compute: safeUrlOrNull, default: null },
+    width: { default: null },
   },
   draggable: true,
   group: 'block',
@@ -122,7 +124,7 @@ export function mediaExtension(): MediaExtension {
     addPlugins: () => [upload()],
     domRules: mediaDOMRules,
     name: 'media',
-    nodeViews: { image: imageNodeView },
+    nodeViews: { image: imageNodeView, video: mediaBlockNodeView },
   };
 }
 

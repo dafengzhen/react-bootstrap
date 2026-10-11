@@ -3,6 +3,13 @@ import type { DOMRules, NodeDOMRule } from './dom-rules.ts';
 import type { DOMElement } from './dom-types.ts';
 import type { NodeView, NodeViewContext, NodeViewFactory } from './node-view.ts';
 
+import {
+  FRAME_ALLOW,
+  frameReferrerPolicy,
+  frameSandbox,
+  frameUrl,
+  videoFrameUrl,
+} from '../serialization/media-frame.ts';
 import { urlPolicy } from '../serialization/sanitize.ts';
 import { applyAttrs } from './dom-renderer.ts';
 
@@ -86,6 +93,22 @@ export function mediaDOMRules(): Partial<DOMRules> {
       },
       tag: 'audio',
     },
+    embed: {
+      attrs: (node) => ({ 'data-embed-url': frameUrl(node.attr('url')), 'data-node': 'embed' }),
+      parse: (element) =>
+        element.getAttribute('data-node') === 'embed'
+          ? {
+              height: numberAttribute(element, 'data-embed-height'),
+              html: element.getAttribute('data-embed-html'),
+              id: element.getAttribute('data-embed-id'),
+              provider: element.getAttribute('data-provider') ?? 'iframe',
+              title: element.getAttribute('data-embed-title'),
+              url: frameUrl(element.getAttribute('data-embed-url')),
+              width: numberAttribute(element, 'data-embed-width'),
+            }
+          : null,
+      tag: 'div',
+    },
     image: {
       attrs: (node) => ({
         alt: stringAttr(node, 'alt'),
@@ -118,11 +141,20 @@ export function mediaDOMRules(): Partial<DOMRules> {
         controls: true,
         'data-id': stringAttr(node, 'id'),
         'data-provider': stringAttr(node, 'provider') ?? 'native',
+        height: numberAttr(node, 'height'),
         poster: urlAttr(node, 'poster'),
         src: urlAttr(node, 'url'),
+        width: numberAttr(node, 'width'),
       }),
       parse: (element) => {
-        const url = parseUrl(element, 'src');
+        if (
+          element.tagName.toLowerCase() === 'div' &&
+          element.getAttribute('data-node') !== 'video'
+        ) {
+          return null;
+        }
+        const wrapped = element.tagName.toLowerCase() === 'div';
+        const url = parseUrl(element, wrapped ? 'data-video-url' : 'src');
 
         // A provider video carries no source of its own, so only a source that is there and unsafe
         // rejects the element.
@@ -131,12 +163,15 @@ export function mediaDOMRules(): Partial<DOMRules> {
         }
 
         return {
+          height: numberAttribute(element, wrapped ? 'data-height' : 'height'),
           id: element.getAttribute('data-id'),
-          poster: parseUrl(element, 'poster') ?? null,
+          poster: parseUrl(element, wrapped ? 'data-video-poster' : 'poster') ?? null,
           provider: element.getAttribute('data-provider') ?? 'native',
           url: url ?? null,
+          width: numberAttribute(element, wrapped ? 'data-width' : 'width'),
         };
       },
+      parseTags: ['video', 'div'],
       tag: 'video',
     },
   };
@@ -163,6 +198,111 @@ export const imageNodeView: NodeViewFactory = (node, context) => {
   return createImageNodeView(node, context);
 };
 
+/** View-only player inside a mapped block wrapper, with space for attached controls. */
+export const mediaBlockNodeView: NodeViewFactory = (node, context) => {
+  if (node.name !== 'video' && node.name !== 'embed') {
+    return null;
+  }
+  const dom = context.document.createElement('div');
+  dom.className = 'rt-media';
+  dom.setAttribute('contenteditable', 'false');
+  dom.setAttribute('data-node-selection', 'controls');
+  const render = (next: DocNode) => {
+    const source =
+      next.name === 'video'
+        ? videoFrameUrl(next.attr('provider'), next.attr('id'), next.attr('url'))
+        : frameUrl(next.attr('url'));
+    const tag =
+      next.name === 'video' && next.attr('provider') === 'native'
+        ? 'video'
+        : source
+          ? 'iframe'
+          : 'div';
+    let player = dom.firstElementChild as HTMLElement | null;
+    if (!player || player.tagName.toLowerCase() !== tag) {
+      player = context.document.createElement(tag);
+      dom.replaceChildren(player);
+    }
+    // Keep model metadata on the wrapper so DOM reconciliation never imports frame contents.
+    applyAttrs(
+      dom,
+      next.name === 'video'
+        ? {
+            'data-height': numberAttr(next, 'height'),
+            'data-id': stringAttr(next, 'id'),
+            'data-node': 'video',
+            'data-provider': stringAttr(next, 'provider'),
+            'data-video-poster': urlAttr(next, 'poster'),
+            'data-video-url': urlAttr(next, 'url'),
+            'data-width': numberAttr(next, 'width'),
+          }
+        : {
+            'data-embed-height': numberAttr(next, 'height'),
+            'data-embed-html': stringAttr(next, 'html'),
+            'data-embed-id': stringAttr(next, 'id'),
+            'data-embed-poster': stringAttr(next, 'poster'),
+            'data-embed-title': stringAttr(next, 'title'),
+            'data-embed-url': frameUrl(next.attr('url')),
+            'data-embed-width': numberAttr(next, 'width'),
+            'data-node': 'embed',
+            'data-provider': stringAttr(next, 'provider'),
+          },
+    );
+    const attrs =
+      tag === 'video'
+        ? {
+            controls: true,
+            poster: urlAttr(next, 'poster'),
+            src: urlAttr(next, 'url'),
+          }
+        : tag === 'iframe'
+          ? {
+              allow: FRAME_ALLOW,
+              allowfullscreen: true,
+              loading: 'lazy',
+              referrerpolicy: frameReferrerPolicy(source),
+              sandbox: frameSandbox(source),
+              src: source,
+              title: stringAttr(next, 'title') ?? 'Embedded media',
+            }
+          : { class: 'rt-media-placeholder' };
+    if (tag === 'div') {
+      player.textContent = stringAttr(next, 'title') ?? 'Embedded content';
+    }
+    const playerAttrs = {
+      ...attrs,
+      height: numberAttr(next, 'height') ?? (tag === 'iframe' ? 315 : null),
+      width: numberAttr(next, 'width') ?? (tag === 'iframe' ? 560 : null),
+    };
+    applyAttrs(
+      player,
+      Object.fromEntries(
+        Object.entries(playerAttrs).filter(
+          ([name, value]) =>
+            player!.getAttribute(name) !==
+            (value === true ? '' : value == null ? null : String(value)),
+        ),
+      ),
+    );
+    if (tag === 'iframe') {
+      const width = numberAttr(next, 'width');
+      const height = numberAttr(next, 'height');
+      player.style.setProperty('aspect-ratio', width && height ? `${width} / ${height}` : '16 / 9');
+    }
+  };
+  render(node);
+  return {
+    dom,
+    update: (next) => {
+      if (next.name !== node.name) {
+        return false;
+      }
+      render(next);
+      return true;
+    },
+  };
+};
+
 /** Applies the attributes of `node` to the `<img>` of a node view. */
 function applyImageAttrs(img: DOMElement, node: DocNode): void {
   applyAttrs(img, {
@@ -187,6 +327,9 @@ function createImageNodeView(node: DocNode, context: NodeViewContext): NodeView 
   const dom = document.createElement('span');
 
   dom.className = 'rt-image';
+  // Image controls represent node selection; do not paint a native blue range over the image.
+  dom.setAttribute('data-node-selection', 'controls');
+  dom.setAttribute('contenteditable', 'false');
   dom.append(img);
   applyImageAttrs(img, node);
 

@@ -26,6 +26,7 @@ export type DocNode = Node;
 export type { EditorView } from './lib/view/editor-view.ts';
 
 export {
+  ClipboardManager,
   createEditorView,
   defaultDOMRules,
   mergeDOMRules,

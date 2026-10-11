@@ -1,13 +1,16 @@
 import clsx from 'clsx';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import type { Editor, EditorView, TextSelection } from './rich-text-editor-lib.ts';
+import type { Editor, EditorView } from './rich-text-editor-lib.ts';
 import type { RichTextEditorDialog } from './rich-text-editor-toolbar';
 import type { RichTextEditorGalleryGroup } from './types';
 
 import { Button } from '../button';
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from '../modal';
+import { forEachTextNode } from './lib/command/mark-commands.ts';
 import { useRichTextEditor } from './rich-text-editor-context';
+import { parseIframeInput } from './rich-text-editor-iframe';
+import { TextSelection } from './rich-text-editor-lib.ts';
 import {
   findMatches,
   nextMatchIndex,
@@ -333,9 +336,10 @@ function ImageDialog({
               multiple
               onChange={(event) => {
                 for (const file of Array.from(event.target.files ?? [])) {
-                  uploadImage(file);
+                  withRestoredSelection(editor, capturedSelection(), () => uploadImage(file));
                 }
                 event.target.value = '';
+                onClose();
               }}
               ref={fileRef}
               type="file"
@@ -393,6 +397,8 @@ function ImageDialog({
 function LinkDialog({ onClose, open }: { onClose: () => void; open: boolean }) {
   const { editor, isActive, run } = useRichTextEditor();
   const capturedSelection = useCapturedSelection(open);
+  const linkSelection = useRef<null | TextSelection>(null);
+  const initialText = useRef('');
   const existing = isActive('link') ? editor.getAttributes('link') : {};
   const [href, setHref] = useState('');
   const [text, setText] = useState('');
@@ -401,19 +407,29 @@ function LinkDialog({ onClose, open }: { onClose: () => void; open: boolean }) {
 
   const reset = useCallback(() => {
     setHref(String(existing.href ?? ''));
-    setText('');
+    const selection = (capturedSelection() ?? editor.state.selection) as TextSelection;
+    linkSelection.current =
+      selection.empty && existing.href
+        ? selectionOfLink(editor, selection, String(existing.href))
+        : selection;
+    initialText.current = editor.state.doc.textBetween(
+      linkSelection.current.from,
+      linkSelection.current.to,
+      '\n',
+    );
+    setText(initialText.current);
     setTarget((existing.target as '_blank' | '_self') ?? '_blank');
     setTitle(String(existing.title ?? ''));
-  }, [existing.href, existing.target, existing.title]);
+  }, [editor, existing.href, existing.target, existing.title, capturedSelection]);
 
   useResetOnOpen(open, reset);
 
   const confirm = () => {
-    withRestoredSelection(editor, capturedSelection(), () => {
+    withRestoredSelection(editor, linkSelection.current ?? capturedSelection(), () => {
       run('insertLink', {
         href,
         target,
-        text: text === '' ? undefined : text,
+        text: text === initialText.current || text === '' ? undefined : text,
         title: title === '' ? undefined : title,
       });
     });
@@ -489,7 +505,9 @@ function LinkDialog({ onClose, open }: { onClose: () => void; open: boolean }) {
             className="me-auto"
 
             onClick={() => {
-              withRestoredSelection(editor, capturedSelection(), () => run('unsetLink'));
+              withRestoredSelection(editor, linkSelection.current ?? capturedSelection(), () =>
+                run('unsetLink'),
+              );
               onClose();
             }}
             variant="outline-secondary"
@@ -520,7 +538,9 @@ function MediaDialog({
 }) {
   const { editor, run } = useRichTextEditor();
   const capturedSelection = useCapturedSelection(open);
-  const [tab, setTab] = useState<'attachment' | 'audio' | 'card' | 'embed' | 'video'>('video');
+  const [tab, setTab] = useState<'attachment' | 'audio' | 'card' | 'embed' | 'iframe' | 'video'>(
+    'video',
+  );
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState('');
   const [name, setName] = useState('');
@@ -552,6 +572,14 @@ function MediaDialog({
         return;
       }
 
+      if (tab === 'iframe') {
+        const source = parseIframeInput(url, document);
+        if (source) {
+          run('insertEmbed', { ...source, provider: 'iframe' });
+        }
+        return;
+      }
+
       if (tab === 'audio') {
         run('insertAudio', { src: url, title: title === '' ? undefined : title });
 
@@ -565,6 +593,13 @@ function MediaDialog({
       }
 
       if (tab === 'embed') {
+        if (html.trim().toLowerCase().startsWith('<iframe')) {
+          const source = parseIframeInput(html, document);
+          if (source) {
+            run('insertEmbed', { ...source, provider: 'iframe' });
+          }
+          return;
+        }
         if (html.trim() !== '') {
           run('insertEmbedBlock', { html, title: title === '' ? undefined : title });
         } else {
@@ -581,9 +616,13 @@ function MediaDialog({
 
   const confirmDisabled =
     (tab === 'video' && parseVideoUrl(url) === null) ||
+    (tab === 'iframe' && parseIframeInput(url, document) === null) ||
     (tab === 'audio' && !isSafeMediaUrl(url)) ||
     (tab === 'attachment' && !isSafeMediaUrl(url)) ||
     (tab === 'embed' && html.trim() === '' && !isSafeMediaUrl(url)) ||
+    (tab === 'embed' &&
+      html.trim().toLowerCase().startsWith('<iframe') &&
+      parseIframeInput(html, document) === null) ||
     (tab === 'card' && html.trim() === '');
 
   return (
@@ -596,6 +635,7 @@ function MediaDialog({
           {(
             [
               ['video', 'Video'],
+              ['iframe', 'Iframe'],
               ['audio', 'Audio'],
               ['attachment', 'Attachment'],
               ['embed', 'Embed'],
@@ -629,8 +669,8 @@ function MediaDialog({
                 value={url}
               />
               <div className="form-text">
-                YouTube, Bilibili and Vimeo links are recognized; any other URL is stored as a
-                generic video source.
+                YouTube, Bilibili and Vimeo links use iframe players. Video files use a native video
+                player; other HTTP(S) addresses are embedded in an iframe.
               </div>
             </div>
             <div>
@@ -677,6 +717,28 @@ function MediaDialog({
               />
             </div>
           </>
+        ) : null}
+
+        {tab === 'iframe' ? (
+          <div className="mb-3">
+            <label className="form-label" htmlFor="rbs-rte-iframe-source">
+              Iframe URL or embed code
+            </label>
+            <textarea
+              className="form-control font-monospace"
+              id="rbs-rte-iframe-source"
+              onChange={(event) => setUrl(event.target.value)}
+              placeholder={
+                'https://example.com/player or <iframe src="https://example.com/player"></iframe>'
+              }
+              rows={4}
+              value={url}
+            />
+            <div className="form-text">
+              Only HTTP(S) sources are allowed. Supplied scripts, srcdoc and iframe permissions are
+              not used.
+            </div>
+          </div>
         ) : null}
 
         {tab === 'attachment' ? (
@@ -868,6 +930,24 @@ function readBrowserSelection(editor: Editor): null | TextSelection {
   });
 
   return selection as TextSelection;
+}
+
+/** A caret inside an existing link edits its full contiguous text, including other text marks. */
+function selectionOfLink(editor: Editor, selection: TextSelection, href: string): TextSelection {
+  const ranges: { from: number; to: number }[] = [];
+  forEachTextNode(editor.state.doc, 0, editor.state.doc.content.size, (node, start) => {
+    if (!node.markSet.some((mark) => mark.type.name === 'link' && mark.attrs.href === href)) {
+      return;
+    }
+    const previous = ranges.at(-1);
+    if (previous?.to === start) {
+      previous.to = start + node.nodeSize;
+    } else {
+      ranges.push({ from: start, to: start + node.nodeSize });
+    }
+  });
+  const range = ranges.find(({ from, to }) => from <= selection.from && selection.from <= to);
+  return range ? TextSelection.create(editor.state.doc, range.from, range.to) : selection;
 }
 
 /** Table dialog: the size of the table to insert. */

@@ -10,6 +10,7 @@ import type {
   NodeSpec,
 } from './rich-text-editor-lib.ts';
 
+import { frameUrl } from './lib/serialization/media-frame';
 import { isSafeUrl, sanitizeUrl } from './rich-text-editor-lib.ts';
 
 /**
@@ -140,12 +141,14 @@ export const dateNode: NodeSpec = {
 /** A block embedding a third-party resource. */
 export const embedNode: NodeSpec = {
   attrs: {
+    height: { default: null },
     html: { default: null },
     id: { default: null },
     poster: { default: null },
     provider: { default: 'custom' },
     title: { default: null },
-    url: { default: null },
+    url: { compute: frameUrl, default: null },
+    width: { default: null },
   },
   draggable: true,
   group: 'block',
@@ -228,26 +231,34 @@ export function extendedDOMRules(): Partial<DOMRules> {
         },
         parseTags: ['time', 'span'],
         tag: 'span',
+        text: extendedNodeText,
       },
       embed: {
         attrs: (node) => ({
           class: 'rt-embed',
+          'data-embed-height': stringAttr(node, 'height'),
           'data-embed-html': stringAttr(node, 'html'),
           'data-embed-id': stringAttr(node, 'id'),
           'data-embed-poster': stringAttr(node, 'poster'),
           'data-embed-title': stringAttr(node, 'title'),
           'data-embed-url': stringAttr(node, 'url'),
+          'data-embed-width': stringAttr(node, 'width'),
           'data-node': 'embed',
           'data-provider': stringAttr(node, 'provider') ?? 'custom',
         }),
-        parse: (element) => ({
-          html: element.getAttribute('data-embed-html'),
-          id: element.getAttribute('data-embed-id'),
-          poster: element.getAttribute('data-embed-poster'),
-          provider: element.getAttribute('data-provider') ?? 'custom',
-          title: element.getAttribute('data-embed-title'),
-          url: element.getAttribute('data-embed-url'),
-        }),
+        parse: (element) =>
+          element.getAttribute('data-node') === 'embed'
+            ? {
+                height: Number(element.getAttribute('data-embed-height')) || null,
+                html: element.getAttribute('data-embed-html'),
+                id: element.getAttribute('data-embed-id'),
+                poster: element.getAttribute('data-embed-poster'),
+                provider: element.getAttribute('data-provider') ?? 'custom',
+                title: element.getAttribute('data-embed-title'),
+                url: element.getAttribute('data-embed-url'),
+                width: Number(element.getAttribute('data-embed-width')) || null,
+              }
+            : null,
         tag: 'div',
       },
       emoji: {
@@ -266,6 +277,7 @@ export function extendedDOMRules(): Partial<DOMRules> {
         },
         parseTags: ['span'],
         tag: 'span',
+        text: extendedNodeText,
       },
       symbol: {
         attrs: (node) => ({
@@ -283,6 +295,7 @@ export function extendedDOMRules(): Partial<DOMRules> {
         },
         parseTags: ['span'],
         tag: 'span',
+        text: extendedNodeText,
       },
     },
   };
@@ -365,7 +378,7 @@ function dateAttrs(options: Attrs | undefined): Attrs | null {
 
 /** Attributes of an embed, or `null` when it names neither a resource nor markup. */
 function embedAttrs(options: Attrs | undefined): Attrs | null {
-  const url = optionalUrl(options?.url);
+  const url = frameUrl(options?.url);
   const html = options?.html === undefined ? null : String(options.html);
 
   if (url === null && (html === null || html.trim() === '')) {
@@ -373,12 +386,14 @@ function embedAttrs(options: Attrs | undefined): Attrs | null {
   }
 
   return {
+    height: options?.height ?? null,
     html,
     id: options?.id === undefined ? null : String(options.id),
     poster: optionalUrl(options?.poster),
     provider: options?.provider === undefined ? 'custom' : String(options.provider),
     title: options?.title === undefined ? null : String(options.title),
     url,
+    width: options?.width ?? null,
   };
 }
 

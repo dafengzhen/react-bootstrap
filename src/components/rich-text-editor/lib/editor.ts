@@ -519,15 +519,11 @@ export class Editor {
     }
   }
 
-  /** Moves the selection to the start of the document and focuses it. */
+  /** Focuses an attached view while preserving the current selection. */
   focus(): void {
-    if (this.viewInstance) {
-      this.viewInstance.focus();
+    const view = this.viewInstance ?? this.attachedViews.values().next().value;
 
-      return;
-    }
-
-    this.dispatch(this.state.tr.setSelection(TextSelection.at(this.state.doc, 1)));
+    view?.focus();
   }
 
   /**

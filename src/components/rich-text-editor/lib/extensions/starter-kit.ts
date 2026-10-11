@@ -38,6 +38,7 @@ import { basicInputRules, inputRules } from '../plugins/input-rules.ts';
 import { inlineStyleValue, linkTargetValue, safeLinkRel } from '../serialization/presentation.ts';
 import { urlPolicy } from '../serialization/sanitize.ts';
 import {
+  createParagraphNear,
   deleteBackward,
   deleteForward,
   deleteSelection,
@@ -282,14 +283,14 @@ export function basicKeymap(): Record<string, Command> {
   return {
     Backspace: chainCommands(deleteSelection(), deleteBackward(), joinBackward()),
     Delete: chainCommands(deleteSelection(), deleteForward(), joinForward()),
-    Enter: splitBlock(),
+    Enter: chainCommands(createParagraphNear(), splitBlock()),
     'Mod-a': selectAll(),
     'Mod-b': toggleNamedMark('bold'),
     'Mod-e': toggleNamedMark('inline_code'),
     'Mod-i': toggleNamedMark('italic'),
     'Mod-u': toggleNamedMark('underline'),
     'Mod-z': undo(),
-    'Shift-Mod-Enter': splitBlock(),
+    'Shift-Enter': splitBlock(),
     'Shift-Mod-x': toggleNamedMark('strike'),
     'Shift-Mod-z': redo(),
   };

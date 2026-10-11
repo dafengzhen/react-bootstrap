@@ -539,7 +539,13 @@ function replaceIn(
 
   // An insertion at an atom boundary belongs to the parent, never to the atom's empty content.
   // Descending into an image here rejects ordinary typing and leaves the browser to mutate DOM.
-  if (startIndex === endIndex && !content.maybeChild(startIndex)?.isAtom) {
+  const startChild = content.maybeChild(startIndex);
+  const insertsInlineNode =
+    startChild?.isText && fittedContent(slice).children.some((child) => !child.isText);
+
+  // Inline atoms must split the surrounding text run in its parent. A text node cannot hold
+  // an emoji, symbol or image; descending into it rejects insertion at a preserved caret.
+  if (startIndex === endIndex && !startChild?.isAtom && !insertsInlineNode) {
     const child = content.maybeChild(startIndex);
 
     if (!child) {

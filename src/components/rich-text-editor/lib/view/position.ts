@@ -108,7 +108,10 @@ export function domAtPos(maps: ViewMaps, doc: DocNode, pos: number): DOMPosition
       inFrontOfChild(maps, holding, node, last);
 
     if (!child) {
-      return { node: holding, offset: holding.childNodes.length };
+      const filler = holding.lastChild;
+      // View-only trailing breaks provide a line box, but the caret belongs before them.
+      const hasFiller = filler && isElement(filler) && filler.hasAttribute('data-rt-filler');
+      return { node: holding, offset: holding.childNodes.length - (hasFiller ? 1 : 0) };
     }
 
     // A child that renders as an element owns the positions inside it, so the walk descends there.
@@ -272,6 +275,16 @@ export function readSelection(
 
   if (anchor === null || head === null) {
     return null;
+  }
+
+  if (anchor === head) {
+    const $pos = doc.resolve(anchor);
+    // Native Control+End can put the caret *after* a table rather than inside its last cell.
+    // Text cannot be inserted between ordinary blocks. Keep atom edges for Enter's paragraph
+    // fallback, but normalize other document boundaries to an editable text position.
+    if ($pos.depth === 0 && !$pos.nodeBefore()?.isLeaf && !$pos.nodeAfter()?.isLeaf) {
+      return TextSelection.near(doc, anchor, anchor === doc.content.size ? -1 : 1);
+    }
   }
 
   return TextSelection.create(doc, anchor, head);

@@ -1,5 +1,6 @@
 ```typescript
 export type RichTextEditorPanel =
+  | 'code-language'
   | 'block-type'
   | 'color'
   | 'datetime'

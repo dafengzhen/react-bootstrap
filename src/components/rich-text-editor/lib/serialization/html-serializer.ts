@@ -5,6 +5,13 @@ import type { Attrs } from '../util/object.ts';
 import { isTextNode } from '../model/text-node.ts';
 import { headingLevel, MARK_RULES, NODE_RULES } from './html-rules.ts';
 import {
+  FRAME_ALLOW,
+  frameReferrerPolicy,
+  frameSandbox,
+  frameUrl,
+  videoFrameUrl,
+} from './media-frame.ts';
+import {
   blockPresentationStyle,
   indentationOf,
   inlineStyleValue,
@@ -59,6 +66,9 @@ export function serializeDocument(doc: DocNode, options: SerializeOptions = {}):
 export function serializeNode(node: DocNode, options: SerializeOptions = {}): string {
   if (isTextNode(node)) {
     return serializeText(node, options);
+  }
+  if (node.name === 'video' || node.name === 'embed') {
+    return serializeMedia(node);
   }
 
   const rule = NODE_RULES.find(
@@ -227,6 +237,61 @@ function serializeChildren(node: DocNode, options: SerializeOptions): string {
   node.content.forEach((child) => parts.push(serializeNode(child, options)));
 
   return parts.join('');
+}
+
+/** Safe frame markup plus inert model metadata, preserved when raw frames are sanitized on import. */
+function serializeMedia(node: DocNode): string {
+  const video = node.name === 'video';
+  const url = video
+    ? urlPolicy.sanitize(String(node.attr('url') ?? ''))
+    : frameUrl(node.attr('url'));
+  const native = video && node.attr('provider') === 'native';
+  const attrs: Record<string, unknown> = native
+    ? {
+        'data-id': node.attr('id'),
+        'data-provider': 'native',
+        height: node.attr('height'),
+        poster: urlPolicy.sanitize(String(node.attr('poster') ?? '')),
+        src: url,
+        width: node.attr('width'),
+      }
+    : video
+      ? {
+          'data-height': node.attr('height'),
+          'data-id': node.attr('id'),
+          'data-node': 'video',
+          'data-provider': node.attr('provider'),
+          'data-video-poster': urlPolicy.sanitize(String(node.attr('poster') ?? '')),
+          'data-video-url': url,
+          'data-width': node.attr('width'),
+        }
+      : {
+          'data-embed-height': node.attr('height'),
+          'data-embed-html': node.attr('html'),
+          'data-embed-id': node.attr('id'),
+          'data-embed-poster': node.attr('poster'),
+          'data-embed-title': node.attr('title'),
+          'data-embed-url': url,
+          'data-embed-width': node.attr('width'),
+          'data-node': 'embed',
+          'data-provider': node.attr('provider'),
+        };
+  const metadata = Object.entries(attrs)
+    .filter(([, value]) => value !== null && value !== undefined && value !== '')
+    .map(([name, value]) => ` ${name}="${escapeAttribute(String(value))}"`)
+    .join('');
+  if (native) {
+    return `<video${metadata} controls></video>`;
+  }
+  const source = video ? videoFrameUrl(node.attr('provider'), node.attr('id'), url) : url;
+  const dimension = (name: string, fallback: number) => {
+    const value = Number(node.attr(name));
+    return Number.isFinite(value) && value > 0 ? value : fallback;
+  };
+  const frame = source
+    ? `<iframe src="${escapeAttribute(source)}" title="${escapeAttribute(String(node.attr('title') ?? 'Embedded media'))}" width="${dimension('width', 560)}" height="${dimension('height', 315)}" sandbox="${frameSandbox(source)}" referrerpolicy="${frameReferrerPolicy(source)}" loading="lazy" allow="${FRAME_ALLOW}" allowfullscreen></iframe>`
+    : '';
+  return `<div${metadata}>${frame}</div>`;
 }
 
 /**

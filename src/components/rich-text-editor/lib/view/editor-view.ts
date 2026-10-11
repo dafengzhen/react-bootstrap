@@ -11,6 +11,8 @@ import type { DOMElement, DOMNode } from './dom-types.ts';
 import type { EditorLocale, ResolvedEditorLocale } from './locale.ts';
 import type { NodeView, NodeViewRegistry } from './node-view.ts';
 
+import { NodeSelection } from '../selection/node-selection.ts';
+import { TextSelection } from '../selection/text-selection.ts';
 import { ClipboardManager } from './clipboard.ts';
 import { CompositionController, showsTextTheDocumentDoesNot } from './composition-controller.ts';
 import { CompositionManager } from './composition.ts';
@@ -217,7 +219,7 @@ export class EditorView {
 
   /** Focuses the editable element and moves the browser's selection in. */
   focus(): void {
-    this.host.focus();
+    this.dom.focus();
     this.writeSelection();
   }
 
@@ -401,6 +403,33 @@ export class EditorView {
 
   /** Wires the browser events the view reacts to. */
   private bindEvents(): void {
+    this.on(this.host, 'mousedown', (event) => {
+      let target = event.target as DOMNode | null;
+      while (target && target !== this.dom && !this.maps.domToDoc.has(target)) {
+        target = target.parentNode;
+      }
+      const node = target ? this.maps.domToDoc.get(target) : undefined;
+      if (!this.editable || !target || !node?.isLeaf || !node.selectable || node.isText) {
+        return;
+      }
+      const pos = this.posAtDOM(target, 0);
+
+      if (pos === null) {
+        return;
+      }
+      event.preventDefault();
+      this.dom.focus();
+      if (node.name === 'image') {
+        const element = target as DOMElement;
+        const rect = (element.querySelector('img') ?? element).getBoundingClientRect();
+        const direction = (event as MouseEvent).clientY < rect.top + rect.height / 2 ? -1 : 1;
+        this.placeImageCaret(pos, direction);
+        return;
+      }
+      this.editor.dispatch(
+        this.editor.state.tr.setSelection(NodeSelection.create(this.editor.state.doc, pos)),
+      );
+    });
     this.on(this.host, 'keydown', (event) => this.handleKeyDown(event as KeyboardEvent));
     this.on(this.host, 'beforeinput', (event) => this.handleBeforeInput(event));
     this.on(this.host, 'input', () => this.handleInput());
@@ -484,6 +513,8 @@ export class EditorView {
       return;
     }
 
+    this.syncSelectionFromDOM();
+
     // `InputEvent` is not available everywhere, so the fields are read structurally.
     const input = {
       data: (event as Partial<InputEvent>).data,
@@ -532,6 +563,7 @@ export class EditorView {
 
   /** Writes the payload for a copy, or copies and removes for a cut. */
   private handleCopy(event: ClipboardEvent, cut: boolean): void {
+    this.syncSelectionFromDOM();
     const payload = this.clipboard.copy(this.editor.state);
 
     writeClipboard(event, payload);
@@ -631,7 +663,53 @@ export class EditorView {
    * follows is held back.
    */
   private handleKeyDown(event: KeyboardEvent): void {
-    if (event.isComposing || this.compositionController.isActive) {
+    if (!this.editable || event.isComposing || this.compositionController.isActive) {
+      return;
+    }
+
+    // `selectionchange` is asynchronous in browsers. A key can therefore arrive after the user
+    // moved the caret but before that move reached the editor state. Read the live range at the
+    // editing boundary so Enter splits the block the user is looking at, especially at heading and
+    // block-atom edges where a stale position is visible as a caret jump.
+    this.syncSelectionFromDOM();
+
+    const selection = this.editor.state.selection;
+    const verticalDirection =
+      !event.shiftKey && !event.altKey && !event.ctrlKey && !event.metaKey
+        ? event.key === 'ArrowUp'
+          ? -1
+          : event.key === 'ArrowDown'
+            ? 1
+            : null
+        : null;
+    if (verticalDirection && selection.empty && this.imageOnlyBlock(selection.head)) {
+      event.preventDefault();
+      this.placeImageCaret(selection.head, verticalDirection);
+      return;
+    }
+    if (
+      verticalDirection &&
+      selection instanceof NodeSelection &&
+      selection.node.name === 'image'
+    ) {
+      event.preventDefault();
+      this.placeImageCaret(selection.from, verticalDirection);
+      return;
+    }
+    if (
+      selection instanceof NodeSelection &&
+      selection.node.name === 'horizontal_rule' &&
+      (event.key === 'End' || event.key === 'Home')
+    ) {
+      event.preventDefault();
+      this.editor.dispatch(
+        this.editor.state.tr.setSelection(
+          TextSelection.create(
+            this.editor.state.doc,
+            event.key === 'End' ? selection.to : selection.from,
+          ),
+        ),
+      );
       return;
     }
 
@@ -642,11 +720,20 @@ export class EditorView {
     }
 
     this.selectionController.holdForBrowserDefault(this.editor.state);
-    this.afterBrowserDefault(() => this.flushSelection());
+    this.afterBrowserDefault(() => {
+      this.flushSelection();
+      if (verticalDirection) {
+        const live = this.readSelection();
+        if (live?.empty && this.imageOnlyBlock(live.head)) {
+          this.placeImageCaret(live.head, verticalDirection);
+        }
+      }
+    });
   }
 
   /** Inserts whatever the clipboard carried. */
   private handlePaste(event: ClipboardEvent): void {
+    this.syncSelectionFromDOM();
     const payload = readClipboard(event);
     const tr = this.clipboard.paste(this.editor.state, payload);
 
@@ -675,13 +762,24 @@ export class EditorView {
 
     this.selectionController.forgetWritten();
 
-    const selection = this.readSelection();
+    this.syncSelectionFromDOM();
+  }
 
-    if (!selection || selection.eq(this.editor.state.selection)) {
-      return;
+  /** An image-only paragraph has no visible text caret; use its neighbouring text line instead. */
+  private imageOnlyBlock(pos: number): { from: number; to: number } | null {
+    const $pos = this.editor.state.doc.resolve(pos);
+    for (let depth = $pos.depth; depth > 0; depth--) {
+      const node = $pos.node(depth);
+      if (
+        node.content.children.some((child) => child.name === 'image') &&
+        node.content.children.every(
+          (child) => child.name === 'image' || (child.isText && !child.textContent.trim()),
+        )
+      ) {
+        return { from: $pos.before(depth), to: $pos.after(depth) };
+      }
     }
-
-    this.editor.dispatch(this.editor.state.tr.setSelection(selection));
+    return null;
   }
 
   /**
@@ -737,7 +835,56 @@ export class EditorView {
 
   /** Adds a DOM listener removed again when the view is destroyed. */
   private on(target: EventTarget, type: string, listener: EventListener): void {
-    this.listeners.on(target, type, listener);
+    this.listeners.on(target, type, (event) => {
+      // Attached UI shares the scroll host, but its inputs and keyboard actions are not document edits.
+      if (target === this.host && event.target && !this.dom.contains(event.target as DOMNode)) {
+        return;
+      }
+      listener(event);
+    });
+  }
+
+  private placeImageCaret(pos: number, direction: -1 | 1): void {
+    const state = this.editor.state;
+    const block = this.imageOnlyBlock(pos);
+    if (!block) {
+      const node = state.doc.nodeStartingAt(pos);
+      this.selectionController.cancel();
+      this.editor.dispatch(
+        state.tr.setSelection(
+          TextSelection.near(
+            state.doc,
+            pos + (direction === 1 && node?.name === 'image' ? node.nodeSize : 0),
+            direction,
+          ),
+        ),
+      );
+      return;
+    }
+    let candidate = direction === -1 ? block.from - 1 : block.to + 1;
+    while (candidate >= 0 && candidate <= state.doc.content.size) {
+      const next = TextSelection.near(state.doc, candidate, direction);
+      const otherImageBlock = this.imageOnlyBlock(next.head);
+      if (otherImageBlock) {
+        candidate = direction === -1 ? otherImageBlock.from - 1 : otherImageBlock.to + 1;
+        continue;
+      }
+      if (next.$head.parent.contentMatch.allowedTypes.some((type) => type.isText)) {
+        this.selectionController.cancel();
+        this.editor.dispatch(state.tr.setSelection(next));
+        return;
+      }
+      break;
+    }
+    // At the document edge, provide an actual empty line rather than a hidden caret on the atom.
+    const paragraph = state.schema.nodes.paragraph;
+    if (paragraph) {
+      const at = direction === -1 ? block.from : block.to;
+      const tr = state.tr.insert(at, [paragraph.create()]);
+      tr.setSelection(TextSelection.create(tr.doc, at + 1));
+      this.selectionController.cancel();
+      this.editor.dispatch(tr);
+    }
   }
 
   /**
@@ -780,6 +927,20 @@ export class EditorView {
     } else {
       this.dom.removeAttribute('data-placeholder');
     }
+  }
+
+  /** Mirrors the browser's current range into state before an edit depends on it. */
+  private syncSelectionFromDOM(): void {
+    if (this.selectionController.wrote(this.document.getSelection())) {
+      return;
+    }
+    const selection = this.readSelection();
+
+    if (!selection || selection.eq(this.editor.state.selection)) {
+      return;
+    }
+
+    this.editor.dispatch(this.editor.state.tr.setSelection(selection));
   }
 }
 

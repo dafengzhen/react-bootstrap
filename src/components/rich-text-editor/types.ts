@@ -39,6 +39,15 @@ export interface RichTextEditorContextValue {
   state: EditorState;
 }
 
+/** Actions available to a reusable selected-node focus toolbar. */
+export interface RichTextEditorFocusToolbarContext {
+  editor: Editor;
+  node: NodeJSON;
+  position: number;
+  remove: () => boolean;
+  update: (attrs: Attrs) => boolean;
+}
+
 /**
  * Format the painter is holding between "copy" and "apply".
  *
@@ -108,6 +117,7 @@ export interface RichTextEditorImage {
 /** Panel a toolbar control can open; at most one is open at a time. */
 export type RichTextEditorPanel =
   | 'block-type'
+  | 'code-language'
   | 'color'
   | 'datetime'
   | 'emoji'
@@ -145,6 +155,8 @@ export interface RichTextEditorProps extends Omit<
    * controls; passing a list of your own takes over both the schema and the commands.
    */
   extensions?: Extension[];
+  /** Persistent leaf-node controls above content; return null for unsupported nodes, or false to disable. */
+  focusToolbar?: ((context: RichTextEditorFocusToolbarContext) => ReactNode) | false;
   /** Gallery shown by the image dialog's gallery tab. */
   gallery?: RichTextEditorGalleryGroup[];
   /** Whether the toolbar is left out. Defaults to `false`, so the toolbar renders. */
@@ -159,6 +171,6 @@ export interface RichTextEditorProps extends Omit<
   placeholder?: string;
   /** Extra controls rendered at the end of the toolbar. */
   toolbarExtra?: ReactNode;
-  /** Upload adapters; without them the upload buttons report that they cannot run. */
+  /** Server upload adapters; without an adapter, local images are embedded as data URLs. */
   upload?: { file?: FileUploader; image?: FileUploader };
 }

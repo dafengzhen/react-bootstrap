@@ -7,9 +7,11 @@ import type { Attrs } from '../util/object.ts';
 import type { DOMRules, MarkDOMRule, NodeDOMRule } from './dom-rules.ts';
 
 import { Fragment } from '../model/fragment.ts';
+import { frameUrl } from '../serialization/media-frame.ts';
 import { htmlPolicy, urlPolicy } from '../serialization/sanitize.ts';
 import { ErrorCode, viewError } from '../util/errors.ts';
 import { defaultDOMRules, mergeDOMRules, rulesForSchema, ruleTag } from './dom-rules.ts';
+import { mediaDOMRules } from './media-rules.ts';
 
 /** Node type number of an element in the DOM. */
 const ELEMENT_NODE = 1;
@@ -72,7 +74,35 @@ export function parseHTML(
   const document = resolveDocument(domDocument);
   const container = document.createElement('div');
 
-  container.innerHTML = htmlPolicy.sanitize(html);
+  // Extract frame descriptors in an inert template; raw iframes remain forbidden by the HTML policy.
+  const template = document.createElement('template');
+  template.innerHTML = html;
+  if (schema.nodes.embed) {
+    for (const frame of template.content.querySelectorAll('iframe')) {
+      if (frame.closest('[data-node="embed"], [data-node="video"]')) {
+        frame.remove();
+        continue;
+      }
+      const url = frame.hasAttribute('srcdoc') ? null : frameUrl(frame.getAttribute('src'));
+      if (!url) {
+        frame.remove();
+        continue;
+      }
+      const descriptor = document.createElement('div');
+      if (url) {
+        descriptor.setAttribute('data-node', 'embed');
+        descriptor.setAttribute('data-embed-url', url);
+        for (const name of ['title', 'width', 'height']) {
+          const value = frame.getAttribute(name);
+          if (value) {
+            descriptor.setAttribute(`data-embed-${name}`, value);
+          }
+        }
+      }
+      frame.replaceWith(descriptor);
+    }
+  }
+  container.innerHTML = htmlPolicy.sanitize(template.innerHTML);
 
   return parseChildren(container, parseContext(schema, rules), schema.topNodeType, []);
 }
@@ -347,7 +377,8 @@ function parseChildren(
 
 /** Parse state of one call: the rules in effect and the types they build. */
 function parseContext(schema: Schema, rules?: DOMRules): ParseContext {
-  const merged = rules ? mergeDOMRules(defaultDOMRules(), rules) : defaultDOMRules();
+  const defaults = mergeDOMRules(defaultDOMRules(), mediaDOMRules());
+  const merged = rules ? mergeDOMRules(defaults, rules) : defaults;
 
   return { markTypes: Object.values(schema.marks), rules: rulesForSchema(schema, merged), schema };
 }
@@ -376,6 +407,10 @@ function parseElement(
   // A hard break is a newline where characters are allowed and nothing anywhere else: a `<br>`
   // between two blocks does not open a block.
   if (tag === 'br') {
+    if (element.getAttribute('data-rt-filler') === 'true') {
+      return [];
+    }
+
     const newline = sortMarks(allowedMarks(container, inherited));
 
     return allowsText(container) ? [context.schema.text('\n', newline)] : [];

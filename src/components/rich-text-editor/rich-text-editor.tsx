@@ -18,11 +18,15 @@ import type {
   RichTextEditorProps,
 } from './types';
 
+import { mediaBlockNodeView } from './lib/view/media-rules.ts';
+import { codeHighlightDOMRules } from './rich-text-editor-code-highlight';
 import { editorKit } from './rich-text-editor-commands';
 import { RichTextEditorContext, useRichTextEditor } from './rich-text-editor-context';
 import { RichTextEditorDialogs } from './rich-text-editor-dialogs';
 import { extendedDOMRules, extendedKit } from './rich-text-editor-extensions';
+import { NodeFocusToolbars } from './rich-text-editor-focus-toolbar';
 import {
+  ClipboardManager,
   createEditorView,
   defaultDOMRules,
   Editor as EditorClass,
@@ -38,7 +42,7 @@ import {
   RichTextEditorToolbar,
   type RichTextEditorToolbarAction,
 } from './rich-text-editor-toolbar';
-import { applyFormatPainter, insertPlainText, painterFrom } from './rich-text-editor-utils';
+import { applyFormatPainter, painterFrom } from './rich-text-editor-utils';
 import { formatDateTime } from './rich-text-editor-video.ts';
 import styles from './rich-text-editor.module.css';
 
@@ -72,6 +76,7 @@ export const RichTextEditor = forwardRef<RichTextEditorHandle, RichTextEditorPro
       content,
       editable = true,
       extensions,
+      focusToolbar,
       gallery = [],
       hideToolbar = false,
       locale,
@@ -132,8 +137,11 @@ export const RichTextEditor = forwardRef<RichTextEditorHandle, RichTextEditorPro
       const view = createEditorView(instance, {
         element: host,
         locale: localeWithPlaceholder(locale, placeholder),
-        nodeViews: MediaKit.nodeViews,
-        rules: mergeDOMRules(mergeDOMRules(defaultDOMRules(), mediaDOMRules()), extendedDOMRules()),
+        nodeViews: { ...MediaKit.nodeViews, embed: mediaBlockNodeView },
+        rules: mergeDOMRules(
+          mergeDOMRules(mergeDOMRules(defaultDOMRules(), mediaDOMRules()), extendedDOMRules()),
+          codeHighlightDOMRules(),
+        ),
       });
       const offTransaction = instance.on('transaction', (payload) => {
         setState(payload.state);
@@ -443,15 +451,20 @@ export const RichTextEditor = forwardRef<RichTextEditorHandle, RichTextEditorPro
               uploadFile={(file) => uploadOne('file', file, run)}
               uploadImage={(file) => uploadOne('image', file, run)}
             />
-            <UploadProgress />
+            <NodeFocusToolbars render={focusToolbar} view={viewRef.current} />
           </RichTextEditorContext.Provider>
         ) : null}
         {/*
-          The editable area is an element of its own inside the root. The engine renders the document
-          into it, so it must hold nothing React wrote: the toolbar, the dialogs and the upload
-          status stay outside it, where the editor can never turn them into content.
+          The engine owns the `.rt-editor` inside this scroll host. Attached controls may share the
+          host to scroll with their content, but remain siblings of `.rt-editor`, never document
+          children that the engine could parse as editable content.
         */}
         <div className={clsx('rbs-rte-content', styles.content)} ref={hostRef} />
+        {context ? (
+          <RichTextEditorContext.Provider value={context}>
+            <UploadProgress />
+          </RichTextEditorContext.Provider>
+        ) : null}
         {error ? <div className={styles.error}>{error}</div> : null}
       </div>
     );
@@ -467,48 +480,56 @@ RichTextEditor.displayName = 'RichTextEditor';
  * the browser's own copy command: a document without the `clipboard-write` permission has no usable
  * API at all, and the user's Ctrl+C is always the way out.
  */
-async function copySelection(editor: Editor): Promise<void> {
-  const text = editor.getText('\n');
+async function copySelection(editor: Editor): Promise<boolean> {
+  const clipboard = editorClipboard(editor);
+  const payload = clipboard.copy(editor.state);
+  const text = payload.text ?? '';
 
-  if (text === '') {
-    return;
+  if (!text && !payload.html) {
+    return false;
   }
 
   try {
-    await navigator.clipboard.writeText(text);
+    if (typeof ClipboardItem !== 'undefined' && navigator.clipboard.write && payload.html) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html': new Blob([payload.html], { type: 'text/html' }),
+          'text/plain': new Blob([text], { type: 'text/plain' }),
+        }),
+      ]);
+    } else {
+      await navigator.clipboard.writeText(text);
+    }
+    return true;
   } catch {
     try {
-      document.execCommand('copy');
+      return document.execCommand('copy');
     } catch {
       // Nothing else to try: the user's own Ctrl+C still works.
+      return false;
     }
   }
 }
 
 /** Cuts the selection: it is copied first, then removed as one undo step. */
 async function cutSelection(editor: Editor): Promise<void> {
-  await copySelection(editor);
+  const state = editor.state;
+  const clipboard = editorClipboard(editor);
+  const { transaction } = clipboard.cut(state);
 
-  editor.runCommand((state, dispatch) => {
-    const { empty, from, to } = state.selection;
-
-    if (empty) {
-      return false;
-    }
-
-    if (!dispatch) {
-      return true;
-    }
-
-    const tr = state.tr;
-
-    tr.delete(from, to);
-    tr.setMeta('historyGroup', 'delete');
-    dispatch(tr);
-
-    return true;
-  });
+  const copied = await copySelection(editor);
+  if (copied && transaction && editor.state.doc === state.doc) {
+    editor.dispatch(transaction);
+  }
   editor.focus();
+}
+
+/** Toolbar clipboard operations use the same node rules as the editable view. */
+function editorClipboard(editor: Editor): ClipboardManager {
+  return new ClipboardManager({
+    rules: mergeDOMRules(mergeDOMRules(defaultDOMRules(), mediaDOMRules()), extendedDOMRules()),
+    schema: editor.schema,
+  });
 }
 
 /**
@@ -533,19 +554,52 @@ function localeWithPlaceholder(
 
 /** Pastes the clipboard as plain text, which is what the editor can always represent. */
 async function pasteAsPlainText(editor: Editor): Promise<void> {
+  const state = editor.state;
   const text = await readClipboardText();
 
   if (text === '') {
     return;
   }
 
-  editor.runCommand(insertPlainText(text));
+  if (editor.state.doc !== state.doc) {
+    return;
+  }
+  const tr = editorClipboard(editor).paste(state, { text }, { plain: true });
+  if (tr) {
+    editor.dispatch(tr);
+  }
   editor.focus();
 }
 
-/** Pastes the clipboard; a rich payload is left to the browser's own paste event. */
+/** Pastes the clipboard through the same rich-content pipeline as native paste. */
 async function pasteFromClipboard(editor: Editor): Promise<void> {
-  await pasteAsPlainText(editor);
+  const state = editor.state;
+  let html = '';
+  let text = '';
+
+  try {
+    for (const item of await navigator.clipboard.read()) {
+      if (item.types.includes('text/html')) {
+        html = await (await item.getType('text/html')).text();
+      }
+      if (item.types.includes('text/plain')) {
+        text = await (await item.getType('text/plain')).text();
+      }
+      if (html || text) {
+        break;
+      }
+    }
+  } catch {
+    text = await readClipboardText();
+  }
+  if (editor.state.doc !== state.doc) {
+    return;
+  }
+  const tr = editorClipboard(editor).paste(state, { html, text });
+  if (tr) {
+    editor.dispatch(tr);
+    editor.focus();
+  }
 }
 
 /** Clipboard text, or an empty string when the browser refuses to hand it over. */
@@ -569,14 +623,14 @@ function uploadOne(
 /** Upload status, rendered here because the engine publishes data rather than copy. */
 function UploadProgress() {
   const { state } = useRichTextEditor();
-  const tasks = uploadsOf(state);
+  const tasks = uploadsOf(state).filter((task) => task.status !== 'success');
 
   if (tasks.length === 0) {
     return null;
   }
 
   return (
-    <div aria-live="polite" className={styles.uploads}>
+    <div aria-live="polite" className={clsx('rbs-rte-upload-status', styles.uploads)}>
       {tasks.map((task) => (
         <div className={styles.upload} key={task.id}>
           <span className={styles.uploadName}>{task.name}</span>
@@ -600,15 +654,44 @@ function UploadProgress() {
 }
 
 /** Turns the two upload adapters a host passes into the shape the engine's options expect. */
-function uploadToAdapters(
-  upload: { file?: FileUploader; image?: FileUploader } | undefined,
-): { file?: FileUploader; image?: FileUploader } | undefined {
-  if (!upload || (!upload.file && !upload.image)) {
-    return undefined;
-  }
-
+function uploadToAdapters(upload: { file?: FileUploader; image?: FileUploader } | undefined): {
+  file?: FileUploader;
+  image?: FileUploader;
+} {
   return {
-    ...(upload.file ? { file: upload.file } : {}),
-    ...(upload.image ? { image: upload.image } : {}),
+    ...(upload?.file ? { file: upload.file } : {}),
+    image: upload?.image ?? upload?.file ?? localImageUploader,
   };
 }
+
+/** Without a server adapter, local images are embedded as data URLs rather than silently ignored. */
+const localImageUploader: FileUploader = {
+  upload: (file, options) =>
+    new Promise((resolve, reject) => {
+      if (!file.type.startsWith('image/')) {
+        reject(new Error('Please choose an image file.'));
+        return;
+      }
+      const reader = new FileReader();
+      const abort = () => reader.abort();
+      const cleanup = () => options?.signal.removeEventListener('abort', abort);
+      reader.onload = () => {
+        cleanup();
+        resolve({ mimeType: file.type, url: String(reader.result) });
+      };
+      reader.onerror = () => {
+        cleanup();
+        reject(reader.error ?? new Error('Unable to read the image.'));
+      };
+      reader.onabort = () => {
+        cleanup();
+        reject(new Error('Image upload cancelled.'));
+      };
+      if (options?.signal.aborted) {
+        reject(new Error('Image upload cancelled.'));
+        return;
+      }
+      options?.signal.addEventListener('abort', abort, { once: true });
+      reader.readAsDataURL(file);
+    }),
+};

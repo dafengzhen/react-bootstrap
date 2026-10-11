@@ -22,13 +22,15 @@ import styles from './rich-text-editor.module.css';
  */
 
 /** The emoji panel of the toolbar, wired to the `emoji` node. */
-export function EmojiPanel() {
+export function EmojiPanel({ onInserted }: { onInserted?: () => void }) {
   const { run } = useRichTextEditor();
 
   return (
     <EmojiPicker
       onInsert={(char, name) => {
-        run('insertEmoji', { char, name });
+        if (run('insertEmoji', { char, name })) {
+          onInserted?.();
+        }
       }}
     />
   );

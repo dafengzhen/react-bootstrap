@@ -138,7 +138,7 @@ test.describe('rich text editor toolbar sweep', () => {
       })),
     );
 
-    expect(icons).toHaveLength(42);
+    expect(icons).toHaveLength(43);
     expect(icons.filter((icon) => icon.shapes.length === 0)).toEqual([]);
 
     // Every control has a picture of its own: a pair that shares one is a pair a reader cannot tell
@@ -171,7 +171,9 @@ test.describe('rich text editor toolbar sweep', () => {
       ['Font size', '12 px', 'fill'],
       ['Text color', 'Cool Light blue', 'ring'],
       ['Highlight color', 'Light Light yellow', 'ring'],
-      ['Line height and spacing', '1.5', 'fill'],
+      ['Line height', '1.5', 'fill'],
+      ['Paragraph spacing', 'Compact', 'fill'],
+      ['Code block', 'JavaScript', 'fill'],
       ['Emoji', 'Emoji soccer ball', 'fill'],
       ['Special symbol', 'Symbol rightwards arrow', 'fill'],
       ['Date and time', '2024-05-06', 'fill'],
@@ -188,6 +190,8 @@ test.describe('rich text editor toolbar sweep', () => {
       const row = panel.getByRole('button', { exact: true, name: rowName });
 
       await expect(row, `${label} has a row named ${rowName}`).toHaveCount(1);
+      // A resized panel can open underneath the pointer; measure its unhovered state first.
+      await page.mouse.move(0, 0);
 
       const read = () =>
         row.evaluate((node) => {
@@ -252,6 +256,77 @@ test.describe('rich text editor toolbar sweep', () => {
 
     expect(await target.locator(':scope > p').count()).toBe(before + 1);
     await expect(target.getByText('第二段')).toBeVisible();
+  });
+
+  test('creates a visible paragraph after the terminal rule using native End and Enter', async ({
+    page,
+  }) => {
+    const target = mainEditor(page);
+
+    await target.locator(':scope > hr').click();
+    await page.keyboard.press('End');
+    await page.keyboard.press('Enter');
+    await page.keyboard.type('after rule');
+    await expect(target.locator(':scope > hr + p')).toHaveText('after rule');
+  });
+
+  test('keeps Enter stable at heading and horizontal-rule boundaries', async ({ page }) => {
+    const target = mainEditor(page);
+    const heading = target.locator(':scope > h2').first();
+
+    await heading.evaluate((element) => {
+      const range = document.createRange();
+
+      range.setStart(element.firstChild ?? element, 0);
+      range.collapse(true);
+
+      const selection = window.getSelection();
+
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+      document.dispatchEvent(new Event('selectionchange'));
+    });
+    await page.keyboard.press('Enter');
+    await page.keyboard.type('标题前');
+
+    await expect(target.locator(':scope > p').first()).toHaveText('标题前');
+    await expect(heading).toContainText('文本格式与段落');
+
+    const placeBesideRule = async (side: 'after' | 'before'): Promise<void> => {
+      await target.locator(':scope > hr').evaluate((element, edge) => {
+        const root = element.parentNode;
+
+        if (!root) {
+          throw new Error('the horizontal rule has no editable parent');
+        }
+
+        const index = Array.from(root.childNodes).indexOf(element);
+        const range = document.createRange();
+
+        range.setStart(root, index + (edge === 'after' ? 1 : 0));
+        range.collapse(true);
+
+        const selection = window.getSelection();
+
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+        document.dispatchEvent(new Event('selectionchange'));
+      }, side);
+    };
+
+    await placeBesideRule('before');
+    await page.keyboard.press('Enter');
+    await page.keyboard.type('分割线前');
+    await expect(target.locator(':scope > hr').locator('xpath=preceding-sibling::*[1]')).toHaveText(
+      '分割线前',
+    );
+
+    await placeBesideRule('after');
+    await page.keyboard.press('Enter');
+    await page.keyboard.type('分割线后');
+    await expect(target.locator(':scope > hr').locator('xpath=following-sibling::*[1]')).toHaveText(
+      '分割线后',
+    );
   });
 
   test('keeps every mark toggle working, on and off', async ({ page }) => {
@@ -341,6 +416,274 @@ test.describe('rich text editor toolbar sweep', () => {
     await expect(target.locator('p').first()).not.toHaveAttribute('style', /text-align/);
   });
 
+  test('shows a new code line after a single Enter even before typing text', async ({ page }) => {
+    const target = mainEditor(page);
+    await resetToParagraph(target, 'const x = 1;');
+    await mainToolbar(page).getByRole('button', { exact: true, name: 'Code block' }).click();
+    await openPanel(page).getByRole('button', { exact: true, name: 'JavaScript' }).click();
+    await page.keyboard.press('End');
+    const before = (await target.locator('pre').boundingBox())!.height;
+    await page.keyboard.press('Enter');
+    await expect(target.locator('pre')).toHaveCount(1);
+    await expect(target.locator('pre')).toHaveText('const x = 1;\n');
+    expect((await target.locator('pre').boundingBox())!.height).toBeGreaterThan(before);
+    await page.keyboard.type('x++;');
+    await expect(target.locator('pre')).toHaveText('const x = 1;\nx++;');
+  });
+
+  test('shows selected link text and edits a whole link from an interior caret', async ({
+    page,
+  }) => {
+    const target = mainEditor(page);
+    const first = mainToolbar(page);
+    await resetToParagraph(target, 'alpha beta omega');
+    await target.locator('p').evaluate((element) => {
+      const range = document.createRange();
+      range.setStart(element.firstChild!, 6);
+      range.setEnd(element.firstChild!, 10);
+      window.getSelection()?.removeAllRanges();
+      window.getSelection()?.addRange(range);
+      document.dispatchEvent(new Event('selectionchange'));
+    });
+    await first.getByRole('button', { exact: true, name: 'Link' }).click();
+    let dialog = page.getByRole('dialog');
+    await expect(dialog.getByLabel('Link text')).toHaveValue('beta');
+    await dialog.getByLabel('Destination').fill('https://example.com');
+    await dialog.getByRole('button', { exact: true, name: 'Insert' }).click();
+    await target.locator('a').evaluate((element) => {
+      const range = document.createRange();
+      range.setStart(element.firstChild!, 2);
+      range.collapse(true);
+      window.getSelection()?.removeAllRanges();
+      window.getSelection()?.addRange(range);
+      document.dispatchEvent(new Event('selectionchange'));
+    });
+    await first.getByRole('button', { exact: true, name: 'Link' }).click();
+    dialog = page.getByRole('dialog');
+    await expect(dialog.getByLabel('Link text')).toHaveValue('beta');
+    await expect(dialog.getByLabel('Destination')).toHaveValue('https://example.com');
+    await dialog.getByLabel('Link text').fill('BETTER');
+    await dialog.getByRole('button', { exact: true, name: 'Update' }).click();
+    await expect(target.locator('p').first()).toHaveText('alpha BETTER omega');
+    await expect(target.locator('a')).toHaveCount(1);
+  });
+
+  test('selects and inserts a local image without a server upload adapter', async ({ page }) => {
+    const target = mainEditor(page);
+    await resetToParagraph(target, 'image here');
+    await mainToolbar(page).getByRole('button', { exact: true, name: 'Image' }).click();
+    const dialog = page.getByRole('dialog');
+    await dialog.getByRole('button', { exact: true, name: 'Upload' }).click();
+    await dialog.locator('input[type="file"]').setInputFiles({
+      buffer: Buffer.from(
+        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a0xkAAAAASUVORK5CYII=',
+        'base64',
+      ),
+      mimeType: 'image/png',
+      name: 'pixel.png',
+    });
+    await expect(dialog).toHaveCount(0);
+    await expect(target.locator('img')).toHaveCount(1);
+    await expect(target.locator('img')).toHaveAttribute('src', /^data:image\/png;base64,/);
+    await expect(editorOf(page, '文本格式与段落').locator('.rbs-rte-upload-status')).toHaveCount(0);
+    await expect
+      .poll(() => target.locator('img').evaluate((image: HTMLImageElement) => image.naturalWidth))
+      .toBe(1);
+  });
+
+  test('keeps an attached image toolbar visible without overlapping content', async ({ page }) => {
+    const target = mainEditor(page);
+    await resetToParagraph(target, 'image');
+    await mainToolbar(page).getByRole('button', { exact: true, name: 'Image' }).click();
+    const dialog = page.getByRole('dialog');
+    await dialog
+      .getByLabel('Image URL')
+      .fill(
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a0xkAAAAASUVORK5CYII=',
+      );
+    await dialog.getByRole('button', { exact: true, name: 'Insert image' }).click();
+    const focus = page.getByRole('toolbar', { name: 'image focus toolbar' });
+    await expect(focus).toBeVisible();
+    await target.locator('img').click();
+    await expect.poll(() => page.evaluate(() => window.getSelection()?.isCollapsed)).toBe(true);
+    const toolbarStyle = await focus.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { gap: Number.parseFloat(style.columnGap), shadow: style.boxShadow };
+    });
+    expect(toolbarStyle.gap).toBeGreaterThanOrEqual(6);
+    expect(toolbarStyle.shadow).toBe('none');
+    for (const name of [
+      'Image width 25%',
+      'Image width 50%',
+      'Image width 100%',
+      'Original image size',
+    ]) {
+      const button = focus.getByRole('button', { name });
+      expect(await button.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(
+        true,
+      );
+    }
+    await expect
+      .poll(async () => {
+        const toolbarRect = await focus.boundingBox();
+        const imageRect = await target.locator('img').boundingBox();
+        return Boolean(
+          toolbarRect && imageRect && toolbarRect.y + toolbarRect.height <= imageRect.y,
+        );
+      })
+      .toBe(true);
+    await focus.getByRole('button', { name: 'Image width 50%' }).click();
+    const width = Number(await target.locator('img').getAttribute('width'));
+    expect(width).toBeGreaterThan(1);
+    await expect(focus).toBeVisible();
+    await focus.getByRole('button', { name: 'Original image size' }).click();
+    await expect(target.locator('img')).not.toHaveAttribute('width');
+    await page.keyboard.press('Escape');
+    await page.getByRole('heading', { exact: true, name: '文本格式与段落' }).click();
+    await expect(focus).toBeVisible();
+    // The attached toolbar scrolls with its content, rather than pinning itself to the viewport.
+    await target.scrollIntoViewIfNeeded();
+    await focus.getByRole('button', { name: 'Delete image' }).click();
+    await expect(target.locator('img')).toHaveCount(0);
+    await expect(focus).toHaveCount(0);
+    await mainToolbar(page).getByRole('button', { exact: true, name: 'Undo' }).click();
+    await expect(target.locator('img')).toHaveCount(1);
+    await expect(focus).toBeVisible();
+  });
+
+  test('inserts iframe media with safe permissions and attached size/delete controls', async ({
+    page,
+  }) => {
+    await page.route('https://example.test/player', (route) =>
+      route.fulfill({ body: '<p>Test player</p>', contentType: 'text/html' }),
+    );
+    const target = mainEditor(page);
+    await resetToParagraph(target, 'media');
+    await mainToolbar(page)
+      .getByRole('button', { exact: true, name: 'More insert options' })
+      .click();
+    await openPanel(page).getByRole('button', { exact: true, name: 'Video' }).click();
+    const dialog = page.getByRole('dialog');
+    await dialog.getByRole('button', { exact: true, name: 'Iframe' }).click();
+    const input = dialog.getByLabel('Iframe URL or embed code');
+    await input.fill('javascript:alert(1)');
+    await expect(dialog.getByRole('button', { exact: true, name: 'Insert' })).toBeDisabled();
+    await input.fill(
+      '<iframe src="https://example.test/player" title="Test player" width="400" height="225" allow="camera" onload="alert(1)"></iframe>',
+    );
+    await dialog.getByRole('button', { exact: true, name: 'Insert' }).click();
+    const frame = target.locator('iframe');
+    await expect(frame).toHaveAttribute('src', 'https://example.test/player');
+    await expect(frame).toHaveAttribute('sandbox', 'allow-scripts allow-presentation');
+    await expect(frame).not.toHaveAttribute('onload');
+    const focus = page.getByRole('toolbar', { name: 'embed focus toolbar' });
+    await expect(focus).toBeVisible();
+    await expect
+      .poll(async () => {
+        const controls = await focus.boundingBox();
+        const media = await frame.boundingBox();
+        return Boolean(controls && media && controls.y + controls.height <= media.y);
+      })
+      .toBe(true);
+    await focus.getByRole('button', { name: 'Media width 50%' }).click();
+    await expect(frame).not.toHaveAttribute('width', '400');
+    await focus.getByRole('button', { name: 'Original media size' }).click();
+    await expect(frame).toHaveAttribute('width', '560');
+    await focus.getByRole('button', { name: 'Delete media' }).click();
+    await expect(frame).toHaveCount(0);
+    await mainToolbar(page).getByRole('button', { exact: true, name: 'Undo' }).click();
+    await expect(frame).toHaveCount(1);
+    await expect(focus).toBeVisible();
+  });
+
+  test('allows the Bilibili iframe to read its own cookies without accessing the editor', async ({
+    page,
+  }) => {
+    const errors: string[] = [];
+    const warnings: string[] = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    page.on('console', (message) => {
+      if (message.type() === 'warning') {
+        warnings.push(message.text());
+      }
+    });
+    await page.route('https://player.bilibili.com/player.html**', (route) =>
+      route.fulfill({
+        body: `<body><script>
+          document.cookie;
+          document.body.dataset.cookieReadable = 'true';
+          try { parent.document.body; } catch (error) {
+            document.body.dataset.parentBlocked = String(error.name === 'SecurityError');
+          }
+        </script></body>`,
+        contentType: 'text/html',
+      }),
+    );
+    const target = mainEditor(page);
+    await resetToParagraph(target, 'media');
+    await mainToolbar(page)
+      .getByRole('button', { exact: true, name: 'More insert options' })
+      .click();
+    await openPanel(page).getByRole('button', { exact: true, name: 'Video' }).click();
+    const dialog = page.getByRole('dialog');
+    await dialog.getByRole('button', { exact: true, name: 'Iframe' }).click();
+    await dialog
+      .getByLabel('Iframe URL or embed code')
+      .fill(
+        '<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=117409105053246&bvid=BV1MWps6VEWW&cid=42566225415&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>',
+      );
+    await dialog.getByRole('button', { exact: true, name: 'Insert' }).click();
+    const frame = target.locator('iframe');
+    await expect(frame).toHaveAttribute(
+      'sandbox',
+      'allow-scripts allow-presentation allow-same-origin',
+    );
+    await expect(frame).toHaveAttribute('allowfullscreen', '');
+    await expect(frame).toHaveAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
+    await expect(target.frameLocator('iframe').locator('body')).toHaveAttribute(
+      'data-cookie-readable',
+      'true',
+    );
+    await expect(target.frameLocator('iframe').locator('body')).toHaveAttribute(
+      'data-parent-blocked',
+      'true',
+    );
+    expect(
+      errors.filter((message) => message.includes('cookie') || message.includes('sandbox')),
+    ).toEqual([]);
+    expect(warnings.filter((message) => message.includes('allowfullscreen'))).toEqual([]);
+  });
+
+  test('renders a platform video URL as an iframe rather than a native video tag', async ({
+    page,
+  }) => {
+    let referer: string | undefined;
+    await page.route('https://www.youtube-nocookie.com/**', async (route) => {
+      referer = (await route.request().allHeaders()).referer;
+      await route.fulfill({ body: '<p>Test video player</p>', contentType: 'text/html' });
+    });
+    const target = mainEditor(page);
+    await resetToParagraph(target, 'video');
+    await mainToolbar(page)
+      .getByRole('button', { exact: true, name: 'More insert options' })
+      .click();
+    await openPanel(page).getByRole('button', { exact: true, name: 'Video' }).click();
+    const dialog = page.getByRole('dialog');
+    await dialog.getByLabel('Video URL').fill('https://youtu.be/zpOULjyy-n8?si=eRWkH0K8V4PrDRA8');
+    await dialog.getByRole('button', { exact: true, name: 'Insert' }).click();
+    await expect(target.locator('iframe')).toHaveAttribute(
+      'src',
+      'https://www.youtube-nocookie.com/embed/zpOULjyy-n8',
+    );
+    await expect(target.locator('iframe')).toHaveAttribute(
+      'referrerpolicy',
+      'strict-origin-when-cross-origin',
+    );
+    await expect.poll(() => referer).toBe(`${new URL(page.url()).origin}/`);
+    await expect(target.locator('video')).toHaveCount(0);
+    await expect(page.getByRole('toolbar', { name: 'video focus toolbar' })).toBeVisible();
+  });
+
   test('toggles every list, the quote and the code block', async ({ page }) => {
     const target = mainEditor(page);
     const first = mainToolbar(page);
@@ -364,6 +707,9 @@ test.describe('rich text editor toolbar sweep', () => {
 
       await expect(toggle, `${label} is enabled in a paragraph`).toBeEnabled();
       await toggle.click();
+      if (label === 'Code block') {
+        await openPanel(page).getByRole('button', { exact: true, name: 'Plain text' }).click();
+      }
 
       expect(await target.locator(selector).count(), `${label} applies`).toBeGreaterThan(0);
     }
@@ -404,12 +750,12 @@ test.describe('rich text editor toolbar sweep', () => {
     const target = mainEditor(page);
 
     await caretInParagraph(target);
-    await mainToolbar(page).getByRole('button', { name: 'Line height and spacing' }).click();
+    await mainToolbar(page).getByRole('button', { exact: true, name: 'Line height' }).click();
 
     await openPanel(page).locator('[data-panel-item]').filter({ hasText: '1.5' }).first().click();
     await expect(target.locator('p').first()).toHaveAttribute('style', /line-height: 1\.5/);
 
-    await mainToolbar(page).getByRole('button', { name: 'Line height and spacing' }).click();
+    await mainToolbar(page).getByRole('button', { exact: true, name: 'Paragraph spacing' }).click();
     await openPanel(page)
       .locator('[data-panel-item]')
       .filter({ hasText: 'Compact' })
@@ -527,17 +873,99 @@ test.describe('rich text editor toolbar sweep', () => {
     await page.getByPlaceholder('Search emoji').fill('grinning face with smiling eyes');
     await page.getByRole('button', { name: 'Emoji grinning face with smiling eyes' }).click();
     await expect(target.locator('[data-emoji="😄"]')).toHaveCount(1);
+    await expect(target.locator('[data-emoji="😄"]')).toHaveText('😄');
 
     await caretInParagraph(target);
     await first.getByRole('button', { name: 'Special symbol' }).click();
     await page.getByPlaceholder('Search symbols').fill('multiplication sign');
     await page.getByRole('button', { name: 'Symbol multiplication sign' }).click();
     await expect(target.locator('[data-symbol="×"]')).toHaveCount(1);
+    await expect(target.locator('[data-symbol="×"]')).toHaveText('×');
 
     await caretInParagraph(target);
     await first.getByRole('button', { name: 'Date and time' }).click();
     await page.getByRole('button', { exact: true, name: '2024-05-06' }).click();
     expect(await target.locator('[data-node="date"]').count()).toBeGreaterThan(0);
+  });
+
+  test('keeps code language separate from line height and spacing', async ({ page }) => {
+    const target = mainEditor(page);
+    const first = mainToolbar(page);
+    await caretInParagraph(target);
+    await first.getByRole('button', { exact: true, name: 'Line height' }).click();
+    await expect(openPanel(page)).not.toContainText('Code block language');
+    await expect(openPanel(page)).not.toContainText('Paragraph spacing');
+    await first.getByRole('button', { exact: true, name: 'Paragraph spacing' }).click();
+    await expect(openPanel(page)).toContainText('Paragraph spacing');
+    await expect(openPanel(page)).not.toContainText('Line height');
+    await first.getByRole('button', { exact: true, name: 'Code block' }).click();
+    await expect(openPanel(page)).not.toContainText('Line height');
+    await openPanel(page).getByRole('button', { exact: true, name: 'JavaScript' }).click();
+    await expect(target.locator('pre').first()).toHaveAttribute('data-language', 'javascript');
+    await expect(page.locator('.rbs-rte-panel')).toHaveCount(0);
+    await first.getByRole('button', { exact: true, name: 'Code block' }).click();
+    await openPanel(page).getByRole('button', { exact: true, name: 'Normal text' }).click();
+    await expect(target.locator('pre')).toHaveCount(0);
+  });
+
+  test('keeps Enter inside one highlighted code block and preserves typing positions', async ({
+    page,
+  }) => {
+    const target = mainEditor(page);
+    const first = mainToolbar(page);
+    await resetToParagraph(target, 'const answer = 42;');
+    await first.getByRole('button', { exact: true, name: 'Code block' }).click();
+    await openPanel(page).getByRole('button', { exact: true, name: 'JavaScript' }).click();
+    const code = target.locator('pre');
+    await expect(code.locator('.hljs-keyword')).toHaveText('const');
+    await expect(code.locator('.hljs-number')).toHaveText('42');
+    const colors = await code.evaluate((element) => ({
+      keyword: getComputedStyle(element.querySelector('.hljs-keyword')!).color,
+      normal: getComputedStyle(element).color,
+    }));
+    expect(colors.keyword).not.toBe(colors.normal);
+    await page.keyboard.press('End');
+    await page.keyboard.press('Enter');
+    await page.keyboard.type('return answer;');
+    await page.keyboard.press('Shift+Enter');
+    await page.keyboard.type('// done');
+    await expect(code).toHaveCount(1);
+    await expect(code).toHaveText('const answer = 42;\nreturn answer;\n// done');
+    await expect(code.locator('.hljs-comment')).toHaveText('// done');
+    await first.getByRole('button', { exact: true, name: 'Code block' }).click();
+    await openPanel(page).getByRole('button', { exact: true, name: 'Plain text' }).click();
+    await expect(code.locator('[class*="hljs-"]')).toHaveCount(0);
+    await expect(code).toHaveText('const answer = 42;\nreturn answer;\n// done');
+  });
+
+  test('inserts emoji through more insert options into an empty paragraph', async ({ page }) => {
+    const target = mainEditor(page);
+    const first = mainToolbar(page);
+    await resetToParagraph(target, '');
+    await first.getByRole('button', { name: 'More insert options' }).click();
+    await openPanel(page).getByRole('button', { exact: true, name: 'Emoji' }).click();
+    await page.getByPlaceholder('Search emoji').fill('grinning face with smiling eyes');
+    await page.getByRole('button', { name: 'Emoji grinning face with smiling eyes' }).click();
+    await expect(target.locator('[data-emoji="😄"]')).toHaveCount(1);
+    await expect(page.locator('.rbs-rte-panel')).toHaveCount(0);
+    await target.press('a');
+    await expect(target.locator('p').first()).toHaveText('😄a');
+  });
+
+  test('inserts a visible emoji at a native text caret and continues typing after it', async ({
+    page,
+  }) => {
+    const target = mainEditor(page);
+    await resetToParagraph(target, 'abcd');
+    await page.keyboard.press('Home');
+    await page.keyboard.press('ArrowRight');
+    await page.keyboard.press('ArrowRight');
+    await mainToolbar(page).getByRole('button', { exact: true, name: 'Emoji' }).click();
+    await page.getByPlaceholder('Search emoji').fill('grinning face with smiling eyes');
+    await page.getByRole('button', { name: 'Emoji grinning face with smiling eyes' }).click();
+    await expect(page.locator('.rbs-rte-panel')).toHaveCount(0);
+    await page.keyboard.type('X');
+    await expect(target.locator('p').first()).toHaveText('ab😄Xcd');
   });
 
   test('undoes and redoes from the toolbar', async ({ page }) => {
@@ -602,7 +1030,9 @@ test.describe('rich text editor toolbar sweep', () => {
     await expect(copy).toBeEnabled();
     await copy.click();
 
-    expect((await page.evaluate(() => navigator.clipboard.readText())).length).toBeGreaterThan(0);
+    await expect
+      .poll(async () => (await page.evaluate(() => navigator.clipboard.readText())).length)
+      .toBeGreaterThan(0);
 
     await page.evaluate(() => navigator.clipboard.writeText('pasted by the toolbar'));
     await target.click();

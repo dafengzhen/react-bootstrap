@@ -134,7 +134,7 @@ test.describe('rich text editor documentation', () => {
 
     await expect(first).toBeVisible();
     await expect(first.locator('.rbs-rte-tool-group')).toHaveCount(7);
-    await expect(first.locator('button')).toHaveCount(42);
+    await expect(first.locator('button')).toHaveCount(43);
 
     for (const label of [
       'History',
@@ -182,7 +182,8 @@ test.describe('rich text editor documentation', () => {
       'Checklist',
       'Increase indent',
       'Decrease indent',
-      'Line height and spacing',
+      'Line height',
+      'Paragraph spacing',
       'Blockquote',
       'Code block',
       'Horizontal rule',
@@ -209,6 +210,91 @@ test.describe('rich text editor documentation', () => {
 
     await expect(target).toContainText('typed by playwright');
   });
+
+  test('cuts only the selection and continues typing at the cut position', async ({
+    context,
+    page,
+  }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    const scope = editorOf(page, '编辑操作');
+    const target = editable(scope);
+
+    await target.click();
+    await page.keyboard.press('Control+a');
+    await page.keyboard.press('Backspace');
+    await page.keyboard.type('alpha beta omega');
+    await selectText(target, 'beta');
+    await toolbar(scope).getByRole('button', { exact: true, name: 'Cut' }).click();
+    await expect(target).toHaveText('alpha  omega');
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('beta');
+    await page.keyboard.type('X');
+    await expect(target).toHaveText('alpha X omega');
+  });
+
+  test('copies only selected rich text and pastes with the caret after it', async ({
+    context,
+    page,
+  }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    const source = editorOf(page, '文本格式与段落');
+    const destination = editorOf(page, '编辑操作');
+    const target = editable(destination);
+
+    await selectText(editable(source), '加粗');
+    await toolbar(source).getByRole('button', { exact: true, name: 'Copy' }).click();
+    await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe('加粗');
+    await target.click();
+    await page.keyboard.press('Control+a');
+    await page.keyboard.press('Backspace');
+    await page.keyboard.type('before after');
+    await selectText(target, 'after');
+    await toolbar(destination).getByRole('button', { exact: true, name: 'Paste' }).click();
+    await expect(target).toHaveText('before 加粗');
+    await expect(target.locator('strong')).toHaveText('加粗');
+    await page.keyboard.type('X');
+    await expect(target).toHaveText('before 加粗X');
+  });
+
+  test('keeps the selected text and its position when applying a heading', async ({ page }) => {
+    const scope = editorOf(page, '编辑操作');
+    const target = editable(scope);
+
+    await selectText(target, '撤销');
+    const before = await target.textContent();
+    await toolbar(scope).getByRole('button', { exact: true, name: 'Paragraph style' }).click();
+    await page.getByRole('button', { exact: true, name: 'Heading 2' }).click();
+    await expect(target.locator('h2')).toHaveText(before!);
+    expect(await page.evaluate(() => window.getSelection()?.toString())).toBe('撤销');
+    await page.keyboard.type('替换');
+    await expect(target).toHaveText(before!.replace('撤销', '替换'));
+  });
+
+  for (const title of ['基础用法', '文本格式与段落', '插入内容', '编辑操作', '受控与命令式调用']) {
+    test(`shows new empty lines after repeated Enter in ${title}`, async ({ page }) => {
+      const target = editable(editorOf(page, title));
+
+      const paragraphs = target.locator(':scope > p');
+
+      await paragraphs.last().click();
+      await page.keyboard.press('End');
+      const before = await paragraphs.count();
+      let previousBox = await paragraphs.last().boundingBox();
+
+      for (let count = 1; count <= 3; count++) {
+        await page.keyboard.press('Enter');
+        await expect(paragraphs).toHaveCount(before + count);
+        const line = paragraphs.last();
+        const box = await line.boundingBox();
+
+        expect(box?.height).toBeGreaterThan(10);
+        expect(box?.y).toBeGreaterThanOrEqual(previousBox!.y + previousBox!.height);
+        previousBox = box;
+      }
+
+      await page.keyboard.type('New line');
+      await expect(paragraphs.last()).toHaveText('New line');
+    });
+  }
 
   test('applies and removes a mark through the toolbar', async ({ page }) => {
     const scope = editorOf(page, '文本格式与段落');

@@ -18,6 +18,8 @@ import customCode from './demos/custom.md?raw';
 import editingCode from './demos/editing.md?raw';
 import formattingCode from './demos/formatting.md?raw';
 import insertCode from './demos/insert.md?raw';
+import { RenderJSONDemo } from './demos/render-json';
+import renderJSONCode from './demos/render-json.md?raw';
 import statesCode from './demos/states.md?raw';
 import { RichTextEditor } from './rich-text-editor';
 import contextValueTypeCode from './types/rich-text-editor-context-value.md?raw';
@@ -26,8 +28,52 @@ import galleryGroupTypeCode from './types/rich-text-editor-gallery-group.md?raw'
 import handleTypeCode from './types/rich-text-editor-handle.md?raw';
 import panelTypeCode from './types/rich-text-editor-panel.md?raw';
 import propsTypeCode from './types/rich-text-editor-props.md?raw';
+import rendererTypeCode from './types/rich-text-renderer.md?raw';
 
 const richTextEditorProps: ApiProp[] = [
+  {
+    component: 'RichTextRenderer',
+    defaultValue: '-',
+    description: 'editor.getJSON() 或 ref.getJSON() 导出的文档；为空时不渲染正文',
+    name: 'content',
+    type: 'NodeJSON | null',
+  },
+  {
+    component: 'RichTextRenderer',
+    defaultValue: '-',
+    description: '按节点类型替换视图，如 heading、image、custom_block；优先于 renderNode',
+    name: 'nodeRenderers',
+    type: 'Record<string, RichTextNodeRenderer>',
+  },
+  {
+    component: 'RichTextRenderer',
+    defaultValue: '-',
+    description: '按文字格式类型替换视图，如 bold、link、highlight；优先于 renderMark',
+    name: 'markRenderers',
+    type: 'Record<string, RichTextMarkRenderer>',
+  },
+  {
+    component: 'RichTextRenderer',
+    defaultValue: '-',
+    description: '全局节点渲染回调；返回 undefined 使用默认视图，返回 null 隐藏节点',
+    name: 'renderNode',
+    type: 'RichTextNodeRenderer',
+  },
+  {
+    component: 'RichTextRenderer',
+    defaultValue: '-',
+    description: '全局格式渲染回调；返回 undefined 使用默认视图，返回 null 隐藏格式及其内容',
+    name: 'renderMark',
+    type: 'RichTextMarkRenderer',
+  },
+  {
+    component: 'RichTextRenderer',
+    defaultValue: '-',
+    description:
+      '容器原生属性，支持 className、style、aria-* 和事件；children 和 dangerouslySetInnerHTML 由 JSON 渲染管理',
+    name: '...rest',
+    type: 'HTMLAttributes<HTMLDivElement>',
+  },
   {
     component: 'RichTextEditor',
     defaultValue: '-',
@@ -253,6 +299,11 @@ const richTextEditorProps: ApiProp[] = [
 
 const richTextEditorTypeDefinitions: ApiTypeDefinition[] = [
   {
+    code: rendererTypeCode,
+    description: 'JSON 展示组件、渲染函数与自定义节点/格式回调接口',
+    name: 'RichTextRendererProps / RichTextRenderOptions',
+  },
+  {
     code: propsTypeCode,
     description: '富文本编辑器组件属性接口',
     name: 'RichTextEditorProps',
@@ -382,6 +433,20 @@ export const RichTextEditorDoc = () => {
           editable={false}
         />
         <RichTextEditor className="mt-3" hideToolbar placeholder="请输入内容" />
+      </DemoSection>
+
+      <DemoSection code={renderJSONCode} title="JSON 自定义视图与帖子详情">
+        <RenderJSONDemo />
+        <p className="mb-0 mt-3 text-muted small">
+          使用 <Code>editor.getJSON()</Code> 导出内容，交给 <Code>RichTextRenderer</Code> 展示。
+          默认支持正文、列表、表格、媒体与文字格式，无需创建编辑器实例。
+          <Code>nodeRenderers</Code> 与 <Code>markRenderers</Code> 可接入业务组件； 回调提供{' '}
+          <Code>children</Code>、<Code>path</Code> 与 <Code>defaultRender()</Code>， 返回 undefined
+          继续回退，返回 null 隐藏内容。未知节点与格式默认保留子内容。 存储的 HTML
+          不会直接执行，嵌入代码和业务卡片可通过自定义回调展示。
+          需要完全自定义外层布局时，可直接调用 <Code>renderRichTextContent(content, options)</Code>
+          。 自定义回调中的 URL 与 HTML 处理由业务负责。
+        </p>
       </DemoSection>
 
       <DemoSection code={customCode} title="自定义与内核直用">

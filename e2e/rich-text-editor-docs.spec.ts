@@ -77,9 +77,9 @@ test.describe('rich text editor documentation', () => {
   test('renders the documented sections and every editor the page promises', async ({ page }) => {
     await expect(page.getByRole('heading', { level: 2, name: 'RichTextEditor' })).toBeVisible();
 
-    // Seven editors in the demos: the hero, four demo editors, and the two of the state demo.
+    // Eight editors, including the JSON export and custom post preview demo.
     // Four of them show the toolbar this spec drives; the others hide it on purpose.
-    await expect(page.locator('.rt-editor')).toHaveCount(7);
+    await expect(page.locator('.rt-editor')).toHaveCount(8);
     await expect(page.locator('.rbs-rte:has(.rbs-rte-toolbar)')).toHaveCount(4);
 
     for (const title of [
@@ -88,6 +88,7 @@ test.describe('rich text editor documentation', () => {
       '插入内容',
       '编辑操作',
       '受控与命令式调用',
+      'JSON 自定义视图与帖子详情',
     ]) {
       await expect(demo(page, title)).toBeVisible();
     }
@@ -96,6 +97,23 @@ test.describe('rich text editor documentation', () => {
     await expect(editable(editorOf(page, '基础用法'))).toHaveAttribute('contenteditable', 'true');
     await expect(editable(editorOf(page, '基础用法'))).toContainText('Hello');
     await expect(editorOf(page, '基础用法').locator('.rbs-rte-toolbar')).toHaveCount(0);
+  });
+
+  test('renders exported JSON as a custom post and updates it after editing', async ({ page }) => {
+    const scope = demo(page, 'JSON 自定义视图与帖子详情');
+    const preview = scope.getByRole('article', { name: '帖子详情预览' });
+    await expect(preview.getByRole('heading', { name: '把写作内容变成帖子详情' })).toBeVisible();
+    await expect(preview.getByRole('link', { name: /延伸阅读/ })).toHaveAttribute(
+      'href',
+      '#writing-guide',
+    );
+    await expect(preview.locator('strong.text-primary')).toContainText('展示方式由业务决定。');
+    await expect(preview.locator('[contenteditable]')).toHaveCount(0);
+    const editor = editable(editorOf(page, 'JSON 自定义视图与帖子详情'));
+    await editor.click();
+    await page.keyboard.press('Control+Home');
+    await page.keyboard.type('更新：');
+    await expect(preview.getByRole('heading')).toContainText('更新：');
   });
 
   test('opens one find dialog for the focused editor instead of one per editor', async ({

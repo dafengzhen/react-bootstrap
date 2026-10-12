@@ -2,7 +2,6 @@ export { RichTextEditor } from './rich-text-editor';
 export { ColorPicker } from './rich-text-editor-color-picker';
 export type { ColorPickerProps } from './rich-text-editor-color-picker';
 export { contrastColor, isColorValue, normalizeColor, rgbOf } from './rich-text-editor-color-utils';
-
 export {
   editorCommands,
   editorKit,
@@ -29,7 +28,6 @@ export {
   SYMBOL_GROUPS,
   TEXT_COLOR_GROUPS,
 } from './rich-text-editor-data';
-
 export type {
   RichTextEditorChoice,
   RichTextEditorColorGroup,
@@ -37,9 +35,10 @@ export type {
   RichTextEditorSpacingChoice,
   RichTextEditorSymbolGroup,
 } from './rich-text-editor-data';
-export { DateTimePanel } from './rich-text-editor-datetime';
-export { RichTextEditorDialogs } from './rich-text-editor-dialogs';
 
+export { DateTimePanel } from './rich-text-editor-datetime';
+
+export { RichTextEditorDialogs } from './rich-text-editor-dialogs';
 export type { RichTextEditorDialogsProps } from './rich-text-editor-dialogs';
 export {
   customBlockNode,
@@ -57,6 +56,7 @@ export {
 
 export type { CustomBlockAttrs, EmojiAttrs, SymbolAttrs } from './rich-text-editor-extensions';
 export { FocusToolbar } from './rich-text-editor-focus-toolbar';
+
 export type { FocusToolbarProps } from './rich-text-editor-focus-toolbar';
 export {
   defaultDOMRules,
@@ -97,7 +97,6 @@ export type {
   ToolbarDropdownProps,
   ToolbarMenuItemProps,
 } from './rich-text-editor-toolbar-dropdown';
-
 export { ToolbarPanelTrigger } from './rich-text-editor-toolbar-panel';
 export type {
   RichTextEditorPanelBody,
@@ -129,6 +128,17 @@ export {
   parseVideoUrl,
 } from './rich-text-editor-video.ts';
 export type { RichTextEditorVideoProvider, VideoSource } from './rich-text-editor-video.ts';
+
+export { renderRichTextContent, RichTextRenderer } from './rich-text-renderer';
+export type {
+  RichTextMarkJSON,
+  RichTextMarkRenderContext,
+  RichTextMarkRenderer,
+  RichTextNodeRenderContext,
+  RichTextNodeRenderer,
+  RichTextRendererProps,
+  RichTextRenderOptions,
+} from './rich-text-renderer';
 
 export type {
   RichTextEditorContextValue,

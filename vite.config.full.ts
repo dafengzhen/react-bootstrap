@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   build: {
     copyPublicDir: false,
     cssCodeSplit: true,
@@ -31,5 +31,17 @@ export default defineConfig({
     },
     sourcemap: true,
   },
-  plugins: [react()],
-});
+  plugins: [
+    react(),
+    mode === 'package' && {
+      generateBundle({ format }, bundle) {
+        if (format === 'es') {
+          // Keep the extracted CSS. The modular build supplies the ES entry.
+          delete bundle['index.js'];
+          delete bundle['index.js.map'];
+        }
+      },
+      name: 'keep-standalone-assets',
+    },
+  ],
+}));

@@ -3,9 +3,7 @@ import { existsSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 
-const DEFAULT_EXCLUDED_COMPONENTS: string[] = [];
-
-function getComponentEntries(exclude = DEFAULT_EXCLUDED_COMPONENTS) {
+function getComponentEntries() {
   const componentsDir = resolve(import.meta.dirname, 'src/components');
   const entries: Record<string, string> = {};
 
@@ -14,7 +12,7 @@ function getComponentEntries(exclude = DEFAULT_EXCLUDED_COMPONENTS) {
   }
 
   for (const dirent of readdirSync(componentsDir, { withFileTypes: true })) {
-    if (!dirent.isDirectory() || exclude.includes(dirent.name)) {
+    if (!dirent.isDirectory()) {
       continue;
     }
 
@@ -33,7 +31,11 @@ export default defineConfig({
     cssCodeSplit: true,
     emptyOutDir: false,
     lib: {
-      entry: getComponentEntries(),
+      entry: {
+        ...getComponentEntries(),
+        // Share the same modules across root and component imports.
+        index: resolve(import.meta.dirname, 'src/index.ts'),
+      },
       formats: ['es'],
       name: 'ReactBootstrap',
     },

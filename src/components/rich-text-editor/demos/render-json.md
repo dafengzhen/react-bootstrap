@@ -1,7 +1,11 @@
 ```tsx
 import { useState } from 'react';
 
-import { type NodeJSON, RichTextEditor, RichTextRenderer } from '@dafengzhen/react-bootstrap/rich-text-editor';
+import {
+  type NodeJSON,
+  RichTextEditor,
+  RichTextRenderer,
+} from '@dafengzhen/react-bootstrap/rich-text-editor';
 
 const initialContent: NodeJSON = {
   content: [
